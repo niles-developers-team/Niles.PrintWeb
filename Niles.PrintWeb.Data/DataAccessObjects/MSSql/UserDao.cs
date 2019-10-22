@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Niles.PrintWeb.Data.Interfaces;
@@ -10,8 +11,37 @@ namespace Niles.PrintWeb.Data.DataAccessObjects
 {
     public class UserDao : BaseDao, IUserDao
     {
-        public UserDao(string connectionString, ILogger _logger) : base(connectionString, _logger)
+        public UserDao(string connectionString, ILogger _logger) : base(connectionString, _logger) { }
+
+        public async Task ConfirmUser(Guid userCode)
         {
+            try
+            {
+                _logger.LogInformation("Try to confirm user.");
+
+                int? userId = await QueryFirstOrDefaultAsync<int?>(@"
+                        select UserId
+                        from NotConfirmedUser
+                        where ConfirmCode = @userCode
+                    ", new { userCode });
+
+                if (!userId.HasValue)
+                {
+                    _logger.LogInformation("User have been already confirmed or not found.");
+                }
+                _logger.LogInformation("User successfully found.");
+
+                await ExecuteAsync(@"
+                            delete from NotConfirmedUser
+                            where UserId = @userId
+                        ", new { userId });
+                _logger.LogInformation("User successfully confirmed.");
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(exception.Message);
+                throw exception;
+            }
         }
 
         public async Task Create(UserAuthenticate model)
@@ -71,13 +101,18 @@ namespace Niles.PrintWeb.Data.DataAccessObjects
                         UserName,
                         FirstName,
                         LastName,
-                        Email
-                    from User");
+                        Email,
+                        case ncu.UserId
+                            when null then true
+                            else false
+                        end as Confirmed
+                    from User
+                    left join NotConfirmedUser ncu on Id = ncu.UserId");
 
                 int conditionIndex = 0;
                 if (options.Id.HasValue)
                 {
-                    sql.AppendLine($"{(conditionIndex++ == 0 ? "where" : "and")} id = @Id");
+                    sql.AppendLine($"{(conditionIndex++ == 0 ? "where" : "and")} Id = @Id");
                 }
                 if (options.Ids != null)
                 {
@@ -88,8 +123,17 @@ namespace Niles.PrintWeb.Data.DataAccessObjects
                     sql.AppendLine($@"
                         {(conditionIndex++ == 0 ? "where" : "and")} FirstName like '%@Search%'
                         or LastName like '%Search%'
-                        or Email like '%Email%'
+                        or Email like '%Search%'
+                        or UserName like '%Search%'
                     ");
+                }
+                if (options.OnlyConfirmed)
+                {
+                    sql.AppendLine($"{(conditionIndex++ == 0 ? "where" : "and")} ncu.Id is null");
+                }
+                if (!string.IsNullOrEmpty(options.UserName) && !string.IsNullOrEmpty(options.Password))
+                {
+                    sql.AppendLine($"{(conditionIndex++ == 0 ? "where" : "and")} UserName = @UserName and PasswordHash = crypt(@Password, PasswordHash)");
                 }
                 _logger.LogInformation($"Sql query successfully created:\n{sql.ToString()}");
 
