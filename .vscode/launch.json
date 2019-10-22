@@ -1,0 +1,19 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "utility reset",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/Niles.PrintWeb.Utility/bin/Debug/netcoreapp2.2/Niles.PrintWeb.Utility.dll",
+            "args": ["reset"],
+            "cwd": "${workspaceFolder}/Niles.PrintWeb.Utility",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        }
+    ]
+}
