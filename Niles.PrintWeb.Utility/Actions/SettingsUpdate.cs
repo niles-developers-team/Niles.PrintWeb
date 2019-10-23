@@ -8,31 +8,31 @@ namespace Niles.PrintWeb.Utility.Actions
     [Verb("app-settings", HelpText = "Set application settings by it names")]
     public class ApplicationSettingsOptions
     {
-        [Option(AppSettings.DatabaseHostVariableName, HelpText = "Allow to set database host")]
+        [Option(SolutionSettings.DatabaseHostVariableName, HelpText = "Allow to set database host")]
         public string DatabaseHostOption { get; set; }
         
         [Value(0, HelpText = "Allow to set database host")]
         public string DatabaseHost { get; set; }
 
-        [Option(AppSettings.DatabaseNameVariableName, HelpText = "Allow to set database name")]
+        [Option(SolutionSettings.DatabaseNameVariableName, HelpText = "Allow to set database name")]
         public string DatabaseNameOption { get; set; }
 
         [Value(1, HelpText = "Allow to set database name")]
         public string DatabaseName { get; set; }
 
-        [Option(AppSettings.DatabasePortVariableName, HelpText = "Allow to set database port", Required = false)]
+        [Option(SolutionSettings.DatabasePortVariableName, HelpText = "Allow to set database port", Required = false)]
         public string DatabasePortOption { get; set; }
 
         [Value(2, HelpText = "Allow to set database port", Required = false)]
         public string DatabasePort { get; set; }
 
-        [Option(AppSettings.DatabaseUserNameVariableName, HelpText = "Allow to set database user name")]
+        [Option(SolutionSettings.DatabaseUserNameVariableName, HelpText = "Allow to set database user name")]
         public string DatabaseUserNameOption { get; set; }
 
         [Value(3, HelpText = "Allow to set database user name")]
         public string DatabaseUserName { get; set; }
 
-        [Option(AppSettings.DatabasePasswordVariableName, HelpText = "Allow to set database password")]
+        [Option(SolutionSettings.DatabasePasswordVariableName, HelpText = "Allow to set database password")]
         public string DatabasePasswordOption { get; set; }
 
         [Value(4, HelpText = "Allow to set database password")]
@@ -66,11 +66,11 @@ namespace Niles.PrintWeb.Utility.Actions
                 }
                 logger.LogInformation("Try to update application settings");
 
-                AppSettings.SetAppSetting(AppSettings.DatabaseHostVariableName, options.DatabaseHost);
-                AppSettings.SetAppSetting(AppSettings.DatabaseNameVariableName, options.DatabaseName);
-                AppSettings.SetAppSetting(AppSettings.DatabasePortVariableName, options.DatabasePort);
-                AppSettings.SetAppSetting(AppSettings.DatabaseUserNameVariableName, options.DatabaseUserName);
-                AppSettings.SetAppSetting(AppSettings.DatabasePasswordVariableName, options.DatabasePassword);
+                SolutionSettings.SetAppSetting(SolutionSettings.DatabaseHostVariableName, options.DatabaseHost);
+                SolutionSettings.SetAppSetting(SolutionSettings.DatabaseNameVariableName, options.DatabaseName);
+                SolutionSettings.SetAppSetting(SolutionSettings.DatabasePortVariableName, options.DatabasePort);
+                SolutionSettings.SetAppSetting(SolutionSettings.DatabaseUserNameVariableName, options.DatabaseUserName);
+                SolutionSettings.SetAppSetting(SolutionSettings.DatabasePasswordVariableName, options.DatabasePassword);
 
                 logger.LogInformation("Application settings updated successfully");
             }

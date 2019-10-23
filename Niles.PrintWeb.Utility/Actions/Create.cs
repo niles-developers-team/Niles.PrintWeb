@@ -15,12 +15,12 @@ namespace Niles.PrintWeb.Utility.Actions
         {
             try
             {
-                logger.LogInformation($"Try to create \"{AppSettings.DatabaseName}\" database");
+                logger.LogInformation($"Try to create \"{SolutionSettings.DatabaseName}\" database");
 
-                using (var connection = new SqlConnection(AppSettings.MSSqlServerConnectionString))
+                using (var connection = new SqlConnection(SolutionSettings.MSSqlServerConnectionString))
                 {
                     var comma = new SqlCommand($@"
-                        create database {AppSettings.DatabaseName}
+                        create database {SolutionSettings.DatabaseName}
                     ", connection);
 
                     connection.Open();
@@ -28,7 +28,7 @@ namespace Niles.PrintWeb.Utility.Actions
                     connection.Close();
                 }
 
-                logger.LogInformation($"{AppSettings.DatabaseName} database successfully created");
+                logger.LogInformation($"{SolutionSettings.DatabaseName} database successfully created");
                 return 0;
             }
             catch (Exception exception)

@@ -15,18 +15,18 @@ namespace Niles.PrintWeb.Utility.Actions
         {
             try
             {
-                logger.LogInformation($"Try to drop \"{AppSettings.DatabaseName}\" database");
+                logger.LogInformation($"Try to drop \"{SolutionSettings.DatabaseName}\" database");
 
-                using (var connection = new SqlConnection(AppSettings.MSSqlServerConnectionString))
+                using (var connection = new SqlConnection(SolutionSettings.MSSqlServerConnectionString))
                 {
-                    var comma = new SqlCommand($"drop database if exists {AppSettings.DatabaseName}", connection);
+                    var comma = new SqlCommand($"drop database if exists {SolutionSettings.DatabaseName}", connection);
 
                     connection.Open();
                     comma.ExecuteNonQuery();
                     connection.Close();
                 }
                 
-                logger.LogInformation($"{AppSettings.DatabaseName} database successfully dropped");
+                logger.LogInformation($"{SolutionSettings.DatabaseName} database successfully dropped");
                 return 0;
             }
             catch (Exception exception)

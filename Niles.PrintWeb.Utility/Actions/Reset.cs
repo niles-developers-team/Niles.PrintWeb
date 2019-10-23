@@ -14,14 +14,14 @@ namespace Niles.PrintWeb.Utility.Actions
         {
             try
             {
-                logger.LogInformation($"Try to reset \"{AppSettings.DatabaseName}\" database");
+                logger.LogInformation($"Try to reset \"{SolutionSettings.DatabaseName}\" database");
 
                 SettingsUpdate.Run(logger, options);
                 Drop.Run(logger);
                 Create.Run(logger);
                 Migrate.Run(logger);
 
-                logger.LogInformation($"{AppSettings.DatabaseName} database successfully reseted");
+                logger.LogInformation($"{SolutionSettings.DatabaseName} database successfully reseted");
                 return 0;
             }
             catch (Exception exception)
