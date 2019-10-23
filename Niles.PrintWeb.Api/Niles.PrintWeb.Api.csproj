@@ -10,4 +10,9 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Niles.PrintWeb.Services\Niles.PrintWeb.Services.csproj" />
+    <ProjectReference Include="..\Niles.PrintWeb.Data\Niles.PrintWeb.Data.csproj" />
+  </ItemGroup>
+
 </Project>
