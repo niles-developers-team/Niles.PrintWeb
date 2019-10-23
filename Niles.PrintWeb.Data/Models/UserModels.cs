@@ -40,6 +40,8 @@ namespace Niles.PrintWeb.Data.Models
         public IReadOnlyList<int> Ids { get; set; }
 
         public bool OnlyConfirmed { get; set; } = true;
+        
+        public bool RememberMe { get; set; }
 
         public string Search { get; set; }
 

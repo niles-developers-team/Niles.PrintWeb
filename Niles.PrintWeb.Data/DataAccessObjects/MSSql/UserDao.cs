@@ -135,6 +135,14 @@ namespace Niles.PrintWeb.Data.DataAccessObjects
                 {
                     sql.AppendLine($"{(conditionIndex++ == 0 ? "where" : "and")} UserName = @UserName and PasswordHash = crypt(@Password, PasswordHash)");
                 }
+                if (!string.IsNullOrEmpty(options.UserName))
+                {
+                    sql.AppendLine($"{(conditionIndex++ == 0 ? "where" : "and")} UserName = @UserName");
+                }
+                if (!string.IsNullOrEmpty(options.Email))
+                {
+                    sql.AppendLine($"{(conditionIndex++ == 0 ? "where" : "and")} Email = @Email");
+                }
                 _logger.LogInformation($"Sql query successfully created:\n{sql.ToString()}");
 
                 _logger.LogInformation("Try to execute sql get users query");
