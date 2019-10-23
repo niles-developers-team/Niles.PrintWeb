@@ -13,8 +13,8 @@ namespace Niles.PrintWeb.Data.DataAccessObjects
         protected readonly ILogger _logger;
         protected BaseDao(string connectionString, ILogger logger)
         {
-            _connectionString = connectionString;
-            _logger = logger;
+            _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         protected IEnumerable<T> Query<T>(string sql, object parameters = null)
