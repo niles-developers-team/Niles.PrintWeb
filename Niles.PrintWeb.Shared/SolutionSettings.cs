@@ -2,7 +2,7 @@ using System;
 
 namespace Niles.PrintWeb.Shared
 {
-    public static class AppSettings
+    public static class SolutionSettings
     {
         #region Environment variables names
         public const string DatabaseHostVariableName = "database-host";
