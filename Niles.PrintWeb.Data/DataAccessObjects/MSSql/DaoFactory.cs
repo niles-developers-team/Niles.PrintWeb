@@ -13,5 +13,7 @@ namespace Niles.PrintWeb.Data.DataAccessObjects.MSSql
             _connectionString = connectionString;
             _logger = logger;
         }
+
+        public IUserDao UserDao => new UserDao(_connectionString, _logger);
     }
 }
