@@ -5,6 +5,21 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "api",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/Niles.PrintWeb.Api/bin/Debug/netcoreapp2.2/Niles.PrintWeb.Api.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Niles.PrintWeb.Api",
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "justMyCode": false,
+            "suppressJITOptimizations": true,
+        },
+        {
             "name": "utility reset",
             "type": "coreclr",
             "request": "launch",
