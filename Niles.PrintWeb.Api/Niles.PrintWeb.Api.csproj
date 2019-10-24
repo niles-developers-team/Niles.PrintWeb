@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Niles.PrintWeb.Services\Niles.PrintWeb.Services.csproj" />
     <ProjectReference Include="..\Niles.PrintWeb.Data\Niles.PrintWeb.Data.csproj" />
+    <ProjectReference Include="..\Niles.PrintWeb.Shared\Niles.PrintWeb.Shared.csproj" />
   </ItemGroup>
 
 </Project>
