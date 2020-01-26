@@ -24,7 +24,7 @@ namespace Niles.PrintWeb.Data.Models
         public bool Confirmed { get; set; }
     }
 
-    public class UserAuthenticate : User
+    public class UserAuthenticated : User
     {
         public Guid Code { get; set; }
 

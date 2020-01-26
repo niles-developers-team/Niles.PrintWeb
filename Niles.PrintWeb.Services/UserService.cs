@@ -44,7 +44,7 @@ namespace Niles.PrintWeb.Services
             await _dao.ConfirmUser(code);
         }
 
-        public async Task<UserAuthenticate> Create(UserAuthenticate model)
+        public async Task<User> Create(UserAuthenticated model)
         {
             await _dao.Create(model);
 
@@ -74,10 +74,10 @@ namespace Niles.PrintWeb.Services
             return await _dao.Get(options);
         }
 
-        public async Task<UserAuthenticate> SignIn(UserGetOptions options)
+        public async Task<UserAuthenticated> SignIn(UserGetOptions options)
         {
             var users = await _dao.Get(options);
-            var user = users.FirstOrDefault() as UserAuthenticate;
+            var user = users.FirstOrDefault() as UserAuthenticated;
             if (user == null)
             {
                 return null;
@@ -112,60 +112,36 @@ namespace Niles.PrintWeb.Services
             return user;
         }
 
-        public async Task<UserAuthenticate> Update(UserAuthenticate model)
+        public async Task<User> Update(User model)
         {
             await _dao.Update(model);
 
             return model;
         }
 
-        public async Task<string> ValidateUserName(string userName)
+        public async Task<string> ValidateUser(UserGetOptions options)
         {
             try
             {
-                _logger.LogInformation("Start user name validating.");
+                _logger.LogInformation("Start user name and email validating.");
 
-                string result = ValidationUtilities.ValidateUserName(userName);
+                string result = ValidationUtilities.ValidateUserName(options.UserName);
                 if (!string.IsNullOrEmpty(result))
                     return result;
 
-                var users = await _dao.Get(new UserGetOptions { UserName = userName });
+                result = ValidationUtilities.ValidateEmail(options.Email);
+                if (!string.IsNullOrEmpty(result))
+                    return result;
+
+                var users = await _dao.Get(options);
                 if (users != null || users.Count() > 0)
                 {
-                    string message = "User with same user name have been already created. Please try another or try to sign in.";
+                    string message = "User with same user name or email have been already created. Please try another or try to sign in.";
                     _logger.LogInformation(message);
                     return message;
                 }
 
-                _logger.LogInformation("User name successfuly validated.");
-                return null;
-            }
-            catch (Exception exception)
-            {
-                _logger.LogError(exception.Message);
-                throw exception;
-            }
-        }
-
-        public async Task<string> ValidateEmail(string email)
-        {
-            try
-            {
-                _logger.LogInformation("Start email validating.");
-
-                string result = ValidationUtilities.ValidateEmail(email);
-                if (!string.IsNullOrEmpty(result))
-                    return result;
-
-                var users = await _dao.Get(new UserGetOptions { Email = email });
-                if (users != null || users.Count() > 0)
-                {
-                    string message = "User with same email have been already created. Please try another or try to sign in.";
-                    _logger.LogInformation(message);
-                    return message;
-                }
-
-                _logger.LogInformation("Email successfuly validated.");
+                _logger.LogInformation("User name and email successfuly validated.");
                 return null;
             }
             catch (Exception exception)

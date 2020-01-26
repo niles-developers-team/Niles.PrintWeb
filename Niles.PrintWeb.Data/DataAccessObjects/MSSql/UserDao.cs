@@ -44,7 +44,7 @@ namespace Niles.PrintWeb.Data.DataAccessObjects
             }
         }
 
-        public async Task Create(UserAuthenticate model)
+        public async Task Create(UserAuthenticated model)
         {
             try
             {
@@ -157,7 +157,7 @@ namespace Niles.PrintWeb.Data.DataAccessObjects
             }
         }
 
-        public async Task Update(UserAuthenticate model)
+        public async Task Update(User model)
         {
             try
             {

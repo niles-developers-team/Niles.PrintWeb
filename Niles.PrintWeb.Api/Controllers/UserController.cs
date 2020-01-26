@@ -15,7 +15,7 @@ namespace Niles.PrintWeb.Api.Controllers
         public UserController(UserService userService)
         {
             _userService = userService;
-        }        
+        }
 
         [Authorize]
         [HttpGet]
@@ -31,7 +31,7 @@ namespace Niles.PrintWeb.Api.Controllers
         {
             var users = await _userService.Get(options);
             var user = users.FirstOrDefault();
-            if(user == null)
+            if (user == null)
             {
                 return NotFound("Cannot find user");
             }
@@ -41,11 +41,18 @@ namespace Niles.PrintWeb.Api.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody]UserAuthenticate model)
+        public async Task<IActionResult> Create([FromBody]UserAuthenticated model)
         {
+            string message = await _userService.ValidateUser(new UserGetOptions { UserName = model.UserName, Email = model.Email });
+            if (!string.IsNullOrEmpty(message))
+            {
+                return BadRequest(new { message });
+            }
+
             var result = await _userService.Create(model);
 
-            if(result == null) {
+            if (result == null)
+            {
                 return BadRequest(new { message = "There was some errors with user creating" });
             }
 
@@ -54,11 +61,12 @@ namespace Niles.PrintWeb.Api.Controllers
 
         [Authorize]
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody]UserAuthenticate model)
+        public async Task<IActionResult> Update([FromBody]UserAuthenticated model)
         {
             var result = await _userService.Update(model);
 
-            if(result == null) {
+            if (result == null)
+            {
                 return BadRequest(new { message = "There was some errors with user updating" });
             }
 
@@ -66,30 +74,22 @@ namespace Niles.PrintWeb.Api.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("validate/username")]
-        public async Task<IActionResult> ValidateUserName([FromQuery]string userName)
+        [HttpGet("validate")]
+        public async Task<IActionResult> ValidateUser([FromQuery]UserGetOptions options)
         {
-            var result = await _userService.ValidateUserName(userName);
-            return Ok(result);
-        }
-
-        [AllowAnonymous]
-        [HttpGet("validate/email")]
-        public async Task<IActionResult> ValidateEmail([FromQuery] string email)
-        {
-            var result = await _userService.ValidateEmail(email);
+            var result = await _userService.ValidateUser(options);
             return Ok(result);
         }
 
         [AllowAnonymous]
         [HttpPost("confirm")]
-        public async Task<IActionResult> ConfirmUser([FromBody]Guid code) 
+        public async Task<IActionResult> ConfirmUser([FromBody]Guid code)
         {
             await _userService.ConfirmUser(code);
 
             return Ok();
         }
-        
+
         [AllowAnonymous]
         [HttpPost("sign-in")]
         public async Task<IActionResult> SignIn([FromBody]UserGetOptions options)
@@ -97,7 +97,7 @@ namespace Niles.PrintWeb.Api.Controllers
             var result = await _userService.SignIn(options);
 
             if (result == null)
-                return Ok(new { message = "User name or password is incorrect" });
+                return BadRequest(new { message = "User name or password is incorrect" });
 
             return Ok(result);
         }
