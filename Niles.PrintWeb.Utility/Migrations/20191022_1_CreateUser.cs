@@ -26,7 +26,7 @@ namespace Niles.PrintWeb.Utility.Migrations
         
         public override void Down()
         {
-            Delete.Table("Users");
+            Delete.Table("User");
             Delete.Table("NotConfirmedUser");
         }
     }
