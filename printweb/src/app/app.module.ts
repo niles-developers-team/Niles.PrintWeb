@@ -1,18 +1,46 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { FlexLayoutModule } from "@angular/flex-layout";
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { MaterialModule } from './material.module';
+import { ApiUrlInterceptor } from './interceptors/url.iterceptor';
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { MainComponent } from './main/main.component';
+import { SignUpComponent } from './signup/signup.component';
+import { SignInComponent } from './signin/signin.component';
+import { AuthorizeGuard } from './guards/authorize.guard';
+
+const appRoutes: Routes = [
+  { path: '', component: MainComponent },
+  { path: 'signup', component: SignUpComponent, canActivate: [AuthorizeGuard] },
+  { path: 'signin', component: SignInComponent, canActivate: [AuthorizeGuard] }
+];
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MainComponent,
+    SignUpComponent,
+    SignInComponent
   ],
   imports: [
+    FlexLayoutModule,
+    FormsModule,
     BrowserModule,
-    AppRoutingModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MaterialModule,
+    RouterModule.forRoot(appRoutes)
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ApiUrlInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
