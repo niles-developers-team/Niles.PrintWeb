@@ -13,7 +13,7 @@ using Niles.PrintWeb.Shared;
 using Niles.PrintWeb.Utilities;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Niles.PrintWeb.Services
+namespace Niles.PrintWeb.Api.Services
 {
     public class UserService
     {

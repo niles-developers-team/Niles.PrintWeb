@@ -5,7 +5,7 @@ using MailKit.Net.Smtp;
 using Niles.PrintWeb.Shared;
 using Microsoft.Extensions.Logging;
 
-namespace Niles.PrintWeb.Services
+namespace Niles.PrintWeb.Api.Services
 {
     public class EmailService
     {
