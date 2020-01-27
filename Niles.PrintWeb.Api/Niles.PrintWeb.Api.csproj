@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
@@ -11,7 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Niles.PrintWeb.Services\Niles.PrintWeb.Services.csproj" />
     <ProjectReference Include="..\Niles.PrintWeb.Data\Niles.PrintWeb.Data.csproj" />
     <ProjectReference Include="..\Niles.PrintWeb.Shared\Niles.PrintWeb.Shared.csproj" />
   </ItemGroup>

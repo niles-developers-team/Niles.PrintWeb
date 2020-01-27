@@ -14,7 +14,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Niles.PrintWeb.Shared\Niles.PrintWeb.Shared.csproj" />
     <ProjectReference Include="..\Niles.PrintWeb.Data\Niles.PrintWeb.Data.csproj" />
-    <ProjectReference Include="..\Niles.PrintWeb.Utilities\Niles.PrintWeb.Utilities.csproj" />
   </ItemGroup>
 
 </Project>
