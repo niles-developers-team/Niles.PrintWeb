@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Niles.PrintWeb.Api", "Niles.PrintWeb.Api\Niles.PrintWeb.Api.csproj", "{146958CE-996F-489F-BC43-6440CB6CCF70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Niles.PrintWeb.Services", "Niles.PrintWeb.Services\Niles.PrintWeb.Services.csproj", "{4D187CD2-BFE2-4C8B-83FC-C89B1BBFA9CC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Niles.PrintWeb.Api.Services", "Niles.PrintWeb.Api.Services\Niles.PrintWeb.Api.Services.csproj", "{4D187CD2-BFE2-4C8B-83FC-C89B1BBFA9CC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Niles.PrintWeb.Data", "Niles.PrintWeb.Data\Niles.PrintWeb.Data.csproj", "{5E3A717A-1F70-445D-BE94-1DEAE65F90E8}"
 EndProject
@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Niles.PrintWeb.Shared", "Ni
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Niles.PrintWeb.Utility", "Niles.PrintWeb.Utility\Niles.PrintWeb.Utility.csproj", "{C38961BA-8397-4955-AA4D-A6DA5E46C125}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Niles.PrintWeb.Utilities", "Niles.PrintWeb.Utilities\Niles.PrintWeb.Utilities.csproj", "{8A81F29B-8CAA-4EB1-9C86-916D532486B8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Niles.PrintWeb.Models", "Niles.PrintWeb.Models\Niles.PrintWeb.Models.csproj", "{FABBB081-24EB-404F-80B3-3A769F638314}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -100,5 +100,29 @@ Global
 		{8A81F29B-8CAA-4EB1-9C86-916D532486B8}.Release|x64.Build.0 = Release|Any CPU
 		{8A81F29B-8CAA-4EB1-9C86-916D532486B8}.Release|x86.ActiveCfg = Release|Any CPU
 		{8A81F29B-8CAA-4EB1-9C86-916D532486B8}.Release|x86.Build.0 = Release|Any CPU
+		{1DB644DE-AC50-48AB-B31F-130D179487BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DB644DE-AC50-48AB-B31F-130D179487BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DB644DE-AC50-48AB-B31F-130D179487BE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1DB644DE-AC50-48AB-B31F-130D179487BE}.Debug|x64.Build.0 = Debug|Any CPU
+		{1DB644DE-AC50-48AB-B31F-130D179487BE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1DB644DE-AC50-48AB-B31F-130D179487BE}.Debug|x86.Build.0 = Debug|Any CPU
+		{1DB644DE-AC50-48AB-B31F-130D179487BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DB644DE-AC50-48AB-B31F-130D179487BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DB644DE-AC50-48AB-B31F-130D179487BE}.Release|x64.ActiveCfg = Release|Any CPU
+		{1DB644DE-AC50-48AB-B31F-130D179487BE}.Release|x64.Build.0 = Release|Any CPU
+		{1DB644DE-AC50-48AB-B31F-130D179487BE}.Release|x86.ActiveCfg = Release|Any CPU
+		{1DB644DE-AC50-48AB-B31F-130D179487BE}.Release|x86.Build.0 = Release|Any CPU
+		{FABBB081-24EB-404F-80B3-3A769F638314}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FABBB081-24EB-404F-80B3-3A769F638314}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FABBB081-24EB-404F-80B3-3A769F638314}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FABBB081-24EB-404F-80B3-3A769F638314}.Debug|x64.Build.0 = Debug|Any CPU
+		{FABBB081-24EB-404F-80B3-3A769F638314}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FABBB081-24EB-404F-80B3-3A769F638314}.Debug|x86.Build.0 = Debug|Any CPU
+		{FABBB081-24EB-404F-80B3-3A769F638314}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FABBB081-24EB-404F-80B3-3A769F638314}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FABBB081-24EB-404F-80B3-3A769F638314}.Release|x64.ActiveCfg = Release|Any CPU
+		{FABBB081-24EB-404F-80B3-3A769F638314}.Release|x64.Build.0 = Release|Any CPU
+		{FABBB081-24EB-404F-80B3-3A769F638314}.Release|x86.ActiveCfg = Release|Any CPU
+		{FABBB081-24EB-404F-80B3-3A769F638314}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
