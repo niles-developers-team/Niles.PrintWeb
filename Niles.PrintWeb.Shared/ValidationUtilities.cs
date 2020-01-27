@@ -6,32 +6,23 @@ namespace Niles.PrintWeb.Utilities
 {
     public class ValidationUtilities
     {
-        public static string ValidateUserName(string userName)
+        public static bool NotEmptyRule(string value)
         {
-            if (string.IsNullOrWhiteSpace(userName))
-                return "User name should not be empty.";
-
-            Regex regex = new Regex(@"^\w+$");
-            if (!regex.IsMatch(userName))
-            {
-                string message = "User name must contains only letters, numbers and underscores.";
-                return message;
-            }
-
-            if (userName.Length < 5)
-            {
-                string message = "User name is to short.";
-                return message;
-            }
-
-            return string.Empty;
+            return !string.IsNullOrWhiteSpace(value);
         }
 
-        public static string ValidateEmail(string email)
+        public static bool OnlyLettersNumbersAndUnderscorcesRule(string value)
         {
-            if (string.IsNullOrWhiteSpace(email))
-                return "Email should not be empty.";
+            return Regex.IsMatch(value, @"^[[a-zA-Z0-9а-яА-я]");
+        }
 
+        public static bool MoreThanValueLengthRule(string value, int minValue)
+        {
+            return value.Length >= minValue;
+        }
+
+        public static bool CheckEmailFormat(string email)
+        {
             try
             {
                 // Normalize the domain
@@ -51,7 +42,7 @@ namespace Niles.PrintWeb.Utilities
             }
             catch
             {
-                return "Email is not validated.";
+                return false;
             }
 
             try
@@ -60,14 +51,14 @@ namespace Niles.PrintWeb.Utilities
                     @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
                     @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-0-9a-z]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$",
                     RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250)))
-                    return "Email is not validated.";
+                    return false;
             }
             catch (RegexMatchTimeoutException)
             {
-                return "Email is not validated.";
+                return false;
             }
 
-            return string.Empty;
+            return true;
         }
     }
 }
