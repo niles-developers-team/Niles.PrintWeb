@@ -10,4 +10,9 @@
     <PackageReference Include="Npgsql" Version="4.1.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Niles.PrintWeb.Models\Niles.PrintWeb.Models.csproj" />
+    <ProjectReference Include="..\Niles.PrintWeb.Shared\Niles.PrintWeb.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
