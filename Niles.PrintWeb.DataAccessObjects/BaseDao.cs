@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Extensions.Logging;
 
-namespace Niles.PrintWeb.Data.DataAccessObjects
+namespace Niles.PrintWeb.DataAccessObjects
 {
     public abstract class BaseDao
     {

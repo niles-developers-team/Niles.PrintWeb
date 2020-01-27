@@ -1,6 +1,6 @@
 using FluentMigrator;
 
-namespace Niles.PrintWeb.Utility.Migrations
+namespace Niles.PrintWeb.Utilities.Migrations
 {
     [Migration(201910220001)]
     public class CreateUser : Migration

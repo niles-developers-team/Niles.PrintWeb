@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Niles.PrintWeb.Data.Models;
+using Niles.PrintWeb.Models.Entities;
 
-namespace Niles.PrintWeb.Data.Interfaces
+namespace Niles.PrintWeb.DataAccessObjects.Interfaces
 {
     public interface IUserDao
     {

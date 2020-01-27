@@ -1,4 +1,4 @@
-namespace Niles.PrintWeb.Data.Enumerations
+namespace Niles.PrintWeb.Models.Enumerations
 {
     public enum DataProvider
     {

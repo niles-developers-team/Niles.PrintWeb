@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Niles.PrintWeb.Data.Models
+namespace Niles.PrintWeb.Models.Entities
 {
     public class User
     {

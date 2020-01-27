@@ -3,7 +3,7 @@ using CommandLine;
 using Microsoft.Extensions.Logging;
 using Niles.PrintWeb.Shared;
 
-namespace Niles.PrintWeb.Utility.Actions
+namespace Niles.PrintWeb.Utilities.Actions
 {
     [Verb("reset", HelpText = "Reset the DB (drop, create, migrate, seed)")]
     public class ResetOptions : ApplicationSettingsOptions { }

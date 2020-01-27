@@ -5,9 +5,9 @@ using CommandLine;
 using Microsoft.Extensions.DependencyInjection;
 using FluentMigrator.Runner;
 using System.Reflection;
-using Niles.PrintWeb.Utility.Migrations;
+using Niles.PrintWeb.Utilities.Migrations;
 
-namespace Niles.PrintWeb.Utility.Actions
+namespace Niles.PrintWeb.Utilities.Actions
 {
     [Verb("migrate", HelpText = "Migrate the DB schema to the latest version")]
     class MigrateOptions { }

@@ -7,8 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Niles.PrintWeb.Data.Interfaces;
-using Niles.PrintWeb.Data.Models;
+using Niles.PrintWeb.DataAccessObjects.Interfaces;
+using Niles.PrintWeb.Models.Entities;
 using Niles.PrintWeb.Shared;
 using Microsoft.IdentityModel.Tokens;
 

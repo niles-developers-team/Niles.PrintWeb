@@ -4,10 +4,10 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using Niles.PrintWeb.Data.Interfaces;
-using Niles.PrintWeb.Data.Models;
+using Niles.PrintWeb.DataAccessObjects.Interfaces;
+using Niles.PrintWeb.Models.Entities;
 
-namespace Niles.PrintWeb.Data.DataAccessObjects
+namespace Niles.PrintWeb.DataAccessObjects.SqlServer
 {
     public class UserDao : BaseDao, IUserDao
     {

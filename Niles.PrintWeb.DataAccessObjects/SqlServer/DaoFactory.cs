@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Logging;
-using Niles.PrintWeb.Data.Interfaces;
+using Niles.PrintWeb.DataAccessObjects.Interfaces;
 
-namespace Niles.PrintWeb.Data.DataAccessObjects.MSSql
+namespace Niles.PrintWeb.DataAccessObjects.SqlServer
 {
     public class DaoFactory : IDaoFactory
     {

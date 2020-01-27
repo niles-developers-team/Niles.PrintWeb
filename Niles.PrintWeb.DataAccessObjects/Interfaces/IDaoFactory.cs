@@ -1,4 +1,4 @@
-namespace Niles.PrintWeb.Data.Interfaces
+namespace Niles.PrintWeb.DataAccessObjects.Interfaces
 {
     public interface IDaoFactory
     {

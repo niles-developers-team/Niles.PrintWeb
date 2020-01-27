@@ -3,7 +3,7 @@ using CommandLine;
 using Microsoft.Extensions.Logging;
 using Niles.PrintWeb.Shared;
 
-namespace Niles.PrintWeb.Utility.Actions
+namespace Niles.PrintWeb.Utilities.Actions
 {
     [Verb("app-settings", HelpText = "Set application settings by it names")]
     public class ApplicationSettingsOptions
