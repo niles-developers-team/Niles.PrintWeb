@@ -11,7 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using Niles.PrintWeb.Data;
 using Niles.PrintWeb.Data.Enumerations;
 using Niles.PrintWeb.Data.Interfaces;
-using Niles.PrintWeb.Services;
+using Niles.PrintWeb.Api.Services;
 using Niles.PrintWeb.Shared;
 
 namespace Niles.PrintWeb.Api
@@ -41,7 +41,7 @@ namespace Niles.PrintWeb.Api
                 });
             });
             services.AddHttpContextAccessor();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("ApplicationSettings");
@@ -49,11 +49,8 @@ namespace Niles.PrintWeb.Api
 
             // configure jwt authentication
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
+            services
+            .AddAuthentication()
             .AddJwtBearer(x =>
             {
                 x.RequireHttpsMetadata = false;
@@ -93,21 +90,13 @@ namespace Niles.PrintWeb.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-                app.UseHttpsRedirection();
-            }
-
             app.UseCors();
             app.UseMvc();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
         }
     }
 }
