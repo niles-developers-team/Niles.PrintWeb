@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace Niles.PrintWeb.Utilities
+namespace Niles.PrintWeb.Shared
 {
     public class ValidationUtilities
     {
