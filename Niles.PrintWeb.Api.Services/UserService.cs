@@ -10,7 +10,6 @@ using Microsoft.Extensions.Logging;
 using Niles.PrintWeb.Data.Interfaces;
 using Niles.PrintWeb.Data.Models;
 using Niles.PrintWeb.Shared;
-using Niles.PrintWeb.Utilities;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Niles.PrintWeb.Api.Services
@@ -119,17 +118,17 @@ namespace Niles.PrintWeb.Api.Services
             return model;
         }
 
-        public async Task<string> ValidateUser(UserGetOptions options)
+        public async Task<string> Validate(UserGetOptions options)
         {
             try
             {
                 _logger.LogInformation("Start user name and email validating.");
 
-                string result = ValidationUtilities.ValidateUserName(options.UserName);
+                string result = ValidateUserName(options.UserName);
                 if (!string.IsNullOrEmpty(result))
                     return result;
 
-                result = ValidationUtilities.ValidateEmail(options.Email);
+                result = ValidateEmail(options.Email);
                 if (!string.IsNullOrEmpty(result))
                     return result;
 
@@ -149,6 +148,31 @@ namespace Niles.PrintWeb.Api.Services
                 _logger.LogError(exception.Message);
                 throw exception;
             }
+        }
+
+        public string ValidateUserName(string userName)
+        {
+            if (!ValidationUtilities.NotEmptyRule(userName))
+                return "User name should not be empty.";
+
+            if (!ValidationUtilities.MoreThanValueLengthRule(userName, 5))
+                return "User name is to short.";
+
+            if (!ValidationUtilities.OnlyLettersNumbersAndUnderscorcesRule(userName))
+                return "User name must contains only letters, numbers and underscores.";
+
+            return string.Empty;
+        }
+
+        public string ValidateEmail(string email)
+        {
+            if (ValidationUtilities.NotEmptyRule(email))
+                return "Email should not be empty";
+
+            if(ValidationUtilities.CheckEmailFormat(email))
+                return "Email is not valid";
+
+            return string.Empty;
         }
     }
 }
