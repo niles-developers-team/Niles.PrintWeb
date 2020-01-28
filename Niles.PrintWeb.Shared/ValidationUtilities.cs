@@ -6,21 +6,25 @@ namespace Niles.PrintWeb.Shared
 {
     public class ValidationUtilities
     {
+        ///<summary>Rule check value is not empty string.</summary>
         public static bool NotEmptyRule(string value)
         {
             return !string.IsNullOrWhiteSpace(value);
         }
 
+        ///<summary>Rule check value string contains only letters, digits or underscorces</summary>
         public static bool OnlyLettersNumbersAndUnderscorcesRule(string value)
         {
             return Regex.IsMatch(value, @"^[[a-zA-Z0-9а-яА-я]");
         }
 
+        ///<summary>Rule check value string length more than min value</summary>
         public static bool MoreThanValueLengthRule(string value, int minValue)
         {
             return value.Length >= minValue;
         }
 
+        ///<summary>Rule check value string is valid email format</summary>
         public static bool CheckEmailFormat(string email)
         {
             try
