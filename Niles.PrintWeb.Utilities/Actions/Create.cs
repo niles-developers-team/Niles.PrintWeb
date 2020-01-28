@@ -1,34 +1,31 @@
 using System;
 using CommandLine;
 using Microsoft.Extensions.Logging;
-using Niles.PrintWeb.Shared;
-using System.Data.SqlClient;
+using Niles.PrintWeb.Models.Settings;
 
 namespace Niles.PrintWeb.Utilities.Actions
 {
     [Verb("create", HelpText = "Create the DB")]
-    class CreateOptions { }
+    public class CreateOptions { }
 
     public class Create
     {
-        public static int Run(ILogger logger)
+        public static int Run(ILogger logger, DatabaseConnectionSettings settings)
         {
             try
             {
-                logger.LogInformation($"Try to create \"{SolutionSettings.DatabaseName}\" database");
+                logger.LogInformation($"Try to create \"{settings.DatabaseName}\" database");
 
-                using (var connection = new SqlConnection(SolutionSettings.MSSqlServerConnectionString))
+                using (var connection = DatabaseConnectionSettings.CreateServerConnection(settings))
                 {
-                    var comma = new SqlCommand($@"
-                        create database {SolutionSettings.DatabaseName}
-                    ", connection);
+                    var comma = DatabaseConnectionSettings.CreateCommand(settings, $@"create database {settings.DatabaseName}", connection);
 
                     connection.Open();
                     comma.ExecuteNonQuery();
                     connection.Close();
                 }
 
-                logger.LogInformation($"{SolutionSettings.DatabaseName} database successfully created");
+                logger.LogInformation($"{settings.DatabaseName} database successfully created");
                 return 0;
             }
             catch (Exception exception)

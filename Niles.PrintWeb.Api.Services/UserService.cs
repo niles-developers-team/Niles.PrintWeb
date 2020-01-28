@@ -11,6 +11,7 @@ using Niles.PrintWeb.DataAccessObjects.Interfaces;
 using Niles.PrintWeb.Models.Entities;
 using Niles.PrintWeb.Shared;
 using Microsoft.IdentityModel.Tokens;
+using Niles.PrintWeb.Models.Settings;
 
 namespace Niles.PrintWeb.Api.Services
 {
@@ -19,14 +20,14 @@ namespace Niles.PrintWeb.Api.Services
         private readonly IUserDao _dao;
 
         private readonly EmailService _emailService;
-        private readonly ApplicationSettings _settings;
+        private readonly Appsettings _settings;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger _logger;
 
         public UserService(
             IUserDao dao,
             EmailService emailService,
-            ApplicationSettings settings,
+            Appsettings settings,
             IHttpContextAccessor httpContextAccessor,
             ILogger logger
         )

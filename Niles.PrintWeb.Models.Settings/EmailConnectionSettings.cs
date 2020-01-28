@@ -1,9 +1,7 @@
-namespace Niles.PrintWeb.Shared
+namespace Niles.PrintWeb.Models.Settings
 {
-    public class ApplicationSettings
+    public class EmailConnectionSettings
     {
-        public string Secret { get; set; }
-
         public string SMTPHost { get; set; }
 
         public string TeamName { get; set; }

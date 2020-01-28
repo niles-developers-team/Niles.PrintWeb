@@ -4,22 +4,23 @@ using System.Data;
 using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Extensions.Logging;
+using Niles.PrintWeb.Models.Settings;
 
 namespace Niles.PrintWeb.DataAccessObjects
 {
     public abstract class BaseDao
     {
-        protected readonly string _connectionString;
+        protected readonly DatabaseConnectionSettings _settings;
         protected readonly ILogger _logger;
-        protected BaseDao(string connectionString, ILogger logger)
+        protected BaseDao(DatabaseConnectionSettings settings, ILogger logger)
         {
-            _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
+            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         protected IEnumerable<T> Query<T>(string sql, object parameters = null)
         {
-            using (IDbConnection connection = new Npgsql.NpgsqlConnection(_connectionString))
+            using (IDbConnection connection = DatabaseConnectionSettings.CreateDatabaseConnection(_settings))
             {
                 try
                 {
@@ -35,7 +36,7 @@ namespace Niles.PrintWeb.DataAccessObjects
         }
         protected T QueryFirst<T>(string sql, object parameters = null)
         {
-            using (IDbConnection connection = new Npgsql.NpgsqlConnection(_connectionString))
+            using (IDbConnection connection = DatabaseConnectionSettings.CreateDatabaseConnection(_settings))
             {
                 try
                 {
@@ -51,7 +52,7 @@ namespace Niles.PrintWeb.DataAccessObjects
         }
         protected T QueryFirstOrDefault<T>(string sql, object parameters = null)
         {
-            using (IDbConnection connection = new Npgsql.NpgsqlConnection(_connectionString))
+            using (IDbConnection connection = DatabaseConnectionSettings.CreateDatabaseConnection(_settings))
             {
                 try
                 {
@@ -67,7 +68,7 @@ namespace Niles.PrintWeb.DataAccessObjects
         }
         protected async Task<IEnumerable<T>> QueryAsync<T>(string sql, object parameters = null)
         {
-            using (IDbConnection connection = new Npgsql.NpgsqlConnection(_connectionString))
+            using (IDbConnection connection = DatabaseConnectionSettings.CreateDatabaseConnection(_settings))
             {
                 try
                 {
@@ -83,7 +84,7 @@ namespace Niles.PrintWeb.DataAccessObjects
         }
         protected async Task<T> QueryFirstAsync<T>(string sql, object parameters = null)
         {
-            using (IDbConnection connection = new Npgsql.NpgsqlConnection(_connectionString))
+            using (IDbConnection connection = DatabaseConnectionSettings.CreateDatabaseConnection(_settings))
             {
                 try
                 {
@@ -99,7 +100,7 @@ namespace Niles.PrintWeb.DataAccessObjects
         }
         protected async Task<T> QueryFirstOrDefaultAsync<T>(string sql, object parameters = null)
         {
-            using (IDbConnection connection = new Npgsql.NpgsqlConnection(_connectionString))
+            using (IDbConnection connection = DatabaseConnectionSettings.CreateDatabaseConnection(_settings))
             {
                 try
                 {
@@ -115,7 +116,7 @@ namespace Niles.PrintWeb.DataAccessObjects
         }
         protected T QuerySingle<T>(string sql, object parameters = null)
         {
-            using (IDbConnection connection = new Npgsql.NpgsqlConnection(_connectionString))
+            using (IDbConnection connection = DatabaseConnectionSettings.CreateDatabaseConnection(_settings))
             {
                 try
                 {
@@ -131,7 +132,7 @@ namespace Niles.PrintWeb.DataAccessObjects
         }
         protected T QuerySingleOrDefault<T>(string sql, object parameters = null)
         {
-            using (IDbConnection connection = new Npgsql.NpgsqlConnection(_connectionString))
+            using (IDbConnection connection = DatabaseConnectionSettings.CreateDatabaseConnection(_settings))
             {
                 try
                 {
@@ -147,7 +148,7 @@ namespace Niles.PrintWeb.DataAccessObjects
         }
         protected async Task<T> QuerySingleAsync<T>(string sql, object parameters = null)
         {
-            using (IDbConnection connection = new Npgsql.NpgsqlConnection(_connectionString))
+            using (IDbConnection connection = DatabaseConnectionSettings.CreateDatabaseConnection(_settings))
             {
                 try
                 {
@@ -163,7 +164,7 @@ namespace Niles.PrintWeb.DataAccessObjects
         }
         protected async Task<T> QuerySingleOrDefaultAsync<T>(string sql, object parameters = null)
         {
-            using (IDbConnection connection = new Npgsql.NpgsqlConnection(_connectionString))
+            using (IDbConnection connection = DatabaseConnectionSettings.CreateDatabaseConnection(_settings))
             {
                 try
                 {
@@ -180,7 +181,7 @@ namespace Niles.PrintWeb.DataAccessObjects
 
         protected void Execute(string sql, object parameters = null)
         {
-            using (IDbConnection connection = new Npgsql.NpgsqlConnection(_connectionString))
+            using (IDbConnection connection = DatabaseConnectionSettings.CreateDatabaseConnection(_settings))
             {
                 try
                 {
@@ -196,7 +197,7 @@ namespace Niles.PrintWeb.DataAccessObjects
         }
         protected async Task ExecuteAsync(string sql, object parameters = null)
         {
-            using (IDbConnection connection = new Npgsql.NpgsqlConnection(_connectionString))
+            using (IDbConnection connection = DatabaseConnectionSettings.CreateDatabaseConnection(_settings))
             {
                 try
                 {

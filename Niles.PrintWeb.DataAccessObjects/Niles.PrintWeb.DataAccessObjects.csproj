@@ -7,12 +7,13 @@
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.30" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0.0" />
-    <PackageReference Include="Npgsql" Version="4.1.1" />
+    <PackageReference Include="Npgsql" Version="4.1.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Niles.PrintWeb.Models\Niles.PrintWeb.Models.csproj" />
     <ProjectReference Include="..\Niles.PrintWeb.Shared\Niles.PrintWeb.Shared.csproj" />
+    <ProjectReference Include="..\Niles.PrintWeb.Models.Settings\Niles.PrintWeb.Models.Settings.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,17 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Niles.PrintWeb.DataAccessObjects.Interfaces;
 using Niles.PrintWeb.Models.Entities;
+using Niles.PrintWeb.Models.Settings;
 
 namespace Niles.PrintWeb.DataAccessObjects.SqlServer
 {
     public class UserDao : BaseDao, IUserDao
     {
-        public UserDao(string connectionString, ILogger _logger) : base(connectionString, _logger) { }
+        public UserDao(DatabaseConnectionSettings settings, ILogger _logger) : base(settings, _logger) { }
 
         public async Task ConfirmUser(Guid userCode)
         {

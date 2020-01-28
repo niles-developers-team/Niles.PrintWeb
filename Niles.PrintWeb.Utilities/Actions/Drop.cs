@@ -1,32 +1,31 @@
 using System;
-using Niles.PrintWeb.Shared;
 using Microsoft.Extensions.Logging;
 using CommandLine;
-using System.Data.SqlClient;
+using Niles.PrintWeb.Models.Settings;
 
 namespace Niles.PrintWeb.Utilities.Actions
 {
     [Verb("drop", HelpText = "Drop the DB")]
-    class DropOptions { }
+    public class DropOptions { }
     
     public class Drop
     {
-        public static int Run(ILogger logger)
+        public static int Run(ILogger logger, DatabaseConnectionSettings settings)
         {
             try
             {
-                logger.LogInformation($"Try to drop \"{SolutionSettings.DatabaseName}\" database");
+                logger.LogInformation($"Try to drop \"{settings.DatabaseName}\" database");
 
-                using (var connection = new SqlConnection(SolutionSettings.MSSqlServerConnectionString))
+                using (var connection = DatabaseConnectionSettings.CreateServerConnection(settings))
                 {
-                    var comma = new SqlCommand($"drop database if exists {SolutionSettings.DatabaseName}", connection);
+                    var comma = DatabaseConnectionSettings.CreateCommand(settings, $"drop database if exists {settings.DatabaseName}", connection);
 
                     connection.Open();
                     comma.ExecuteNonQuery();
                     connection.Close();
                 }
                 
-                logger.LogInformation($"{SolutionSettings.DatabaseName} database successfully dropped");
+                logger.LogInformation($"{settings.DatabaseName} database successfully dropped");
                 return 0;
             }
             catch (Exception exception)

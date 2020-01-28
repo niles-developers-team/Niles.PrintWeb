@@ -1,27 +1,46 @@
 using System;
+using System.IO;
 using CommandLine;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Niles.PrintWeb.Models.Settings;
 using Niles.PrintWeb.Shared;
 
 namespace Niles.PrintWeb.Utilities.Actions
 {
     [Verb("reset", HelpText = "Reset the DB (drop, create, migrate, seed)")]
-    public class ResetOptions : ApplicationSettingsOptions { }
+    public class ResetOptions : SolutionSettingsOptions { }
 
     public class Reset
     {
-        public static int Run(ILogger logger, ResetOptions options)
+        public static int Run(
+            ILogger logger,
+            Appsettings appsettings,
+            ResetOptions options
+        )
         {
             try
             {
-                logger.LogInformation($"Try to reset \"{SolutionSettings.DatabaseName}\" database");
+                bool databaseInitialized = appsettings.DatabaseConnectionSettings != null;
+                if (databaseInitialized)
+                {
+                    logger.LogInformation($"Try to reset \"{appsettings.DatabaseConnectionSettings.DatabaseName}\" database");
+                }
+                else
+                {
+                    logger.LogInformation($"Try to initialize project database");
+                }
 
-                SettingsUpdate.Run(logger, options);
-                Drop.Run(logger);
-                Create.Run(logger);
-                Migrate.Run(logger);
+                SettingsUpdate.Run(logger, appsettings, options);
 
-                logger.LogInformation($"{SolutionSettings.DatabaseName} database successfully reseted");
+                appsettings = JsonConvert.DeserializeObject<Appsettings>(File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json")));
+
+                if (databaseInitialized)
+                    if (Drop.Run(logger, appsettings.DatabaseConnectionSettings) > 0) throw new Exception("There was some errors with dropping database");
+                if (Create.Run(logger, appsettings.DatabaseConnectionSettings) > 0) throw new Exception("There was some errors with creating database");
+                if (MigrateUp.Run(logger, appsettings.DatabaseConnectionSettings) > 0) throw new Exception("There was some errors with migrating database");
+
+                logger.LogInformation($"{appsettings.DatabaseConnectionSettings.DatabaseName} database successfully reseted");
                 return 0;
             }
             catch (Exception exception)

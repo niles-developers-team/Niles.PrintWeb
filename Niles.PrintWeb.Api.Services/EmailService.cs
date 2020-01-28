@@ -4,15 +4,16 @@ using MimeKit;
 using MailKit.Net.Smtp;
 using Niles.PrintWeb.Shared;
 using Microsoft.Extensions.Logging;
+using Niles.PrintWeb.Models.Settings;
 
 namespace Niles.PrintWeb.Api.Services
 {
     public class EmailService
     {
-        private readonly ApplicationSettings _settings;
+        private readonly EmailConnectionSettings _settings;
         private readonly ILogger _logger;
 
-        public EmailService(ILogger logger, ApplicationSettings settings)
+        public EmailService(ILogger logger, EmailConnectionSettings settings)
         {
             _settings = settings ?? throw new ArgumentNullException(nameof(settings));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));

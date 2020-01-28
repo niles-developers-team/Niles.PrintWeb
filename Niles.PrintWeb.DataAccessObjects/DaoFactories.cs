@@ -1,19 +1,20 @@
 using Microsoft.Extensions.Logging;
-using Niles.PrintWeb.Models.Enumerations;
+using Niles.PrintWeb.Models.Settings.Enumerations;
 using Niles.PrintWeb.DataAccessObjects.Interfaces;
+using Niles.PrintWeb.Models.Settings;
 
 namespace Niles.PrintWeb.DataAccessObjects
 {    
     public class DaoFactories
     {
-        public static IDaoFactory GetFactory(DataProvider provider, string connectionString, ILogger logger)
+        public static IDaoFactory GetFactory(DatabaseConnectionSettings settings, ILogger logger)
         {
-            switch (provider)
+            switch (settings.Provider)
             {
-                case DataProvider.MSSql:
-                    return new DataAccessObjects.SqlServer.DaoFactory(connectionString, logger);
+                case DatabaseProvider.SqlServer:
+                    return new DataAccessObjects.SqlServer.DaoFactory(settings, logger);
                 default:
-                    return new DataAccessObjects.SqlServer.DaoFactory(connectionString, logger);
+                    return new DataAccessObjects.SqlServer.DaoFactory(settings, logger);
             }
         }
     }

@@ -11,9 +11,10 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Hosting;
 using Niles.PrintWeb.DataAccessObjects;
 using Niles.PrintWeb.DataAccessObjects.Interfaces;
-using Niles.PrintWeb.Models.Enumerations;
+using Niles.PrintWeb.Models.Settings.Enumerations;
 using Niles.PrintWeb.Api.Services;
 using Niles.PrintWeb.Shared;
+using Niles.PrintWeb.Models.Settings;
 
 namespace Niles.PrintWeb.Api
 {
@@ -47,7 +48,7 @@ namespace Niles.PrintWeb.Api
 
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("ApplicationSettings");
-            var appSettings = appSettingsSection.Get<ApplicationSettings>();
+            var appSettings = appSettingsSection.Get<Appsettings>();
 
             // configure jwt authentication
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
@@ -66,18 +67,19 @@ namespace Niles.PrintWeb.Api
                 };
             });
 
-            string connectionString = SolutionSettings.MSSqlServerConnectionString;
+            var connectionSettings = appSettings.DatabaseConnectionSettings;
+            var emailSettings = appSettings.EmailConnectionSettings;
 
             services.AddScoped(provider =>
             {
                 var logger = provider.GetService<ILogger<IDaoFactory>>();
-                return DaoFactories.GetFactory(DataProvider.MSSql, connectionString, logger);
+                return DaoFactories.GetFactory(connectionSettings, logger);
             });
 
             services.AddScoped(provider =>
             {
                 var logger = provider.GetService<ILogger<EmailService>>();
-                return new EmailService(logger, appSettings);
+                return new EmailService(logger, emailSettings);
             });
 
             services.AddScoped(provider =>

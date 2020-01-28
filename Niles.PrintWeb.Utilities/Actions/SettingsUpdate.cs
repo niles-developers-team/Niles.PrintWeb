@@ -1,50 +1,42 @@
 using System;
+using System.IO;
 using CommandLine;
 using Microsoft.Extensions.Logging;
-using Niles.PrintWeb.Shared;
+using Newtonsoft.Json;
+using Niles.PrintWeb.Models.Settings;
+using Niles.PrintWeb.Models.Settings.Enumerations;
 
 namespace Niles.PrintWeb.Utilities.Actions
 {
-    [Verb("app-settings", HelpText = "Set application settings by it names")]
-    public class ApplicationSettingsOptions
+    [Verb("update-settings", HelpText = "Set application settings by it names")]
+    public class SolutionSettingsOptions
     {
-        [Option(SolutionSettings.DatabaseHostVariableName, HelpText = "Allow to set database host")]
-        public string DatabaseHostOption { get; set; }
-        
-        [Value(0, HelpText = "Allow to set database host")]
+        [Option(DatabaseConnectionSettings.DatabaseHostVariableName, HelpText = "Allow to set database host")]
         public string DatabaseHost { get; set; }
 
-        [Option(SolutionSettings.DatabaseNameVariableName, HelpText = "Allow to set database name")]
-        public string DatabaseNameOption { get; set; }
-
-        [Value(1, HelpText = "Allow to set database name")]
+        [Option(DatabaseConnectionSettings.DatabaseNameVariableName, HelpText = "Allow to set database name")]
         public string DatabaseName { get; set; }
 
-        [Option(SolutionSettings.DatabasePortVariableName, HelpText = "Allow to set database port", Required = false)]
-        public string DatabasePortOption { get; set; }
-
-        [Value(2, HelpText = "Allow to set database port", Required = false)]
+        [Option(DatabaseConnectionSettings.DatabasePortVariableName, HelpText = "Allow to set database port", Required = false)]
         public string DatabasePort { get; set; }
 
-        [Option(SolutionSettings.DatabaseUserNameVariableName, HelpText = "Allow to set database user name")]
-        public string DatabaseUserNameOption { get; set; }
-
-        [Value(3, HelpText = "Allow to set database user name")]
+        [Option(DatabaseConnectionSettings.DatabaseUserNameVariableName, HelpText = "Allow to set database user name")]
         public string DatabaseUserName { get; set; }
 
-        [Option(SolutionSettings.DatabasePasswordVariableName, HelpText = "Allow to set database password")]
-        public string DatabasePasswordOption { get; set; }
-
-        [Value(4, HelpText = "Allow to set database password")]
+        [Option(DatabaseConnectionSettings.DatabasePasswordVariableName, HelpText = "Allow to set database password")]
         public string DatabasePassword { get; set; }
+
+        [Option(DatabaseConnectionSettings.DatabaseProviderVariableName, HelpText = "Allow to set database provider")]
+        public DatabaseProvider? Provider { get; set; }
 
         public void InitialiazeSettings()
         {
             DatabaseHost = @"localhost\sqlexpress";
-            DatabaseName = "PrintWeb";
+            DatabaseName = "andromeda";
             DatabasePort = "5432";
             DatabaseUserName = "sa";
             DatabasePassword = "qwerty_123";
+            Provider = DatabaseProvider.SqlServer;
         }
     }
 
@@ -52,7 +44,8 @@ namespace Niles.PrintWeb.Utilities.Actions
     {
         public static int Run(
             ILogger logger,
-            ApplicationSettingsOptions options
+            Appsettings appsettings,
+            SolutionSettingsOptions options
         )
         {
             try
@@ -60,19 +53,25 @@ namespace Niles.PrintWeb.Utilities.Actions
                 if (string.IsNullOrEmpty(options.DatabaseHost)
                 && string.IsNullOrEmpty(options.DatabaseName)
                 && string.IsNullOrEmpty(options.DatabaseUserName)
-                && string.IsNullOrEmpty(options.DatabasePassword))
+                && string.IsNullOrEmpty(options.DatabasePassword)
+                && !options.Provider.HasValue)
                 {
                     options.InitialiazeSettings();
                 }
-                logger.LogInformation("Try to update application settings");
+                logger.LogInformation("Try to update solution settings");
 
-                SolutionSettings.SetAppSetting(SolutionSettings.DatabaseHostVariableName, options.DatabaseHost);
-                SolutionSettings.SetAppSetting(SolutionSettings.DatabaseNameVariableName, options.DatabaseName);
-                SolutionSettings.SetAppSetting(SolutionSettings.DatabasePortVariableName, options.DatabasePort);
-                SolutionSettings.SetAppSetting(SolutionSettings.DatabaseUserNameVariableName, options.DatabaseUserName);
-                SolutionSettings.SetAppSetting(SolutionSettings.DatabasePasswordVariableName, options.DatabasePassword);
+                appsettings.DatabaseConnectionSettings = DatabaseConnectionSettings.InitializeSolutionSettings(
+                    options.DatabaseHost,
+                    options.DatabaseName,
+                    options.DatabasePort,
+                    options.DatabaseUserName,
+                    options.DatabasePassword,
+                    options.Provider.Value
+                );
 
-                logger.LogInformation("Application settings updated successfully");
+                File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json"), JsonConvert.SerializeObject(appsettings));
+
+                logger.LogInformation("Solution settings updated successfully");
             }
             catch (Exception exception)
             {
