@@ -3,8 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Niles.PrintWeb.Data.Models;
-using Niles.PrintWeb.Services;
+using Niles.PrintWeb.Models.Entities;
+using Niles.PrintWeb.Api.Services;
 
 namespace Niles.PrintWeb.Api.Controllers
 {
@@ -43,7 +43,7 @@ namespace Niles.PrintWeb.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]UserAuthenticated model)
         {
-            string message = await _userService.ValidateUser(new UserGetOptions { UserName = model.UserName, Email = model.Email });
+            string message = await _userService.Validate(new UserGetOptions { UserName = model.UserName, Email = model.Email });
             if (!string.IsNullOrEmpty(message))
             {
                 return BadRequest(new { message });
@@ -77,7 +77,7 @@ namespace Niles.PrintWeb.Api.Controllers
         [HttpGet("validate")]
         public async Task<IActionResult> ValidateUser([FromQuery]UserGetOptions options)
         {
-            var result = await _userService.ValidateUser(options);
+            var result = await _userService.Validate(options);
             return Ok(result);
         }
 

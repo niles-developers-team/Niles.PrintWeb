@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MailKit" Version="2.3.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Niles.PrintWeb.DataAccessObjects\Niles.PrintWeb.DataAccessObjects.csproj" />
+    <ProjectReference Include="..\Niles.PrintWeb.Models\Niles.PrintWeb.Models.csproj" />
+    <ProjectReference Include="..\Niles.PrintWeb.Shared\Niles.PrintWeb.Shared.csproj" />
+    <ProjectReference Include="..\Niles.PrintWeb.Models.Settings\Niles.PrintWeb.Models.Settings.csproj" />
+  </ItemGroup>
+</Project>

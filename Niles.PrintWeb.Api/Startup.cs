@@ -8,11 +8,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using Niles.PrintWeb.Data;
-using Niles.PrintWeb.Data.Enumerations;
-using Niles.PrintWeb.Data.Interfaces;
-using Niles.PrintWeb.Services;
+using Microsoft.Extensions.Hosting;
+using Niles.PrintWeb.DataAccessObjects;
+using Niles.PrintWeb.DataAccessObjects.Interfaces;
+using Niles.PrintWeb.Models.Settings.Enumerations;
+using Niles.PrintWeb.Api.Services;
 using Niles.PrintWeb.Shared;
+using Niles.PrintWeb.Models.Settings;
 
 namespace Niles.PrintWeb.Api
 {
@@ -40,20 +42,18 @@ namespace Niles.PrintWeb.Api
                     .WithExposedHeaders("*");
                 });
             });
+            services.AddControllers();
             services.AddHttpContextAccessor();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("ApplicationSettings");
-            var appSettings = appSettingsSection.Get<ApplicationSettings>();
+            var appSettings = appSettingsSection.Get<Appsettings>();
 
             // configure jwt authentication
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
+            services
+            .AddAuthentication()
             .AddJwtBearer(x =>
             {
                 x.RequireHttpsMetadata = false;
@@ -67,18 +67,19 @@ namespace Niles.PrintWeb.Api
                 };
             });
 
-            string connectionString = SolutionSettings.MSSqlServerConnectionString;
+            var connectionSettings = appSettings.DatabaseConnectionSettings;
+            var emailSettings = appSettings.EmailConnectionSettings;
 
             services.AddScoped(provider =>
             {
                 var logger = provider.GetService<ILogger<IDaoFactory>>();
-                return DaoFactories.GetFactory(DataProvider.MSSql, connectionString, logger);
+                return DaoFactories.GetFactory(connectionSettings, logger);
             });
 
             services.AddScoped(provider =>
             {
                 var logger = provider.GetService<ILogger<EmailService>>();
-                return new EmailService(logger, appSettings);
+                return new EmailService(logger, emailSettings);
             });
 
             services.AddScoped(provider =>
@@ -93,21 +94,23 @@ namespace Niles.PrintWeb.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-                app.UseHttpsRedirection();
-            }
 
             app.UseCors();
-            app.UseMvc();
+            app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }
