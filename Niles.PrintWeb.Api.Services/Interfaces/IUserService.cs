@@ -7,7 +7,7 @@ namespace Niles.PrintWeb.Api.Services.Interfaces
 {
     public interface IUserService
     {
-        Task ConfirmUser(Guid code);
+        Task Confirm(Guid code);
         Task<User> Create(UserAuthenticated model);
         Task<IEnumerable<User>> Get(UserGetOptions options);
         Task<UserAuthenticated> SignIn(UserGetOptions options);

@@ -13,7 +13,7 @@ namespace Niles.PrintWeb.DataAccessObjects.SqlServer
     {
         public UserDao(DatabaseConnectionSettings settings, ILogger _logger) : base(settings, _logger) { }
 
-        public async Task ConfirmUser(Guid userCode)
+        public async Task Confirm(Guid userCode)
         {
             try
             {

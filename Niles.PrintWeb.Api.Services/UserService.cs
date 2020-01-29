@@ -40,9 +40,9 @@ namespace Niles.PrintWeb.Api.Services
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task ConfirmUser(Guid code)
+        public async Task Confirm(Guid code)
         {
-            await _dao.ConfirmUser(code);
+            await _dao.Confirm(code);
         }
 
         public async Task<User> Create(UserAuthenticated model)

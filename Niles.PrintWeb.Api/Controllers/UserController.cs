@@ -19,24 +19,9 @@ namespace Niles.PrintWeb.Api.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetUsers([FromQuery]UserGetOptions options)
-        {
-            var result = await _userService.Get(options);
-            return Ok(result);
-        }
-
-        [Authorize]
-        [HttpGet("{id}")]
         public async Task<IActionResult> Get([FromQuery]UserGetOptions options)
         {
-            var users = await _userService.Get(options);
-            var user = users.FirstOrDefault();
-            if (user == null)
-            {
-                return NotFound("Cannot find user");
-            }
-
-            return Ok(user);
+            return Ok(await _userService.Get(options));
         }
 
         [AllowAnonymous]
@@ -45,30 +30,28 @@ namespace Niles.PrintWeb.Api.Controllers
         {
             string message = await _userService.Validate(new UserGetOptions { UserName = model.UserName, Email = model.Email });
             if (!string.IsNullOrEmpty(message))
-            {
                 return BadRequest(new { message });
-            }
 
             var result = await _userService.Create(model);
 
             if (result == null)
-            {
                 return BadRequest(new { message = "There was some errors with user creating" });
-            }
 
             return Ok(result);
         }
 
         [Authorize]
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody]UserAuthenticated model)
+        public async Task<IActionResult> Update([FromBody]User model)
         {
+            string message = await _userService.Validate(new UserGetOptions { Id = model.Id, UserName = model.UserName, Email = model.Email });
+            if (!string.IsNullOrEmpty(message))
+                return BadRequest(new { message });
+
             var result = await _userService.Update(model);
 
             if (result == null)
-            {
                 return BadRequest(new { message = "There was some errors with user updating" });
-            }
 
             return Ok(result);
         }
@@ -83,9 +66,9 @@ namespace Niles.PrintWeb.Api.Controllers
 
         [AllowAnonymous]
         [HttpPost("confirm")]
-        public async Task<IActionResult> ConfirmUser([FromBody]Guid code)
+        public async Task<IActionResult> Confirm([FromBody]Guid code)
         {
-            await _userService.ConfirmUser(code);
+            await _userService.Confirm(code);
 
             return Ok();
         }
