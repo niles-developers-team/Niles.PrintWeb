@@ -5,10 +5,11 @@ using MailKit.Net.Smtp;
 using Niles.PrintWeb.Shared;
 using Microsoft.Extensions.Logging;
 using Niles.PrintWeb.Models.Settings;
+using Niles.PrintWeb.Api.Services.Interfaces;
 
 namespace Niles.PrintWeb.Api.Services
 {
-    public class EmailService
+    public class EmailService : IEmailService
     {
         private readonly EmailConnectionSettings _settings;
         private readonly ILogger _logger;

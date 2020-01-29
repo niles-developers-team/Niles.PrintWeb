@@ -12,21 +12,22 @@ using Niles.PrintWeb.Models.Entities;
 using Niles.PrintWeb.Shared;
 using Microsoft.IdentityModel.Tokens;
 using Niles.PrintWeb.Models.Settings;
+using Niles.PrintWeb.Api.Services.Interfaces;
 
 namespace Niles.PrintWeb.Api.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private readonly IUserDao _dao;
 
-        private readonly EmailService _emailService;
+        private readonly IEmailService _emailService;
         private readonly Appsettings _settings;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger _logger;
 
         public UserService(
             IUserDao dao,
-            EmailService emailService,
+            IEmailService emailService,
             Appsettings settings,
             IHttpContextAccessor httpContextAccessor,
             ILogger logger

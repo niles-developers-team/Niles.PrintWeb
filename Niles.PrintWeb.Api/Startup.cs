@@ -15,6 +15,7 @@ using Niles.PrintWeb.Models.Settings.Enumerations;
 using Niles.PrintWeb.Api.Services;
 using Niles.PrintWeb.Shared;
 using Niles.PrintWeb.Models.Settings;
+using Niles.PrintWeb.Api.Services.Interfaces;
 
 namespace Niles.PrintWeb.Api
 {
@@ -76,17 +77,17 @@ namespace Niles.PrintWeb.Api
                 return DaoFactories.GetFactory(connectionSettings, logger);
             });
 
-            services.AddScoped(provider =>
+            services.AddScoped<IEmailService>(provider =>
             {
                 var logger = provider.GetService<ILogger<EmailService>>();
                 return new EmailService(logger, emailSettings);
             });
 
-            services.AddScoped(provider =>
+            services.AddScoped<IUserService>(provider =>
             {
                 var logger = provider.GetService<ILogger<UserService>>();
                 var daoFactory = provider.GetService<IDaoFactory>();
-                var emailService = provider.GetService<EmailService>();
+                var emailService = provider.GetService<IEmailService>();
                 var httpAccessor = provider.GetService<IHttpContextAccessor>();
 
                 return new UserService(daoFactory.UserDao, emailService, appSettings, httpAccessor, logger);

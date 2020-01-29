@@ -4,15 +4,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Niles.PrintWeb.Models.Entities;
-using Niles.PrintWeb.Api.Services;
+using Niles.PrintWeb.Api.Services.Interfaces;
 
 namespace Niles.PrintWeb.Api.Controllers
 {
     public class UserController : ControllerBase
     {
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
 
-        public UserController(UserService userService)
+        public UserController(IUserService userService)
         {
             _userService = userService;
         }
