@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Niles.PrintWeb.Models.Setti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Niles.PrintWeb.Api.Tests", "Niles.PrintWeb.Api.Tests\Niles.PrintWeb.Api.Tests.csproj", "{5B6FF8A8-126D-4A81-9E13-DABA06E53FF3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Niles.PrintWeb.Services", "Niles.PrintWeb.Services\Niles.PrintWeb.Services.csproj", "{E1640585-C4F4-46DC-9FA9-8F8695B1ED0A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -128,5 +130,17 @@ Global
 		{5B6FF8A8-126D-4A81-9E13-DABA06E53FF3}.Release|x64.Build.0 = Release|Any CPU
 		{5B6FF8A8-126D-4A81-9E13-DABA06E53FF3}.Release|x86.ActiveCfg = Release|Any CPU
 		{5B6FF8A8-126D-4A81-9E13-DABA06E53FF3}.Release|x86.Build.0 = Release|Any CPU
+		{E1640585-C4F4-46DC-9FA9-8F8695B1ED0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1640585-C4F4-46DC-9FA9-8F8695B1ED0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1640585-C4F4-46DC-9FA9-8F8695B1ED0A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E1640585-C4F4-46DC-9FA9-8F8695B1ED0A}.Debug|x64.Build.0 = Debug|Any CPU
+		{E1640585-C4F4-46DC-9FA9-8F8695B1ED0A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E1640585-C4F4-46DC-9FA9-8F8695B1ED0A}.Debug|x86.Build.0 = Debug|Any CPU
+		{E1640585-C4F4-46DC-9FA9-8F8695B1ED0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1640585-C4F4-46DC-9FA9-8F8695B1ED0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1640585-C4F4-46DC-9FA9-8F8695B1ED0A}.Release|x64.ActiveCfg = Release|Any CPU
+		{E1640585-C4F4-46DC-9FA9-8F8695B1ED0A}.Release|x64.Build.0 = Release|Any CPU
+		{E1640585-C4F4-46DC-9FA9-8F8695B1ED0A}.Release|x86.ActiveCfg = Release|Any CPU
+		{E1640585-C4F4-46DC-9FA9-8F8695B1ED0A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
