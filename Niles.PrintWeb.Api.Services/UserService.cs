@@ -155,11 +155,24 @@ namespace Niles.PrintWeb.Api.Services
             if (!ValidationUtilities.NotEmptyRule(userName))
                 return "User name should not be empty.";
 
-            if (!ValidationUtilities.MoreThanValueLengthRule(userName, 5))
-                return "User name is to short.";
+            int minLength = 5;
+            if (!ValidationUtilities.MoreThanValueLengthRule(userName, minLength))
+                return $"User name length length should be more than {minLength}.";;
 
             if (!ValidationUtilities.OnlyLettersNumbersAndUnderscorcesRule(userName))
                 return "User name must contains only letters, numbers and underscores.";
+
+            return string.Empty;
+        }
+
+        private string ValidatePassword(string password)
+        {
+            if(!ValidationUtilities.NotEmptyRule(password))
+                return "Password should not be empty.";
+
+            int minLength = 6;
+            if (!ValidationUtilities.MoreThanValueLengthRule(password, minLength))
+                return $"Password length should be more than {minLength}.";
 
             return string.Empty;
         }
