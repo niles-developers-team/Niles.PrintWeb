@@ -7,11 +7,12 @@ namespace Niles.PrintWeb.Api.Services.Interfaces
 {
     public interface IUserService
     {
-        Task Confirm(Guid code);
-        Task<User> Create(UserAuthenticated model);
+        Task<User> Create(User model);
         Task<IEnumerable<User>> Get(UserGetOptions options);
-        Task<UserAuthenticated> SignIn(UserGetOptions options);
         Task<User> Update(User model);
-        Task<string> Validate(UserGetOptions options);
+        Task Delete(IReadOnlyList<int> ids);
+        Task Confirm(Guid code);
+        Task<AuthenticatedUser> SignIn(UserAuthorizeOptions options);
+        Task<string> Validate(UserValidateOptions options);
     }
 }

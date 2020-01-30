@@ -20,8 +20,9 @@ namespace Niles.PrintWeb.Api.Services
     {
         private readonly IUserDao _dao;
 
-        private readonly IEmailService _emailService;
         private readonly Appsettings _settings;
+
+        private readonly IEmailService _emailService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger _logger;
 
@@ -40,20 +41,16 @@ namespace Niles.PrintWeb.Api.Services
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task Confirm(Guid code)
+        public async Task<User> Create(User model)
         {
-            await _dao.Confirm(code);
-        }
-
-        public async Task<User> Create(UserAuthenticated model)
-        {
+            model.ConfirmCode = Guid.NewGuid();
             await _dao.Create(model);
 
             string url = string.Empty;
             if (_httpContextAccessor.HttpContext.Request.Headers.ContainsKey("Origin"))
             {
                 var origin = _httpContextAccessor.HttpContext.Request.Headers["Origin"];
-                url = $"{origin}/confirm-email/{model.Code}";
+                url = $"{origin}/confirm-email/{model.ConfirmCode}";
             }
             else
             {
@@ -70,15 +67,23 @@ namespace Niles.PrintWeb.Api.Services
             return model;
         }
 
-        public async Task<IEnumerable<User>> Get(UserGetOptions options)
+        public async Task<IEnumerable<User>> Get(UserGetOptions options) => await _dao.Get(options);
+
+        public async Task<User> Update(User model)
         {
-            return await _dao.Get(options);
+            await _dao.Update(model);
+
+            return model;
         }
 
-        public async Task<UserAuthenticated> SignIn(UserGetOptions options)
+        public async Task Delete(IReadOnlyList<int> ids) => await _dao.Delete(ids);
+
+        public async Task Confirm(Guid code) => await _dao.Confirm(code);
+
+        public async Task<AuthenticatedUser> SignIn(UserAuthorizeOptions options)
         {
             var users = await _dao.Get(options);
-            var user = users.FirstOrDefault() as UserAuthenticated;
+            var user = users.FirstOrDefault() as AuthenticatedUser;
             if (user == null)
             {
                 return null;
@@ -101,11 +106,11 @@ namespace Niles.PrintWeb.Api.Services
 
             if (options.RememberMe)
             {
-                if (_httpContextAccessor.HttpContext.Request.Cookies.ContainsKey("graph-master-token"))
+                if (_httpContextAccessor.HttpContext.Request.Cookies.ContainsKey("printweb-token"))
                 {
-                    _httpContextAccessor.HttpContext.Response.Cookies.Delete("graph-master-token");
+                    _httpContextAccessor.HttpContext.Response.Cookies.Delete("printweb-token");
                 }
-                _httpContextAccessor.HttpContext.Response.Cookies.Append("graph-master-token", user.Token);
+                _httpContextAccessor.HttpContext.Response.Cookies.Append("printweb-token", user.Token);
             }
 
             user.Password = null;
@@ -113,14 +118,7 @@ namespace Niles.PrintWeb.Api.Services
             return user;
         }
 
-        public async Task<User> Update(User model)
-        {
-            await _dao.Update(model);
-
-            return model;
-        }
-
-        public async Task<string> Validate(UserGetOptions options)
+        public async Task<string> Validate(UserValidateOptions options)
         {
             try
             {
@@ -152,7 +150,7 @@ namespace Niles.PrintWeb.Api.Services
             }
         }
 
-        public string ValidateUserName(string userName)
+        private string ValidateUserName(string userName)
         {
             if (!ValidationUtilities.NotEmptyRule(userName))
                 return "User name should not be empty.";
@@ -166,12 +164,12 @@ namespace Niles.PrintWeb.Api.Services
             return string.Empty;
         }
 
-        public string ValidateEmail(string email)
+        private string ValidateEmail(string email)
         {
             if (ValidationUtilities.NotEmptyRule(email))
                 return "Email should not be empty";
 
-            if(ValidationUtilities.CheckEmailFormat(email))
+            if (ValidationUtilities.CheckEmailFormat(email))
                 return "Email is not valid";
 
             return string.Empty;

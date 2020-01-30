@@ -26,9 +26,9 @@ namespace Niles.PrintWeb.Api.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody]UserAuthenticated model)
+        public async Task<IActionResult> Create([FromBody]User model)
         {
-            string message = await _userService.Validate(new UserGetOptions { UserName = model.UserName, Email = model.Email });
+            string message = await _userService.Validate(new UserValidateOptions { UserName = model.UserName, Email = model.Email });
             if (!string.IsNullOrEmpty(message))
                 return BadRequest(new { message });
 
@@ -44,7 +44,7 @@ namespace Niles.PrintWeb.Api.Controllers
         [HttpPut]
         public async Task<IActionResult> Update([FromBody]User model)
         {
-            string message = await _userService.Validate(new UserGetOptions { Id = model.Id, UserName = model.UserName, Email = model.Email });
+            string message = await _userService.Validate(new UserValidateOptions { Id = model.Id, UserName = model.UserName, Email = model.Email });
             if (!string.IsNullOrEmpty(message))
                 return BadRequest(new { message });
 
@@ -58,7 +58,7 @@ namespace Niles.PrintWeb.Api.Controllers
 
         [AllowAnonymous]
         [HttpGet("validate")]
-        public async Task<IActionResult> ValidateUser([FromQuery]UserGetOptions options)
+        public async Task<IActionResult> ValidateUser([FromQuery]UserValidateOptions options)
         {
             var result = await _userService.Validate(options);
             return Ok(result);
@@ -75,7 +75,7 @@ namespace Niles.PrintWeb.Api.Controllers
 
         [AllowAnonymous]
         [HttpPost("sign-in")]
-        public async Task<IActionResult> SignIn([FromBody]UserGetOptions options)
+        public async Task<IActionResult> SignIn([FromBody]UserAuthorizeOptions options)
         {
             var result = await _userService.SignIn(options);
 

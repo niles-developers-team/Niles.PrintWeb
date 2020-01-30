@@ -7,11 +7,13 @@ namespace Niles.PrintWeb.DataAccessObjects.Interfaces
 {
     public interface IUserDao
     {
+        Task Create(User model);
         Task<IEnumerable<User>> Get(UserGetOptions options);
-        Task Create(UserAuthenticated model);
+        Task<IEnumerable<User>> Get(UserAuthorizeOptions options);
+        Task<IEnumerable<User>> Get(UserValidateOptions options);
         Task Update(User model);
         Task Delete(IReadOnlyList<int> ids);
 
-        Task Confirm(Guid userCode);
+        Task Confirm(Guid code);
     }
 }

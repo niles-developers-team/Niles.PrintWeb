@@ -18,7 +18,6 @@ namespace Niles.PrintWeb.Api.Tests
         {
             new User {
                 Email = "test@email.com",
-                Confirmed = true,
                 FirstName = "admin",
                 Id = 1,
                 LastName = "admin",
@@ -27,7 +26,6 @@ namespace Niles.PrintWeb.Api.Tests
             },
             new User {
                 Email = "test1@email.com",
-                Confirmed = true,
                 FirstName = "notadmin",
                 Id = 2,
                 LastName = "notadmin",
@@ -64,11 +62,11 @@ namespace Niles.PrintWeb.Api.Tests
         {
             // Arrange
             var mock = new Mock<IUserService>();
-            mock.Setup(service => service.Create(It.IsNotNull<UserAuthenticated>())).Returns(Task.FromResult(new User()));
+            mock.Setup(service => service.Create(It.IsNotNull<AuthenticatedUser>())).Returns(Task.FromResult(new User()));
             var controller = new UserController(mock.Object);
 
             // Act
-            var actionResult = await controller.Create(new UserAuthenticated());
+            var actionResult = await controller.Create(new AuthenticatedUser());
             var okResult = actionResult as OkObjectResult;
 
             // Assert
@@ -82,11 +80,11 @@ namespace Niles.PrintWeb.Api.Tests
         {
             // Arrange
             var mock = new Mock<IUserService>();
-            mock.Setup(service => service.Create(It.IsAny<UserAuthenticated>())).Returns(Task.FromResult<User>(null));
+            mock.Setup(service => service.Create(It.IsAny<AuthenticatedUser>())).Returns(Task.FromResult<User>(null));
             var controller = new UserController(mock.Object);
 
             // Act
-            var actionResult = await controller.Create(new UserAuthenticated());
+            var actionResult = await controller.Create(new AuthenticatedUser());
             var badResult = actionResult as BadRequestObjectResult;
 
             // Assert
@@ -98,11 +96,11 @@ namespace Niles.PrintWeb.Api.Tests
         {
             // Arrange
             var mock = new Mock<IUserService>();
-            mock.Setup(service => service.Validate(It.IsAny<UserGetOptions>())).Returns(Task.FromResult("Error"));
+            mock.Setup(service => service.Validate(It.IsAny<UserValidateOptions>())).Returns(Task.FromResult("Error"));
             var controller = new UserController(mock.Object);
 
             // Act
-            var actionResult = await controller.Create(new UserAuthenticated());
+            var actionResult = await controller.Create(new AuthenticatedUser());
             var badResult = actionResult as BadRequestObjectResult;
 
             // Assert
@@ -148,7 +146,7 @@ namespace Niles.PrintWeb.Api.Tests
         {
             // Arrange
             var mock = new Mock<IUserService>();
-            mock.Setup(service => service.Validate(It.IsAny<UserGetOptions>())).Returns(Task.FromResult("Error"));
+            mock.Setup(service => service.Validate(It.IsAny<UserValidateOptions>())).Returns(Task.FromResult("Error"));
             var controller = new UserController(mock.Object);
 
             // Act
@@ -181,11 +179,11 @@ namespace Niles.PrintWeb.Api.Tests
         {
             // Arrange
             var mock = new Mock<IUserService>();
-            mock.Setup(service => service.SignIn(It.IsNotNull<UserGetOptions>())).Returns(Task.FromResult(new UserAuthenticated()));
+            mock.Setup(service => service.SignIn(It.IsNotNull<UserAuthorizeOptions>())).Returns(Task.FromResult(new AuthenticatedUser()));
             var controller = new UserController(mock.Object);
 
             // Act
-            var actionResult = await controller.SignIn(new UserGetOptions());
+            var actionResult = await controller.SignIn(new UserAuthorizeOptions());
             var result = actionResult as OkObjectResult;
 
             // Assert
@@ -199,11 +197,11 @@ namespace Niles.PrintWeb.Api.Tests
         {
             // Arrange
             var mock = new Mock<IUserService>();
-            mock.Setup(service => service.SignIn(It.IsNotNull<UserGetOptions>())).Returns(Task.FromResult<UserAuthenticated>(null));
+            mock.Setup(service => service.SignIn(It.IsNotNull<UserAuthorizeOptions>())).Returns(Task.FromResult<AuthenticatedUser>(null));
             var controller = new UserController(mock.Object);
 
             // Act
-            var actionResult = await controller.SignIn(new UserGetOptions());
+            var actionResult = await controller.SignIn(new UserAuthorizeOptions());
             var result = actionResult as BadRequestObjectResult;
 
             // Assert
@@ -227,9 +225,6 @@ namespace Niles.PrintWeb.Api.Tests
 
             if(options.OnlyConfirmed)
                 result = result.Where(o => o.Confirmed);
-
-            if(!string.IsNullOrEmpty(options.Password))
-                result = result.Where(o => o.Password == options.Password);
 
             if(!string.IsNullOrEmpty(options.Search))
                 result = result.Where(o => o.UserName.ToLower().Contains(options.Search));

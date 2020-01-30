@@ -13,29 +13,17 @@ namespace Niles.PrintWeb.DataAccessObjects.SqlServer
     {
         public UserDao(DatabaseConnectionSettings settings, ILogger _logger) : base(settings, _logger) { }
 
-        public async Task Confirm(Guid userCode)
+        public async Task Create(User model)
         {
             try
             {
-                _logger.LogInformation("Try to confirm user.");
-
-                int? userId = await QueryFirstOrDefaultAsync<int?>(@"
-                        select UserId
-                        from NotConfirmedUser
-                        where ConfirmCode = @userCode
-                    ", new { userCode });
-
-                if (!userId.HasValue)
-                {
-                    _logger.LogInformation("User have been already confirmed or not found.");
-                }
-                _logger.LogInformation("User successfully found.");
-
-                await ExecuteAsync(@"
-                            delete from NotConfirmedUser
-                            where UserId = @userId
-                        ", new { userId });
-                _logger.LogInformation("User successfully confirmed.");
+                _logger.LogInformation("Trying to execute sql create user query");
+                model.Id = await QuerySingleOrDefaultAsync<int>(@"
+                    insert into User (UserName, PasswordHash, FirstName, LastName, Email, ConfirmCode)
+                    values (@UserName, crypt(@Password, gen_salt('bf')), @FirstName, @LastName, @Email, @ConfirmCode)
+                    returning Id
+                ", model);
+                _logger.LogInformation("Sql create user query successfully executed");
             }
             catch (Exception exception)
             {
@@ -44,23 +32,155 @@ namespace Niles.PrintWeb.DataAccessObjects.SqlServer
             }
         }
 
-        public async Task Create(UserAuthenticated model)
+        public async Task<IEnumerable<User>> Get(UserGetOptions options)
         {
             try
             {
-                _logger.LogInformation("Trying to execute sql create user query");
-                model.Code = Guid.NewGuid();
-                model.Id = await QuerySingleOrDefaultAsync<int>(@"
-                    begin transaction
-                        insert into User (UserName, PasswordHash, FirstName, LastName, Email)
-                        values (@UserName, crypt(@Password, gen_salt('bf')), @FirstName, @LastName, @Email)
-                        returning Id;
+                StringBuilder sql = new StringBuilder();
 
-                        insert into not_confirmed_users (UserId, ConfirmCode)
-                        values (@Id, @Code);
-                    commit;
+                _logger.LogInformation("Try to create get users sql query");
+
+                sql.AppendLine(@"
+                    select 
+                        Id,
+                        UserName,
+                        FirstName,
+                        LastName,
+                        Email,
+                        ConfirmCode
+                    from User
+                ");
+
+                int conditionIndex = 0;
+                if (options.Id.HasValue)
+                    sql.AppendLine($"{(conditionIndex++ == 0 ? "where" : "and")} Id = @Id");
+
+                if (options.Ids != null)
+                    sql.AppendLine($"{(conditionIndex++ == 0 ? "where" : "and")} id = any(@Ids)");
+
+                if (!string.IsNullOrEmpty(options.Search))
+                    sql.AppendLine($@"
+                        {(conditionIndex++ == 0 ? "where" : "and")} FirstName like '%@Search%'
+                        or LastName like '%Search%'
+                        or Email like '%Search%'
+                        or UserName like '%Search%'
+                    ");
+
+                if (options.OnlyConfirmed)
+                    sql.AppendLine($"{(conditionIndex++ == 0 ? "where" : "and")} ConfirmCode is null");
+
+                if (!string.IsNullOrEmpty(options.UserName))
+                    sql.AppendLine($"{(conditionIndex++ == 0 ? "where" : "and")} UserName = @UserName");
+
+                if (!string.IsNullOrEmpty(options.Email))
+                    sql.AppendLine($"{(conditionIndex++ == 0 ? "where" : "and")} Email = @Email");
+
+                _logger.LogInformation($"Sql query successfully created:\n{sql.ToString()}");
+
+                _logger.LogInformation("Try to execute sql get users query");
+                var result = await QueryAsync<User>(sql.ToString(), options);
+                _logger.LogInformation("Sql get users query successfully executed");
+                return result;
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(exception.Message);
+                throw exception;
+            }
+        }
+
+        public async Task<IEnumerable<User>> Get(UserAuthorizeOptions options)
+        {
+            try
+            {
+                StringBuilder sql = new StringBuilder();
+
+                _logger.LogInformation("Try to create get users sql query");
+
+                sql.AppendLine(@"
+                    select 
+                        Id,
+                        UserName,
+                        FirstName,
+                        LastName,
+                        Email,
+                        ConfirmCode
+                    from User
+                ");
+
+                int conditionIndex = 0;
+
+                if (!string.IsNullOrEmpty(options.UserNameOrEmail))
+                    sql.AppendLine($"{(conditionIndex++ == 0 ? "where" : "and")} (UserName = @UserNameOrEmail or Email = @UserNameOrEmail)");
+
+                if(!string.IsNullOrEmpty(options.Password))
+                    sql.AppendLine($"{(conditionIndex++ == 0 ? "where" : "and")} (PasswordHash = crypt(@Password, PasswordHash))");
+
+                _logger.LogInformation($"Sql query successfully created:\n{sql.ToString()}");
+
+                _logger.LogInformation("Try to execute sql get users query");
+                var result = await QueryAsync<User>(sql.ToString(), options);
+                _logger.LogInformation("Sql get users query successfully executed");
+                return result;
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(exception.Message);
+                throw exception;
+            }
+        }
+
+        public async Task<IEnumerable<User>> Get(UserValidateOptions options)
+        {
+                StringBuilder sql = new StringBuilder();
+
+                _logger.LogInformation("Try to create get users sql query");
+
+                sql.AppendLine(@"
+                    select 
+                        Id,
+                        UserName,
+                        FirstName,
+                        LastName,
+                        Email,
+                        ConfirmCode
+                    from User
+                ");
+
+                int conditionIndex = 0;
+
+                if(options.Id.HasValue)
+                    sql.AppendLine($"{(conditionIndex++ == 0 ? "where" : "and")} Id <> @Id");
+
+                if (!string.IsNullOrEmpty(options.UserName))
+                    sql.AppendLine($"{(conditionIndex++ == 0 ? "where" : "and")} UserName = @UserName");
+
+                if (!string.IsNullOrEmpty(options.Email))
+                    sql.AppendLine($"{(conditionIndex++ == 0 ? "where" : "and")} Email = @Email");
+
+                _logger.LogInformation($"Sql query successfully created:\n{sql.ToString()}");
+
+                _logger.LogInformation("Try to execute sql get users query");
+                var result = await QueryAsync<User>(sql.ToString(), options);
+                _logger.LogInformation("Sql get users query successfully executed");
+                return result;
+        }
+
+        public async Task Update(User model)
+        {
+            try
+            {
+                _logger.LogInformation("Trying to execute sql update user query");
+                model.Id = await QuerySingleOrDefaultAsync<int>(@"
+                    update
+                        UserName = @UserName, 
+                        FirstName = @FirstName, 
+                        LastName = @LastName, 
+                        Email = @Email
+                    from User
+                    where Id = @Id
                 ", model);
-                _logger.LogInformation("Sql create user query successfully executed");
+                _logger.LogInformation("Sql update user query successfully executed");
             }
             catch (Exception exception)
             {
@@ -87,91 +207,30 @@ namespace Niles.PrintWeb.DataAccessObjects.SqlServer
             }
         }
 
-        public async Task<IEnumerable<User>> Get(UserGetOptions options)
+        public async Task Confirm(Guid code)
         {
             try
             {
-                StringBuilder sql = new StringBuilder();
+                _logger.LogInformation("Try to confirm user.");
 
-                _logger.LogInformation("Try to create get users sql query");
+                int? userId = await QueryFirstOrDefaultAsync<int?>(@"
+                        select UserId
+                        from User
+                        where ConfirmCode = @code
+                    ", new { code });
 
-                sql.AppendLine(@"
-                    select 
-                        Id,
-                        UserName,
-                        FirstName,
-                        LastName,
-                        Email,
-                        case ncu.UserId
-                            when null then true
-                            else false
-                        end as Confirmed
-                    from User
-                    left join NotConfirmedUser ncu on Id = ncu.UserId");
+                if (!userId.HasValue)
+                {
+                    _logger.LogInformation("User have been already confirmed or not found.");
+                }
+                _logger.LogInformation("User successfully found.");
 
-                int conditionIndex = 0;
-                if (options.Id.HasValue)
-                {
-                    sql.AppendLine($"{(conditionIndex++ == 0 ? "where" : "and")} Id = @Id");
-                }
-                if (options.Ids != null)
-                {
-                    sql.AppendLine($"{(conditionIndex++ == 0 ? "where" : "and")} id = any(@Ids)");
-                }
-                if (options.Search != null)
-                {
-                    sql.AppendLine($@"
-                        {(conditionIndex++ == 0 ? "where" : "and")} FirstName like '%@Search%'
-                        or LastName like '%Search%'
-                        or Email like '%Search%'
-                        or UserName like '%Search%'
-                    ");
-                }
-                if (options.OnlyConfirmed)
-                {
-                    sql.AppendLine($"{(conditionIndex++ == 0 ? "where" : "and")} ncu.Id is null");
-                }
-                if (!string.IsNullOrEmpty(options.UserName) && !string.IsNullOrEmpty(options.Password))
-                {
-                    sql.AppendLine($"{(conditionIndex++ == 0 ? "where" : "and")} UserName = @UserName and PasswordHash = crypt(@Password, PasswordHash)");
-                }
-                if (!string.IsNullOrEmpty(options.UserName))
-                {
-                    sql.AppendLine($"{(conditionIndex++ == 0 ? "where" : "and")} UserName = @UserName");
-                }
-                if (!string.IsNullOrEmpty(options.Email))
-                {
-                    sql.AppendLine($"{(conditionIndex++ == 0 ? "where" : "and")} Email = @Email");
-                }
-                _logger.LogInformation($"Sql query successfully created:\n{sql.ToString()}");
-
-                _logger.LogInformation("Try to execute sql get users query");
-                var result = await QueryAsync<User>(sql.ToString(), options);
-                _logger.LogInformation("Sql get users query successfully executed");
-                return result;
-            }
-            catch (Exception exception)
-            {
-                _logger.LogError(exception.Message);
-                throw exception;
-            }
-        }
-
-        public async Task Update(User model)
-        {
-            try
-            {
-                _logger.LogInformation("Trying to execute sql update user query");
-                model.Id = await QuerySingleOrDefaultAsync<int>(@"
-                    update
-                        UserName = @UserName, 
-                        FirstName = @FirstName, 
-                        LastName = @LastName, 
-                        Email = @Email
-                    from User
-                    where Id = @Id
-                ", model);
-                _logger.LogInformation("Sql update user query successfully executed");
+                await ExecuteAsync(@"
+                            update
+                                ConfirmCode = null
+                            where UserId = @userId
+                        ", new { userId });
+                _logger.LogInformation("User successfully confirmed.");
             }
             catch (Exception exception)
             {
