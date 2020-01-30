@@ -5,26 +5,36 @@
     width: 100%;
 }
 .margin-x-1 {
+    margin-left: 1em;
+    margin-right: 1em;
+}
+.margin-y-1 {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.margin-x-2 {
     margin-left: 2em;
     margin-right: 2em;
 }
-.flex-item {
-    align-self: center;
+.margin-y-2 {
+    margin-top: 2em;
+    margin-bottom: 2em;
 }
-.h3 {
-    font-family: 'Luminari', fantasy;
-    font-size: 40px;
-    letter-spacing: 3px;
-    max-width: 320px;
-    width: 100%;
-    position: relative;
-    display: inline-block;
-    color: #111111;
-  }
-.margin-x-2 {
-    margin-left: 190px;
-    margin-bottom: 50px;
+.margin-top-1 {
+    margin-top: 1em;
 }
-.flex-item-2 {
-    align-self: center;
+.margin-top-2 {
+    margin-top: 2em;
+}
+.margin-bottom-1 {
+    margin-bottom: 1em;
+}
+.margin-bottom-2 {
+    margin-bottom: 2em;
+}
+.underline {
+    text-decoration: underline;
+}
+.margin-right-2 {
+    margin-right: 2em;
 }

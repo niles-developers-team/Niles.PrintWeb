@@ -1,0 +1,32 @@
+<div fxLayout="row" class="h-100">
+    <div fxFlex="65" class="image"></div>
+    <div fxFlex="35" fxLayout="column" fxLayoutAlign="space-between center">
+        <div fxLayout="row" fxLayoutAlign="center center">
+            <h2 class="margin-top-2">Printweb</h2>
+        </div>
+        <form novalidate class="w-100">
+            <div fxLayout="column" class="margin-x-2">
+                <div fxLayout="row" fxLayoutAlign="center center">
+                    <h3 class="margin-y-1">Welcome to Printweb</h3>
+                </div>
+                <mat-form-field>
+                    <mat-label>Username</mat-label>
+                    <input autocomplete="username" matInput placeholder="Enter your username">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Password</mat-label>
+                    <input type="password" autocomplete="new-password" matInput placeholder="Enter your password">
+                </mat-form-field>
+                <div fxLayout="row" fxLayoutAlign="end end">
+                    <button mat-flat-button class="secondary-link-button underline margin-right-2">Forgot password?</button>
+                </div> 
+            </div>
+            <div fxLayout="row" fxLayoutAlign="center center">
+                <button mat-raised-button color="accent">Sign In</button>
+            </div>
+        </form>
+        <div fxLayout="row" fxLayoutAlign="center center">
+            <button mat-flat-button class="margin-bottom-1 secondary-link-button underline" routerLink="/signup">Create account</button>
+        </div>
+    </div>
+</div>

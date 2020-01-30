@@ -1,33 +1,43 @@
 <div fxLayout="row" class="h-100">
     <div fxFlex="65" class="image"></div>
-    <form fxFlex="35" novalidate class="w-100 margin-x-1 flex-item">
-        <div class="d1 margin-x-2 flex-item-2">
-            <h3>
-                <span>Printweb</span>
-            </h3>
+    <div fxFlex="35" fxLayout="column" fxLayoutAlign="space-between center">
+        <div fxLayout="row" fxLayoutAlign="center center">
+            <h2 class="margin-top-2">Printweb</h2>
         </div>
-        <div fxLayout="column">
-            <mat-form-field appearance="outline">
+        <form novalidate class="w-100">
+            <div fxLayout="column" class="margin-x-2">
+                <div fxLayout="row" fxLayoutAlign="center center">
+                    <h3 class="margin-y-1">Welcome to Printweb</h3>
+                </div>
+                <mat-form-field>
                     <mat-label>Username</mat-label>
                     <input autocomplete="username" matInput placeholder="Enter your username">
                 </mat-form-field>
-                <mat-form-field appearance="outline">
+                <mat-form-field>
                     <mat-label>Password</mat-label>
                     <input type="password" autocomplete="new-password" matInput placeholder="Enter your password">
                 </mat-form-field>
-                <mat-form-field appearance="outline">
+                <mat-form-field>
                     <mat-label>Email</mat-label>
                     <input type="email" autocomplete="email" matInput placeholder="Enter your e-mail">
                 </mat-form-field>
-                <mat-form-field appearance="outline">
+                <mat-form-field>
                     <mat-label>First name</mat-label>
                     <input autocomplete="name" matInput placeholder="Enter your first name">
                 </mat-form-field>
-                <mat-form-field appearance="outline">
+                <mat-form-field>
                     <mat-label>Last name</mat-label>
                     <input autocomplete="family-name" matInput placeholder="Enter your last name">
                 </mat-form-field>
             </div>
-            <button mat-button>Sign up</button>
-    </form>
+            <div fxLayout="row" fxLayoutAlign="center center">
+                <button mat-raised-button color="accent">Sign Up</button>
+            </div>
+        </form>
+        <div fxLayout="row" fxLayoutAlign="center center">
+            <button mat-flat-button class="margin-bottom-1 secondary-link-button underline" routerLink="/signin">
+                Already have an account?
+            </button>
+        </div>
+    </div>
 </div>
