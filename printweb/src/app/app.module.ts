@@ -10,13 +10,11 @@ import { AppComponent } from './app.component';
 import { MaterialModule } from './material.module';
 import { ApiUrlInterceptor } from './interceptors/url.iterceptor';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
-import { MainComponent } from './components/main/main.component';
 import { SignUpComponent } from './components/signup/signup.component';
 import { SignInComponent } from './components/signin/signin.component';
 import { AuthorizeGuard } from './guards/authorize.guard';
 
 const appRoutes: Routes = [
-  { path: '', component: MainComponent },
   { path: 'signup', component: SignUpComponent, canActivate: [AuthorizeGuard] },
   { path: 'signin', component: SignInComponent, canActivate: [AuthorizeGuard] }
 ];
@@ -24,7 +22,6 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    MainComponent,
     SignUpComponent,
     SignInComponent
   ],
