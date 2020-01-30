@@ -1,48 +1,33 @@
-<div fxLayout="row" class="image">
-    <mat-card>
-        <form novalidate>
-            <mat-card-content>
-                <div fxLayout="column">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Username</mat-label>
-                        <input autocomplete="username" matInput placeholder="Enter your username">
-                    </mat-form-field>
-                    <mat-form-field appearance="outline">
-                        <mat-label>Password</mat-label>
-                        <input type="password" autocomplete="new-password" matInput placeholder="Enter your password">
-                    </mat-form-field>
-                    <mat-form-field appearance="outline">
-                        <mat-label>Email</mat-label>
-                        <input type="email" autocomplete="email" matInput placeholder="Enter your e-mail">
-                    </mat-form-field>
-                    <mat-form-field appearance="outline">
-                        <mat-label>First name</mat-label>
-                        <input autocomplete="name" matInput placeholder="Enter your first name">
-                    </mat-form-field>
-                    <mat-form-field appearance="outline">
-                        <mat-label>Last name</mat-label>
-                        <input autocomplete="family-name" matInput placeholder="Enter your last name">
-                    </mat-form-field>
-                </div>
-            </mat-card-content>
-            <mat-card-actions>
-                <button mat-button>Sign up</button>
-            </mat-card-actions>
-        </form>
-    </mat-card>
-</div>
-@Component({
-    selector: 'app-header',
-    template: `
-      <nav class="navbar">
-  
-        <!-- logo -->
-        <div class="navbar-brand">
-          <a class="navbar-item">
-            <img src="assets/img/f8KF6E82XuI.png">
-          </a>
+<div fxLayout="row" class="h-100">
+    <div fxFlex="65" class="image"></div>
+    <form fxFlex="35" novalidate class="w-100 margin-x-1 flex-item">
+        <div class="d1 margin-x-2 flex-item-2">
+            <h3>
+                <span>Printweb</span>
+            </h3>
         </div>
-      </nav>
-    `,
-    styles: []
-  })
+        <div fxLayout="column">
+            <mat-form-field appearance="outline">
+                    <mat-label>Username</mat-label>
+                    <input autocomplete="username" matInput placeholder="Enter your username">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Password</mat-label>
+                    <input type="password" autocomplete="new-password" matInput placeholder="Enter your password">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input type="email" autocomplete="email" matInput placeholder="Enter your e-mail">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>First name</mat-label>
+                    <input autocomplete="name" matInput placeholder="Enter your first name">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Last name</mat-label>
+                    <input autocomplete="family-name" matInput placeholder="Enter your last name">
+                </mat-form-field>
+            </div>
+            <button mat-button>Sign up</button>
+    </form>
+</div>
