@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace Niles.PrintWeb.Api.Services.Interfaces
+namespace Niles.PrintWeb.Services
 {
     public interface IEmailService
     {

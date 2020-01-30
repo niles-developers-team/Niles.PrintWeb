@@ -1,10 +1,9 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Niles.PrintWeb.Models.Entities;
-using Niles.PrintWeb.Api.Services.Interfaces;
+using Niles.PrintWeb.Services;
 
 namespace Niles.PrintWeb.Api.Controllers
 {

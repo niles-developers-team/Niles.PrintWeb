@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Niles.PrintWeb.Api.Controllers;
-using Niles.PrintWeb.Api.Services.Interfaces;
+using Niles.PrintWeb.Services;
 using Niles.PrintWeb.Models.Entities;
 
 namespace Niles.PrintWeb.Api.Tests

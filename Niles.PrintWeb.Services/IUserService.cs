@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Niles.PrintWeb.Models.Entities;
 
-namespace Niles.PrintWeb.Api.Services.Interfaces
+namespace Niles.PrintWeb.Services
 {
     public interface IUserService
     {

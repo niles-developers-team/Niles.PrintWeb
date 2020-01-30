@@ -1,10 +1,6 @@
 using System;
-using Niles.PrintWeb.Shared;
-using Microsoft.Extensions.Logging;
-using CommandLine;
 using Microsoft.Extensions.DependencyInjection;
 using FluentMigrator.Runner;
-using System.Reflection;
 using Niles.PrintWeb.Utilities.Migrations;
 using Niles.PrintWeb.Models.Settings;
 using Niles.PrintWeb.Models.Settings.Enumerations;

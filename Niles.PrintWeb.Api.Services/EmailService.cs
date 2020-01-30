@@ -2,10 +2,9 @@ using System;
 using System.Threading.Tasks;
 using MimeKit;
 using MailKit.Net.Smtp;
-using Niles.PrintWeb.Shared;
 using Microsoft.Extensions.Logging;
 using Niles.PrintWeb.Models.Settings;
-using Niles.PrintWeb.Api.Services.Interfaces;
+using Niles.PrintWeb.Services;
 
 namespace Niles.PrintWeb.Api.Services
 {

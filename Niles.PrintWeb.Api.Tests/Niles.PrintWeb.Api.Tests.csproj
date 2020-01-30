@@ -18,7 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Niles.PrintWeb.Api\Niles.PrintWeb.Api.csproj" />
     <ProjectReference Include="..\Niles.PrintWeb.Models\Niles.PrintWeb.Models.csproj" />
-    <ProjectReference Include="..\Niles.PrintWeb.Api.Services\Niles.PrintWeb.Api.Services.csproj" />
+    <ProjectReference Include="..\Niles.PrintWeb.Services\Niles.PrintWeb.Services.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -11,11 +10,9 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Hosting;
 using Niles.PrintWeb.DataAccessObjects;
 using Niles.PrintWeb.DataAccessObjects.Interfaces;
-using Niles.PrintWeb.Models.Settings.Enumerations;
 using Niles.PrintWeb.Api.Services;
-using Niles.PrintWeb.Shared;
 using Niles.PrintWeb.Models.Settings;
-using Niles.PrintWeb.Api.Services.Interfaces;
+using Niles.PrintWeb.Services;
 
 namespace Niles.PrintWeb.Api
 {

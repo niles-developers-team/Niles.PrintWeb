@@ -12,7 +12,7 @@ using Niles.PrintWeb.Models.Entities;
 using Niles.PrintWeb.Shared;
 using Microsoft.IdentityModel.Tokens;
 using Niles.PrintWeb.Models.Settings;
-using Niles.PrintWeb.Api.Services.Interfaces;
+using Niles.PrintWeb.Services;
 
 namespace Niles.PrintWeb.Api.Services
 {

@@ -4,7 +4,6 @@ using CommandLine;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Niles.PrintWeb.Models.Settings;
-using Niles.PrintWeb.Shared;
 
 namespace Niles.PrintWeb.Utilities.Actions
 {
