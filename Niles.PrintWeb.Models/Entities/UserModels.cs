@@ -17,19 +17,17 @@ namespace Niles.PrintWeb.Models.Entities
 
         public string Email { get; set; }
 
+        public Guid? ConfirmCode { get; set; }
+
         public DateTime DateCreated { get; set; }
 
         public DateTime DateUpdate { get; set; }
 
-        public bool Confirmed { get; set; }
+        public bool Confirmed => !ConfirmCode.HasValue;
     }
 
-    public class UserAuthenticated : User
+    public class AuthenticatedUser : User
     {
-        public Guid Code { get; set; }
-
-        public bool AuthenticateIsUsed { get; set; }
-
         public string Token { get; set; }
     }
 
@@ -40,14 +38,30 @@ namespace Niles.PrintWeb.Models.Entities
         public IReadOnlyList<int> Ids { get; set; }
 
         public bool OnlyConfirmed { get; set; } = true;
-        
-        public bool RememberMe { get; set; }
 
         public string Search { get; set; }
 
         public string UserName { get; set; }
 
         public string Email { get; set; }
+    }
+
+    public class UserAuthorizeOptions
+    {
+        public string UserNameOrEmail { get; set; }
+
+        public string Password { get; set; }
+
+        public bool RememberMe { get; set; }
+    }
+
+    public class UserValidateOptions
+    {
+        public int? Id { get; set; }
+
+        public string Email { get; set; }
+
+        public string UserName { get; set; }
 
         public string Password { get; set; }
     }

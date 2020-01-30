@@ -14,14 +14,9 @@ namespace Niles.PrintWeb.Utilities.Migrations
                 .WithColumn("FirstName").AsString().NotNullable()
                 .WithColumn("LastName").AsString().NotNullable()
                 .WithColumn("Email").AsString().NotNullable()
+                .WithColumn("ConfirmCode").AsGuid().Nullable()
                 .WithColumn("DateCreated").AsDateTime().NotNullable().WithDefault(SystemMethods.CurrentUTCDateTime)
                 .WithColumn("DateUpdated").AsDateTime().NotNullable().WithDefault(SystemMethods.CurrentUTCDateTime);
-
-                
-            Create.Table("NotConfirmedUser")
-                .WithColumn("UserId").AsInt32().PrimaryKey().ForeignKey("User", "Id")
-                .WithColumn("ConfirmCode").AsGuid().NotNullable()
-                .WithColumn("DateCreated").AsDateTime().NotNullable().WithDefault(SystemMethods.CurrentUTCDateTime);
         }
         
         public override void Down()
