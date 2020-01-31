@@ -20,12 +20,12 @@ import { AdminDashComponent } from './components/admin/dash/adminDash.component'
 import { UsersComponent } from './components/admin/users/users.component';
 
 const adminChildren: Routes = adminRoutes.map(o => {
-  const route: Route = { path: o.path, component: o.component, canActivate: o.canActivate };
+  const route: Route = { path: o.path, component: o.component, canActivate: o.canActivate, outlet: o.outlet };
   return route;
 });
 
 const appRoutes: Routes = [
-  { path: 'admin', redirectTo: 'dash'},
+  { path: 'admin', redirectTo: 'admin/dash', pathMatch: 'full' },
   { path: 'admin', component: AdminComponent, children: adminChildren },
   { path: 'signup', component: SignUpComponent, canActivate: [AuthorizeGuard] },
   { path: 'signin', component: SignInComponent, canActivate: [AuthorizeGuard] }
