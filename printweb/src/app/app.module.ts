@@ -13,7 +13,7 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { SignUpComponent } from './components/signup/signup.component';
 import { SignInComponent } from './components/signin/signin.component';
 import { AuthorizeGuard } from './guards/authorize.guard';
-import { MenuComponent } from './components/menu/menu.component';
+import { MenuComponent } from './components/common/menu/menu.component';
 import { AdminComponent } from './components/admin/root.component';
 import { adminRoutes } from './sharedConstants/adminRoutes';
 import { AdminDashComponent } from './components/admin/dash/adminDash.component';
