@@ -1,8 +1,24 @@
-<div class="menu-container h-100 collapsed" fxLayout="column">
-    <mat-nav-list>
-        <a routerLink={{item.path}} *ngFor=" let item of items">
-            <mat-icon>{{item.icon}}</mat-icon>
-            <span>{{item.text}}</span>
-        </a>
-    </mat-nav-list>
+<div class="menu-container h-100" [ngClass]="{'collapsed': collapsed}" fxLayout="column"
+    fxLayoutAlign="space-between center">
+    <button class="menu-logo-item w-100" mat-button (click)="onLogoClick()">
+        <div class="menu-item-content w-100" fxLayout="row">
+            <mat-icon class="menu-item-icon">print</mat-icon>
+            <h2 class="menu-item-text" *ngIf="!collapsed">Printweb</h2>
+        </div>
+    </button>
+    <div fxLayout="column" class="w-100">
+        <button class="menu-item" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="menu-active-item"
+            mat-button routerLink={{item.path}} *ngFor="let item of items">
+            <div class="menu-item-content w-100" fxLayout="row">
+                <mat-icon class="menu-item-icon">{{item.icon}}</mat-icon>
+                <h3 class="menu-item-text" *ngIf="!collapsed">{{item.text}}</h3>
+            </div>
+        </button>
+    </div>
+    <button class="menu-item w-100" mat-button routerLink='/signin'>
+        <div class="menu-item-content w-100" fxLayout="row">
+            <mat-icon class="menu-item-icon">exit_to_app</mat-icon>
+            <h3 class="menu-item-text" *ngIf="!collapsed">Exit</h3>
+        </div>
+    </button>
 </div>

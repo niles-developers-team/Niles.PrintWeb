@@ -1,11 +1,17 @@
 import { Component, Input } from "@angular/core";
-import { ApplicationRoute } from 'src/app/models/applicationRoute.model';
+import { MenuItem } from 'src/app/models/menuItem.model';
 
 @Component({
     selector: 'main-menu',
     templateUrl: './menu.component.html',
-    styleUrls: ['./menu.component.scss', '../../app.component.css']
+    styleUrls: ['./menu.component.scss', '../../../app.component.scss']
 })
 export class MenuComponent {
-    @Input() public items: ApplicationRoute[] = [];
+    @Input() public items: MenuItem[] = [];
+
+    public collapsed: boolean = true;
+
+    public onLogoClick() {
+        this.collapsed = !this.collapsed;
+    }
 }

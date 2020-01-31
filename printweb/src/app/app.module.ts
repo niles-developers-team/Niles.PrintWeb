@@ -12,30 +12,20 @@ import { ApiUrlInterceptor } from './interceptors/url.iterceptor';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { SignUpComponent } from './components/signup/signup.component';
 import { SignInComponent } from './components/signin/signin.component';
-import { AuthorizeGuard } from './guards/authorize.guard';
 import { MenuComponent } from './components/common/menu/menu.component';
 import { AdminComponent } from './components/admin/root.component';
-import { adminRoutes } from './sharedConstants/adminRoutes';
 import { AdminDashComponent } from './components/admin/dash/adminDash.component';
 import { UsersComponent } from './components/admin/users/users.component';
+import { BreadcrumbsComponent } from './components/common/breadcrumbs/breadcrumbs.component';
+import { routes } from './sharedConstants/routes';
 
-const adminChildren: Routes = adminRoutes.map(o => {
-  const route: Route = { path: o.path, component: o.component, canActivate: o.canActivate, outlet: o.outlet };
-  return route;
-});
-
-const appRoutes: Routes = [
-  { path: 'admin', redirectTo: 'admin/dash', pathMatch: 'full' },
-  { path: 'admin', component: AdminComponent, children: adminChildren },
-  { path: 'signup', component: SignUpComponent, canActivate: [AuthorizeGuard] },
-  { path: 'signin', component: SignInComponent, canActivate: [AuthorizeGuard] }
-];
 
 @NgModule({
   declarations: [
     AppComponent,
     AdminComponent,
     AdminDashComponent,
+    BreadcrumbsComponent,
     UsersComponent,
     MenuComponent,
     SignUpComponent,
@@ -48,7 +38,7 @@ const appRoutes: Routes = [
     HttpClientModule,
     BrowserAnimationsModule,
     MaterialModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(routes)
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ApiUrlInterceptor, multi: true },

@@ -1,4 +1,8 @@
 <div fxLayout="row" class="h-100">
     <main-menu [items]="routes"></main-menu>
-    <router-outlet></router-outlet>    
+    <div class="header-background h-25 w-100"></div>
+    <div class="content w-100" fxLayout="column">
+        <breadcrumbs></breadcrumbs>
+        <router-outlet></router-outlet>
+    </div>
 </div>
