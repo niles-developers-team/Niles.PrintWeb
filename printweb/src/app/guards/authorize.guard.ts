@@ -21,7 +21,7 @@ export class AuthorizeGuard implements CanActivate {
 
         if (isAuthorizeRoute) {
             if (currentUser) {
-                this.router.navigate(['/home'], { queryParams: { returnUrl: state.url } });
+                this.router.navigate(['/'], { queryParams: { returnUrl: state.url } });
                 return false;
             }
 
