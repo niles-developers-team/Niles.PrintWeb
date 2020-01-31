@@ -1,0 +1,17 @@
+@import "../../../../themes/printweb.theme.scss";
+
+.container {
+    border-color: mat-color($printweb-border-color);
+    border-style: solid;
+    border-width: 1px;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-left-radius: 2em;
+    padding-left: 2em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+.breadcrumb :disabled {
+    color: mat-color($printweb-secondary-color)
+}

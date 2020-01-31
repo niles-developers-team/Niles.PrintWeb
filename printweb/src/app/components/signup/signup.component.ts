@@ -4,7 +4,7 @@ import { UserService } from '../../services/user.service';
 @Component({
     selector: 'sign-up',
     templateUrl: './signup.component.html',
-    styleUrls: ['./signup.component.css', '../../app.component.css']
+    styleUrls: ['./signup.component.css', '../../app.component.scss']
 })
 export class SignUpComponent {
     loading: boolean;

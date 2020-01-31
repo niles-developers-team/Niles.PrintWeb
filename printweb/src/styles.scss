@@ -1,0 +1,13 @@
+@import '~@angular/material/theming';
+
+// always include only once per project
+@include mat-core();
+
+// import our custom theme
+@import './themes/printweb.theme.scss';
+
+.printweb-theme {
+    @include angular-material-theme($printweb-theme);
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -1,0 +1,70 @@
+@import "../../../../themes/printweb.theme.scss";
+
+.menu-container {
+  border-top-right-radius: 2em;
+  background-color: mat-color($printweb-primary);
+  padding-top: 2em;
+  padding-bottom: 1em;
+  width: 10em;
+  transition: 0.1s;
+}
+
+.menu-logo-item {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  padding-left: 0px;
+  padding-right: 0;
+  border-radius: 0;
+}
+
+.menu-item {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  padding-left: 2px;
+  padding-right: 0;
+  border-radius: 0;
+  border-left-color: mat-color($printweb-primary);
+}
+
+.menu-item-text {
+  margin: 0;
+  text-decoration: none;
+  transition: 0.1s;
+}
+
+.menu-item-content {
+  margin-left: 1.2em;
+}
+
+.menu-logo-item .menu-item-content {
+  color: mat-color($printweb-accent);
+}
+
+.menu-item .menu-item-content {
+  color: mat-color($printweb-primary-color)
+}
+
+.menu-active-item {  
+  padding-left: 0px;
+  border-left-width: 2px;
+  border-left-style: solid;
+  border-left-color: mat-color($printweb-accent);
+}
+
+.menu-active-item .menu-item-content {
+  color: mat-color($printweb-accent);
+}
+
+.menu-item-icon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  font-size: 32px;
+  box-sizing: content-box;
+  border-radius: 50%;
+  padding: 4px;
+}
+
+.collapsed {
+  width: 5em;
+}

@@ -1,0 +1,6 @@
+<div class="container" fxLayout="row" fxLayoutAlign="start center">
+    <div fxLayout="row" class="breadcrumb" fxLayoutAlign="start center" *ngFor="let item of breadcrumbs;let i = index">
+        <button  [disabled]="i === breadcrumbs.length - 1" mat-button routerLink={{item.path}}>{{item.text}}</button>
+        <mat-icon *ngIf="i < breadcrumbs.length - 1">chevron_right</mat-icon>
+    </div>
+</div>

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, Route } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -10,21 +10,24 @@ import { AppComponent } from './app.component';
 import { MaterialModule } from './material.module';
 import { ApiUrlInterceptor } from './interceptors/url.iterceptor';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
-import { MainComponent } from './components/main/main.component';
 import { SignUpComponent } from './components/signup/signup.component';
 import { SignInComponent } from './components/signin/signin.component';
-import { AuthorizeGuard } from './guards/authorize.guard';
+import { MenuComponent } from './components/common/menu/menu.component';
+import { AdminComponent } from './components/admin/root.component';
+import { AdminDashComponent } from './components/admin/dash/adminDash.component';
+import { UsersComponent } from './components/admin/users/users.component';
+import { BreadcrumbsComponent } from './components/common/breadcrumbs/breadcrumbs.component';
+import { routes } from './sharedConstants/routes';
 
-const appRoutes: Routes = [
-  { path: '', component: MainComponent },
-  { path: 'signup', component: SignUpComponent, canActivate: [AuthorizeGuard] },
-  { path: 'signin', component: SignInComponent, canActivate: [AuthorizeGuard] }
-];
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainComponent,
+    AdminComponent,
+    AdminDashComponent,
+    BreadcrumbsComponent,
+    UsersComponent,
+    MenuComponent,
     SignUpComponent,
     SignInComponent
   ],
@@ -35,7 +38,7 @@ const appRoutes: Routes = [
     HttpClientModule,
     BrowserAnimationsModule,
     MaterialModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(routes)
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ApiUrlInterceptor, multi: true },
