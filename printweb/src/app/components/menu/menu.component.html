@@ -1,0 +1,8 @@
+<div class="menu-container h-100 collapsed" fxLayout="column">
+    <mat-nav-list>
+        <a routerLink={{item.path}} *ngFor=" let item of items">
+            <mat-icon>{{item.icon}}</mat-icon>
+            <span>{{item.text}}</span>
+        </a>
+    </mat-nav-list>
+</div>

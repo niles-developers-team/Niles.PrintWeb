@@ -1,0 +1,9 @@
+@import '../../../themes/printweb.theme.scss';
+
+.menu-container {
+  background-color: mat-color($printweb-primary);
+}
+
+.collapsed {
+  width: 30px;
+}
