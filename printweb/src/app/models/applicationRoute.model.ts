@@ -3,6 +3,6 @@ export interface ApplicationRoute {
     component: any;
     canActivate: any[];
     text: string;
-    icon?: any;
+    icon: string;
     outlet?: string;
 }
