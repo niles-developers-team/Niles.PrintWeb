@@ -128,6 +128,10 @@ namespace Niles.PrintWeb.Api.Services
                 if (!string.IsNullOrEmpty(result))
                     return result;
 
+                result = ValidatePassword(options.Password);
+                if (!string.IsNullOrEmpty(result))
+                    return
+
                 result = ValidateEmail(options.Email);
                 if (!string.IsNullOrEmpty(result))
                     return result;
@@ -157,7 +161,7 @@ namespace Niles.PrintWeb.Api.Services
 
             int minLength = 5;
             if (!ValidationUtilities.MoreThanValueLengthRule(userName, minLength))
-                return $"User name length length should be more than {minLength}.";;
+                return $"User name length length should be more than {minLength}."; ;
 
             if (!ValidationUtilities.OnlyLettersNumbersAndUnderscorcesRule(userName))
                 return "User name must contains only letters, numbers and underscores.";
@@ -167,7 +171,7 @@ namespace Niles.PrintWeb.Api.Services
 
         private string ValidatePassword(string password)
         {
-            if(!ValidationUtilities.NotEmptyRule(password))
+            if (!ValidationUtilities.NotEmptyRule(password))
                 return "Password should not be empty.";
 
             int minLength = 6;
