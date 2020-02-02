@@ -6,6 +6,6 @@ import { AdminDashComponent } from '../components/admin/dash/adminDash.component
 
 //FIXME: Implement Authorize guard
 export const adminRoutes: ApplicationRoute[] = [
-    { path: 'dash', icon: 'dashboard', text: 'dash', component: AdminDashComponent, canActivate: [AdminGuard] },
+    { path: 'dash', icon: 'dashboard', text: 'Dashboard', component: AdminDashComponent, canActivate: [AdminGuard] },
     { path: 'users', icon: 'face', text: 'Users', component: UsersComponent, canActivate: [AdminGuard] }
 ];
