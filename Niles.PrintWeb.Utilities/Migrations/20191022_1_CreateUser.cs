@@ -3,11 +3,11 @@ using FluentMigrator;
 namespace Niles.PrintWeb.Utilities.Migrations
 {
     [Migration(201910220001)]
-    public class CreateUser : Migration
+    public class CreateUser : ForwardOnlyMigration
     {
         public override void Up()
         {
-            Create.Table("User")
+            Create.Table("Users")
                 .WithColumn("Id").AsInt32().PrimaryKey().Identity()
                 .WithColumn("UserName").AsString().NotNullable()
                 .WithColumn("PasswordHash").AsString().NotNullable()
@@ -17,12 +17,6 @@ namespace Niles.PrintWeb.Utilities.Migrations
                 .WithColumn("ConfirmCode").AsGuid().Nullable()
                 .WithColumn("DateCreated").AsDateTime().NotNullable().WithDefault(SystemMethods.CurrentUTCDateTime)
                 .WithColumn("DateUpdated").AsDateTime().NotNullable().WithDefault(SystemMethods.CurrentUTCDateTime);
-        }
-        
-        public override void Down()
-        {
-            Delete.Table("User");
-            Delete.Table("NotConfirmedUser");
         }
     }
 }
