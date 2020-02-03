@@ -7,7 +7,7 @@ namespace Niles.PrintWeb.Utilities.Migrations
     {
         public override void Up()
         {
-            Create.Column("Role").OnTable("Users")
+            Create.Column("Role").OnTable("User")
                 .AsInt32().NotNullable();
         }
     }

@@ -7,7 +7,7 @@ namespace Niles.PrintWeb.Utilities.Migrations
     {
         public override void Up()
         {
-            Create.Table("Users")
+            Create.Table("User")
                 .WithColumn("Id").AsInt32().PrimaryKey().Identity()
                 .WithColumn("UserName").AsString().NotNullable()
                 .WithColumn("PasswordHash").AsString().NotNullable()
