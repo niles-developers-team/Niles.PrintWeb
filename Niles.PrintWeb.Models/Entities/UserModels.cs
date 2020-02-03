@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Niles.PrintWeb.Models.Enumerations;
 
 namespace Niles.PrintWeb.Models.Entities
 {
@@ -16,6 +17,8 @@ namespace Niles.PrintWeb.Models.Entities
         public string LastName { get; set; }
 
         public string Email { get; set; }
+
+        public Roles Role { get; set; }
 
         public Guid? ConfirmCode { get; set; }
 
