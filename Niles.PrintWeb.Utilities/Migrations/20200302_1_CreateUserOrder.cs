@@ -9,12 +9,14 @@ namespace Niles.PrintWeb.Utilities.Migrations
         {
             Create.Table("UserOrder")
                 .WithColumn("Id").AsInt32().PrimaryKey().Identity()
+                .WithColumn("UserId").AsInt32().NotNullable().ForeignKey("User", "Id")
+                .WithColumn("TenantId").AsInt32().NotNullable().ForeignKey("Tenant", "Id")
                 .WithColumn("Total").AsDouble().NotNullable()
                 .WithColumn("Status").AsInt32().NotNullable()
                 .WithColumn("DateCreated").AsDateTime().NotNullable().WithDefault(SystemMethods.CurrentUTCDateTime)
                 .WithColumn("DateUpdated").AsDateTime().NotNullable().WithDefault(SystemMethods.CurrentUTCDateTime);
             
-            Create.Table("OrderDetails")
+            Create.Table("OrderDetail")
                 .WithColumn("Id").AsInt32().PrimaryKey().Identity()
                 .WithColumn("UserOrderId").AsInt32().NotNullable().ForeignKey("UserOrder", "Id")
                 .WithColumn("StartPage").AsInt32().NotNullable()
