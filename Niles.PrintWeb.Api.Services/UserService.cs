@@ -96,9 +96,11 @@ namespace Niles.PrintWeb.Api.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.Id.ToString())
+                    new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserName),
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.GetDescription())
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
+                Issuer = _settings.Issuer,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
