@@ -7,7 +7,7 @@ namespace Niles.PrintWeb.Utilities.Migrations
     {
         public override void Up()
         {
-            Create.Table("PriceSettings")
+            Create.Table("PriceSetting")
                 .WithColumn("Id").AsInt32().PrimaryKey().Identity()
                 .WithColumn("TenantId").AsInt32().ForeignKey("Tenant", "Id")
                 .WithColumn("Format").AsString().NotNullable()
