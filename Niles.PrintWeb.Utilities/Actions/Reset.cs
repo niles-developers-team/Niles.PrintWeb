@@ -7,11 +7,17 @@ using Niles.PrintWeb.Models.Settings;
 
 namespace Niles.PrintWeb.Utilities.Actions
 {
+    ///<summary>Reset database options.</summary>
     [Verb("reset", HelpText = "Reset the DB (drop, create, migrate, seed)")]
     public class ResetOptions : SetSettingsOptions { }
 
+    ///<summary>Reset database action.</summary>
     public class Reset
     {
+        ///<summary>Run reset database process.</summary>
+        ///<param name="logger">Logger for actions</param>
+        ///<param name="settings">Database connection settings</param>
+        ///<returns>0 if all is good and 1 if there was errors in creating database.</returns>
         public static int Run(
             ILogger logger,
             DatabaseConnectionSettings connectionSettings,

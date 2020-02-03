@@ -8,6 +8,7 @@ using Niles.PrintWeb.Models.Settings.Enumerations;
 
 namespace Niles.PrintWeb.Utilities.Actions
 {
+    ///<summary>Settings update database options.</summary>
     [Verb("update-settings", HelpText = "Set application settings by it names")]
     public class SetSettingsOptions
     {
@@ -40,8 +41,13 @@ namespace Niles.PrintWeb.Utilities.Actions
         }
     }
 
+    ///<summary>Settings update database action.</summary>
     public class SettingsUpdate
     {
+        ///<summary>Run settings update database process.</summary>
+        ///<param name="logger">Logger for actions</param>
+        ///<param name="settings">Database connection settings</param>
+        ///<returns>0 if all is good and 1 if there was errors in creating database.</returns>
         public static int Run(
             ILogger logger,
             SetSettingsOptions options
