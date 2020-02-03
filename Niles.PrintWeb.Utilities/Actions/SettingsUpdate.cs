@@ -9,7 +9,7 @@ using Niles.PrintWeb.Models.Settings.Enumerations;
 namespace Niles.PrintWeb.Utilities.Actions
 {
     ///<summary>Settings update database options.</summary>
-    [Verb("update-settings", HelpText = "Set application settings by it names")]
+    [Verb("settings-update", HelpText = "Set application settings by it names")]
     public class SetSettingsOptions
     {
         [Option(DatabaseConnectionSettings.DatabaseHostVariableName, HelpText = "Allow to set database host")]

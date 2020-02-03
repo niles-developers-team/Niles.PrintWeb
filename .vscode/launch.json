@@ -20,6 +20,58 @@
             "suppressJITOptimizations": true,
         },
         {
+            "name": "utility create database",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "utilities_build",
+            "program": "${workspaceFolder}/Niles.PrintWeb.Utilities/bin/Debug/netcoreapp3.0/Niles.PrintWeb.Utilities.exe",
+            "args": [
+                "create"
+            ],
+            "cwd": "${workspaceFolder}/Niles.PrintWeb.Utilities",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "utility drop database",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "utilities_build",
+            "program": "${workspaceFolder}/Niles.PrintWeb.Utilities/bin/Debug/netcoreapp3.0/Niles.PrintWeb.Utilities.exe",
+            "args": [
+                "drop"
+            ],
+            "cwd": "${workspaceFolder}/Niles.PrintWeb.Utilities",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "utility migrate down database",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "utilities_build",
+            "program": "${workspaceFolder}/Niles.PrintWeb.Utilities/bin/Debug/netcoreapp3.0/Niles.PrintWeb.Utilities.exe",
+            "args": [
+                "migrate-down"
+            ],
+            "cwd": "${workspaceFolder}/Niles.PrintWeb.Utilities",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "utility migrate up database",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "utilities_build",
+            "program": "${workspaceFolder}/Niles.PrintWeb.Utilities/bin/Debug/netcoreapp3.0/Niles.PrintWeb.Utilities.exe",
+            "args": [
+                "migrate-up"
+            ],
+            "cwd": "${workspaceFolder}/Niles.PrintWeb.Utilities",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
             "name": "utility reset",
             "type": "coreclr",
             "request": "launch",
@@ -27,6 +79,24 @@
             "program": "${workspaceFolder}/Niles.PrintWeb.Utilities/bin/Debug/netcoreapp3.0/Niles.PrintWeb.Utilities.exe",
             "args": [
                 "reset",
+                "--database-host", "localhost\\sqlexpress",
+                "--database-name", "printweb",
+                "--database-user-name", "sa",
+                "--database-password", "qwerty_123",
+                "--database-provider", "0"
+            ],
+            "cwd": "${workspaceFolder}/Niles.PrintWeb.Utilities",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "utility settings update",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "utilities_build",
+            "program": "${workspaceFolder}/Niles.PrintWeb.Utilities/bin/Debug/netcoreapp3.0/Niles.PrintWeb.Utilities.exe",
+            "args": [
+                "settings-update",
                 "--database-host", "localhost\\sqlexpress",
                 "--database-name", "printweb",
                 "--database-user-name", "sa",
