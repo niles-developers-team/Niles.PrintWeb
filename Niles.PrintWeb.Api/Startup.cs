@@ -58,9 +58,8 @@ namespace Niles.PrintWeb.Api
                 x.SaveToken = true;
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
+                    ValidateIssuerSigningKey = true, IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = true, ValidIssuer = appSettings.Issuer,
                     ValidateAudience = false
                 };
             });
