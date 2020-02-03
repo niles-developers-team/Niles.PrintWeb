@@ -2,12 +2,12 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build",
+            "label": "api_build",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Niles.PrintWeb.Utility/Niles.PrintWeb.Utility.csproj",
+                "${workspaceFolder}/Niles.PrintWeb.Api/Niles.PrintWeb.Api.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Niles.PrintWeb.Utility/Niles.PrintWeb.Utility.csproj",
+                "${workspaceFolder}/Niles.PrintWeb.Api/Niles.PrintWeb.Api.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -32,7 +32,19 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/Niles.PrintWeb.Utility/Niles.PrintWeb.Utility.csproj",
+                "${workspaceFolder}/Niles.PrintWeb.Api/Niles.PrintWeb.Api.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "utilities_build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/Niles.PrintWeb.Utilities/Niles.PrintWeb.Utilities.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],

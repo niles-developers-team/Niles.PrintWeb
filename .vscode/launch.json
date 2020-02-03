@@ -8,7 +8,7 @@
             "name": "api",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
+            "preLaunchTask": "api_build",
             "program": "${workspaceFolder}/Niles.PrintWeb.Api/bin/Debug/netcoreapp2.2/Niles.PrintWeb.Api.dll",
             "args": [],
             "cwd": "${workspaceFolder}/Niles.PrintWeb.Api",
@@ -23,10 +23,17 @@
             "name": "utility reset",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
-            "program": "${workspaceFolder}/Niles.PrintWeb.Utility/bin/Debug/netcoreapp2.2/Niles.PrintWeb.Utility.dll",
-            "args": ["reset"],
-            "cwd": "${workspaceFolder}/Niles.PrintWeb.Utility",
+            "preLaunchTask": "utilities_build",
+            "program": "${workspaceFolder}/Niles.PrintWeb.Utilities/bin/Debug/netcoreapp3.0/Niles.PrintWeb.Utilities.exe",
+            "args": [
+                "reset",
+                "--database-host", "localhost\\sqlexpress",
+                "--database-name", "printweb",
+                "--database-user-name", "sa",
+                "--database-password", "qwerty_123",
+                "--database-provider", "0"
+            ],
+            "cwd": "${workspaceFolder}/Niles.PrintWeb.Utilities",
             "console": "internalConsole",
             "stopAtEntry": false
         }
