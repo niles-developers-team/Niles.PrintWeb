@@ -8,8 +8,9 @@ using Niles.PrintWeb.Models.Settings.Enumerations;
 
 namespace Niles.PrintWeb.Utilities.Actions
 {
-    [Verb("update-settings", HelpText = "Set application settings by it names")]
-    public class SolutionSettingsOptions
+    ///<summary>Settings update database options.</summary>
+    [Verb("settings-update", HelpText = "Set application settings by it names")]
+    public class SetSettingsOptions
     {
         [Option(DatabaseConnectionSettings.DatabaseHostVariableName, HelpText = "Allow to set database host")]
         public string DatabaseHost { get; set; }
@@ -32,7 +33,7 @@ namespace Niles.PrintWeb.Utilities.Actions
         public void InitialiazeSettings()
         {
             DatabaseHost = @"localhost\sqlexpress";
-            DatabaseName = "andromeda";
+            DatabaseName = "printweb";
             DatabasePort = "5432";
             DatabaseUserName = "sa";
             DatabasePassword = "qwerty_123";
@@ -40,12 +41,16 @@ namespace Niles.PrintWeb.Utilities.Actions
         }
     }
 
+    ///<summary>Settings update database action.</summary>
     public class SettingsUpdate
     {
+        ///<summary>Run settings update database process.</summary>
+        ///<param name="logger">Logger for actions</param>
+        ///<param name="settings">Database connection settings</param>
+        ///<returns>0 if all is good and 1 if there was errors in creating database.</returns>
         public static int Run(
             ILogger logger,
-            Appsettings appsettings,
-            SolutionSettingsOptions options
+            SetSettingsOptions options
         )
         {
             try
@@ -60,7 +65,7 @@ namespace Niles.PrintWeb.Utilities.Actions
                 }
                 logger.LogInformation("Try to update solution settings");
 
-                appsettings.DatabaseConnectionSettings = DatabaseConnectionSettings.InitializeSolutionSettings(
+                var connectionSettings = DatabaseConnectionSettings.InitializeSolutionSettings(
                     options.DatabaseHost,
                     options.DatabaseName,
                     options.DatabasePort,
@@ -69,7 +74,7 @@ namespace Niles.PrintWeb.Utilities.Actions
                     options.Provider.Value
                 );
 
-                File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json"), JsonConvert.SerializeObject(appsettings));
+                File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json"), JsonConvert.SerializeObject(connectionSettings));
 
                 logger.LogInformation("Solution settings updated successfully");
             }

@@ -7,11 +7,17 @@ using Niles.PrintWeb.Models.Settings;
 
 namespace Niles.PrintWeb.Utilities.Actions
 {
+    ///<summary>Migrate down database options.</summary>
     [Verb("migrate-down", HelpText = "Migrate the DB schema to the latest version")]
     public class MigrateDownOptions { }
     
+    ///<summary>Migrate down database action.</summary>
     public class MigrateDown
     {
+        ///<summary>Run migrate down database process.</summary>
+        ///<param name="logger">Logger for actions</param>
+        ///<param name="settings">Database connection settings</param>
+        ///<returns>0 if all is good and 1 if there was errors in creating database.</returns>
         public static int Run(ILogger logger, DatabaseConnectionSettings settings)
         {
             try
