@@ -17,5 +17,7 @@ namespace Niles.PrintWeb.DataAccessObjects.SqlServer
         }
 
         public IUserDao UserDao => new UserDao(_settings, _logger);
+
+        public ITenantDao TenantDao => new TenantDao(_settings, _logger);
     }
 }
