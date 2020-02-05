@@ -8,6 +8,8 @@ using Niles.PrintWeb.Services;
 
 namespace Niles.PrintWeb.Api.Controllers
 {
+    [Route("api/user")]
+    [ApiController]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -28,7 +30,7 @@ namespace Niles.PrintWeb.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]User model)
         {
-            string message = await _userService.Validate(new UserValidateOptions { UserName = model.UserName, Email = model.Email });
+            string message = await _userService.Validate(new UserValidateOptions { UserName = model.UserName, Email = model.Email, Password = model.Password });
             if (!string.IsNullOrEmpty(message))
                 return BadRequest(new { message });
 
