@@ -18,6 +18,7 @@ import { AdminDashComponent } from './components/admin/dash/adminDash.component'
 import { UsersComponent } from './components/admin/users/users.component';
 import { BreadcrumbsComponent } from './components/common/breadcrumbs/breadcrumbs.component';
 import { routes } from './sharedConstants/routes';
+import { ForbiddenComponent } from './components/common/forbidden/forbidden';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { routes } from './sharedConstants/routes';
     UsersComponent,
     MenuComponent,
     SignUpComponent,
-    SignInComponent
+    SignInComponent,
+    ForbiddenComponent
   ],
   imports: [
     FlexLayoutModule,
