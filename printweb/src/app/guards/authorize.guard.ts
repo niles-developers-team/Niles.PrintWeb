@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Injectable } from "@angular/core";
+import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { UserService } from '../services/user.service';
-
+import { Roles } from '../models/user.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthorizeGuard implements CanActivate {
@@ -12,24 +12,21 @@ export class AuthorizeGuard implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const currentUser = this.userService.currentUserValue;
-        if (currentUser) {
-            // logged in so return true
-            return true;
+
+        const adminPath = route.routeConfig.path.includes('admin');
+        if (adminPath && currentUser.role !== Roles.Admin) {
+            this.router.navigate(['/forbidden']);
+            return false;
         }
 
-        const isAuthorizeRoute = route.routeConfig.path === 'signin' || route.routeConfig.path === 'signup';
+        const tenantPath = route.routeConfig.path.includes('tenant');
 
-        if (isAuthorizeRoute) {
-            if (currentUser) {
-                this.router.navigate(['/'], { queryParams: { returnUrl: state.url } });
-                return false;
-            }
-
-            return true;
+        if (tenantPath
+            && currentUser.role !== Roles.Admin
+            || currentUser.role !== Roles.Tenant) {
+            this.router.navigate(['/forbidden']);
+            return false;
         }
-
-        // not logged in so redirect to login page with the return url
-        this.router.navigate(['/signin'], { queryParams: { returnUrl: state.url } });
-        return false;
+        return true;
     }
 }
