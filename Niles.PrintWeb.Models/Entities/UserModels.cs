@@ -38,6 +38,8 @@ namespace Niles.PrintWeb.Models.Entities
     {
         public int? Id { get; set; }
 
+        public Roles? Role { get; set; }
+
         public IReadOnlyList<int> Ids { get; set; }
 
         public bool OnlyConfirmed { get; set; } = true;
