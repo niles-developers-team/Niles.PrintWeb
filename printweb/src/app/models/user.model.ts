@@ -4,9 +4,16 @@ export interface IUser {
     lastName: string;
     password: string;
     email: string;
+    role: Roles;
+    code?: string;
 }
 
 export interface IUserAuthenticated extends IUser {
-    code?: string;
     token?: string;
+}
+
+export enum Roles {
+    Admin = 0,
+    Tenant = 1,
+    Client = 2
 }
