@@ -34,16 +34,14 @@ namespace Niles.PrintWeb.Models.Entities
         public string Token { get; set; }
     }
 
-    public class UserGetOptions
+    public class UserGetOptions : BaseGetOptions
     {
-        public int? Id { get; set; }
-
         public Roles? Role { get; set; }
-
-        public IReadOnlyList<int> Ids { get; set; }
 
         public bool OnlyConfirmed { get; set; } = true;
 
+        public string NormalizedSearch => !string.IsNullOrEmpty(Search) ? $"%{Search}%" : string.Empty;
+        
         public string Search { get; set; }
 
         public string UserName { get; set; }
