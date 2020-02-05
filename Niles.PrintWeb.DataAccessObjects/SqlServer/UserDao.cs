@@ -19,9 +19,9 @@ namespace Niles.PrintWeb.DataAccessObjects.SqlServer
             {
                 _logger.LogInformation("Trying to execute sql create user query");
                 model.Id = await QuerySingleOrDefaultAsync<int>(@"
-                    insert into User (UserName, PasswordHash, FirstName, LastName, Email, ConfirmCode)
-                    values (@UserName, crypt(@Password, gen_salt('bf')), @FirstName, @LastName, @Email, @ConfirmCode)
-                    returning Id
+                    insert into [User] (UserName, Password, FirstName, LastName, Email, ConfirmCode, Role)
+                    values (@UserName, pwdencrypt(@Password), @FirstName, @LastName, @Email, @ConfirmCode, @Role);
+                    select SCOPE_IDENTITY();
                 ", model);
                 _logger.LogInformation("Sql create user query successfully executed");
             }
@@ -47,13 +47,19 @@ namespace Niles.PrintWeb.DataAccessObjects.SqlServer
                         FirstName,
                         LastName,
                         Email,
-                        ConfirmCode
-                    from User
+                        ConfirmCode,
+                        Role,
+                        DateCreated,
+                        DateUpdated
+                    from [User]
                 ");
 
                 int conditionIndex = 0;
                 if (options.Id.HasValue)
                     sql.AppendLine($"{(conditionIndex++ == 0 ? "where" : "and")} Id = @Id");
+
+                if (options.Role.HasValue)
+                    sql.AppendLine($"{(conditionIndex++ == 0 ? "where" : "and")} Role = @Role");
 
                 if (options.Ids != null)
                     sql.AppendLine($"{(conditionIndex++ == 0 ? "where" : "and")} id = any(@Ids)");
@@ -104,8 +110,9 @@ namespace Niles.PrintWeb.DataAccessObjects.SqlServer
                         FirstName,
                         LastName,
                         Email,
-                        ConfirmCode
-                    from User
+                        ConfirmCode,
+                        Role
+                    from [User]
                 ");
 
                 int conditionIndex = 0;
@@ -113,8 +120,8 @@ namespace Niles.PrintWeb.DataAccessObjects.SqlServer
                 if (!string.IsNullOrEmpty(options.UserNameOrEmail))
                     sql.AppendLine($"{(conditionIndex++ == 0 ? "where" : "and")} (UserName = @UserNameOrEmail or Email = @UserNameOrEmail)");
 
-                if(!string.IsNullOrEmpty(options.Password))
-                    sql.AppendLine($"{(conditionIndex++ == 0 ? "where" : "and")} (PasswordHash = crypt(@Password, PasswordHash))");
+                if (!string.IsNullOrEmpty(options.Password))
+                    sql.AppendLine($"{(conditionIndex++ == 0 ? "where" : "and")} (pwdcompare(@Password, Password) = 1)");
 
                 _logger.LogInformation($"Sql query successfully created:\n{sql.ToString()}");
 
@@ -132,6 +139,8 @@ namespace Niles.PrintWeb.DataAccessObjects.SqlServer
 
         public async Task<IEnumerable<User>> Get(UserValidateOptions options)
         {
+            try
+            {
                 StringBuilder sql = new StringBuilder();
 
                 _logger.LogInformation("Try to create get users sql query");
@@ -144,12 +153,12 @@ namespace Niles.PrintWeb.DataAccessObjects.SqlServer
                         LastName,
                         Email,
                         ConfirmCode
-                    from User
+                    from [User]
                 ");
 
                 int conditionIndex = 0;
 
-                if(options.Id.HasValue)
+                if (options.Id.HasValue)
                     sql.AppendLine($"{(conditionIndex++ == 0 ? "where" : "and")} Id <> @Id");
 
                 if (!string.IsNullOrEmpty(options.UserName))
@@ -164,6 +173,12 @@ namespace Niles.PrintWeb.DataAccessObjects.SqlServer
                 var result = await QueryAsync<User>(sql.ToString(), options);
                 _logger.LogInformation("Sql get users query successfully executed");
                 return result;
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(exception.Message);
+                throw exception;
+            }
         }
 
         public async Task Update(User model)
@@ -177,7 +192,7 @@ namespace Niles.PrintWeb.DataAccessObjects.SqlServer
                         FirstName = @FirstName, 
                         LastName = @LastName, 
                         Email = @Email
-                    from User
+                    from [User]
                     where Id = @Id
                 ", model);
                 _logger.LogInformation("Sql update user query successfully executed");
@@ -195,7 +210,7 @@ namespace Niles.PrintWeb.DataAccessObjects.SqlServer
             {
                 _logger.LogInformation("Trying to execute sql delete users query");
                 await ExecuteAsync(@"
-                    delete from User
+                    delete from [User]
                     where id = any(@ids)
                 ", new { ids });
                 _logger.LogInformation("Sql delete users query successfully executed");
@@ -215,7 +230,7 @@ namespace Niles.PrintWeb.DataAccessObjects.SqlServer
 
                 int? userId = await QueryFirstOrDefaultAsync<int?>(@"
                         select UserId
-                        from User
+                        from [User]
                         where ConfirmCode = @code
                     ", new { code });
 

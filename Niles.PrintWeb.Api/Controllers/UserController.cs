@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,8 @@ using Niles.PrintWeb.Services;
 
 namespace Niles.PrintWeb.Api.Controllers
 {
+    [Route("api/user")]
+    [ApiController]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -16,7 +19,7 @@ namespace Niles.PrintWeb.Api.Controllers
             _userService = userService;
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin, Tenant")]
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery]UserGetOptions options)
         {
@@ -27,7 +30,7 @@ namespace Niles.PrintWeb.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]User model)
         {
-            string message = await _userService.Validate(new UserValidateOptions { UserName = model.UserName, Email = model.Email });
+            string message = await _userService.Validate(new UserValidateOptions { UserName = model.UserName, Email = model.Email, Password = model.Password });
             if (!string.IsNullOrEmpty(message))
                 return BadRequest(new { message });
 
@@ -39,7 +42,7 @@ namespace Niles.PrintWeb.Api.Controllers
             return Ok(result);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin, Tenant")]
         [HttpPut]
         public async Task<IActionResult> Update([FromBody]User model)
         {
@@ -53,6 +56,15 @@ namespace Niles.PrintWeb.Api.Controllers
                 return BadRequest(new { message = "There was some errors with user updating" });
 
             return Ok(result);
+        }
+
+        [Authorize(Roles = "Admin, Tenant")]
+        [HttpDelete]
+        public async Task<IActionResult> Delete([FromQuery]IReadOnlyList<int> ids)
+        {
+            await _userService.Delete(ids);
+
+            return Ok();
         }
 
         [AllowAnonymous]

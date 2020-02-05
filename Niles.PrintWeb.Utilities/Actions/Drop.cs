@@ -5,11 +5,17 @@ using Niles.PrintWeb.Models.Settings;
 
 namespace Niles.PrintWeb.Utilities.Actions
 {
+    ///<summary>Drop database options</summary>
     [Verb("drop", HelpText = "Drop the DB")]
     public class DropOptions { }
     
+    ///<summary>Drop database action</summary>
     public class Drop
     {
+        ///<summary>Run drop database process.</summary>
+        ///<param name="logger">Logger for actions</param>
+        ///<param name="settings">Database connection settings</param>
+        ///<returns>0 if all is good and 1 if there was errors in creating database.</returns>
         public static int Run(ILogger logger, DatabaseConnectionSettings settings)
         {
             try

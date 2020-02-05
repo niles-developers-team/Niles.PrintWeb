@@ -83,11 +83,24 @@ namespace Niles.PrintWeb.Api.Services
         public async Task<AuthenticatedUser> SignIn(UserAuthorizeOptions options)
         {
             var users = await _dao.Get(options);
-            var user = users.FirstOrDefault() as AuthenticatedUser;
+            var user = users.FirstOrDefault();
             if (user == null)
             {
                 return null;
             }
+
+            var authenticatedUser = new AuthenticatedUser {
+                ConfirmCode = user.ConfirmCode,
+                DateCreated = user.DateCreated,
+                DateUpdate = user.DateUpdate,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                Id = user.Id,
+                LastName = user.LastName,
+                Role = user.Role,
+                Token = null,
+                UserName = user.UserName                
+            };
 
             // authentication successful so generate jwt token
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -96,13 +109,15 @@ namespace Niles.PrintWeb.Api.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.Id.ToString())
+                    new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserName),
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.GetDescription())
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
+                Issuer = _settings.Issuer,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            user.Token = tokenHandler.WriteToken(token);
+            authenticatedUser.Token = tokenHandler.WriteToken(token);
 
             if (options.RememberMe)
             {
@@ -110,12 +125,10 @@ namespace Niles.PrintWeb.Api.Services
                 {
                     _httpContextAccessor.HttpContext.Response.Cookies.Delete("printweb-token");
                 }
-                _httpContextAccessor.HttpContext.Response.Cookies.Append("printweb-token", user.Token);
+                _httpContextAccessor.HttpContext.Response.Cookies.Append("printweb-token", authenticatedUser.Token);
             }
 
-            user.Password = null;
-
-            return user;
+            return authenticatedUser;
         }
 
         public async Task<string> Validate(UserValidateOptions options)
@@ -130,14 +143,14 @@ namespace Niles.PrintWeb.Api.Services
 
                 result = ValidatePassword(options.Password);
                 if (!string.IsNullOrEmpty(result))
-                    return
+                    return result;
 
                 result = ValidateEmail(options.Email);
                 if (!string.IsNullOrEmpty(result))
                     return result;
 
                 var users = await _dao.Get(options);
-                if (users != null || users.Count() > 0)
+                if (users != null && users.Count() > 0)
                 {
                     string message = "User with same user name or email have been already created. Please try another or try to sign in.";
                     _logger.LogInformation(message);
@@ -183,10 +196,10 @@ namespace Niles.PrintWeb.Api.Services
 
         private string ValidateEmail(string email)
         {
-            if (ValidationUtilities.NotEmptyRule(email))
+            if (!ValidationUtilities.NotEmptyRule(email))
                 return "Email should not be empty";
 
-            if (ValidationUtilities.CheckEmailFormat(email))
+            if (!ValidationUtilities.CheckEmailFormat(email))
                 return "Email is not valid";
 
             return string.Empty;

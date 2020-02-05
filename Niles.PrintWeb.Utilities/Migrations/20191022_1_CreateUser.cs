@@ -10,7 +10,7 @@ namespace Niles.PrintWeb.Utilities.Migrations
             Create.Table("User")
                 .WithColumn("Id").AsInt32().PrimaryKey().Identity()
                 .WithColumn("UserName").AsString().NotNullable()
-                .WithColumn("PasswordHash").AsString().NotNullable()
+                .WithColumn("Password").AsString().NotNullable()
                 .WithColumn("FirstName").AsString().NotNullable()
                 .WithColumn("LastName").AsString().NotNullable()
                 .WithColumn("Email").AsString().NotNullable()
