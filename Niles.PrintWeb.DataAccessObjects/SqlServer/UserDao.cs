@@ -64,12 +64,12 @@ namespace Niles.PrintWeb.DataAccessObjects.SqlServer
                 if (options.Ids != null)
                     sql.AppendLine($"{(conditionIndex++ == 0 ? "where" : "and")} id = any(@Ids)");
 
-                if (!string.IsNullOrEmpty(options.Search))
+                if (!string.IsNullOrEmpty(options.NormalizedSearch))
                     sql.AppendLine($@"
-                        {(conditionIndex++ == 0 ? "where" : "and")} FirstName like '%@Search%'
-                        or LastName like '%Search%'
-                        or Email like '%Search%'
-                        or UserName like '%Search%'
+                        {(conditionIndex++ == 0 ? "where" : "and")} FirstName like lower(@NormalizedSearch)
+                        or LastName like lower(@NormalizedSearch)
+                        or Email like lower(@NormalizedSearch)
+                        or UserName like lower(@NormalizedSearch)
                     ");
 
                 if (options.OnlyConfirmed)
