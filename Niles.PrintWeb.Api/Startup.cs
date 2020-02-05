@@ -13,6 +13,8 @@ using Niles.PrintWeb.DataAccessObjects.Interfaces;
 using Niles.PrintWeb.Api.Services;
 using Niles.PrintWeb.Models.Settings;
 using Niles.PrintWeb.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Niles.PrintWeb.Api
 {
@@ -45,13 +47,14 @@ namespace Niles.PrintWeb.Api
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             // configure strongly typed settings objects
-            var appSettingsSection = Configuration.GetSection("ApplicationSettings");
-            var appSettings = appSettingsSection.Get<Appsettings>();
+            var appSettings = Configuration.Get<Appsettings>();
 
             // configure jwt authentication
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
-            services
-            .AddAuthentication()
+            services.AddAuthentication(options => {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
             .AddJwtBearer(x =>
             {
                 x.RequireHttpsMetadata = false;
