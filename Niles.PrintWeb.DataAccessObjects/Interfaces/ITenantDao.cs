@@ -8,6 +8,7 @@ namespace Niles.PrintWeb.DataAccessObjects.Interfaces
     {
         Task Create(Tenant model);
         Task<IEnumerable<Tenant>> Get(TenantGetOptions options);
+        Task<IEnumerable<Tenant>> Get(TenantValidateOptions options);
         Task Update(Tenant model);
         Task Delete(IReadOnlyList<int> ids);        
     }

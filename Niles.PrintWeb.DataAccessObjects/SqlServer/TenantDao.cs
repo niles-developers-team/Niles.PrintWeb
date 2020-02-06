@@ -96,6 +96,45 @@ namespace Niles.PrintWeb.DataAccessObjects.SqlServer
             }
         }
 
+        public async Task<IEnumerable<Tenant>> Get(TenantValidateOptions options)
+        {
+            try
+            {
+                StringBuilder sql = new StringBuilder();
+
+                _logger.LogInformation("Try to create get tenants sql query");
+
+                sql.AppendLine(@"
+                    select 
+                        Id,
+                        Name,
+                        DateCreated,
+                        SubscriptionId,
+                        SubscribeDate
+                    from [Tenant]
+                ");
+
+                int conditionIndex = 0;
+
+                if (options.Id.HasValue)
+                    sql.AppendLine($"{(conditionIndex++ == 0 ? "where" : "and")} Id <> @Id");
+
+                if (!string.IsNullOrEmpty(options.Name))
+                    sql.AppendLine($"{(conditionIndex++ == 0 ? "where" : "and")} Name = @Name");
+                _logger.LogInformation($"Sql query successfully created:\n{sql.ToString()}");
+
+                _logger.LogInformation("Try to execute sql get tenants query");
+                var result = await QueryAsync<Tenant>(sql.ToString(), options);
+                _logger.LogInformation("Sql get tenants query successfully executed");
+                return result;
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(exception.Message);
+                throw exception;
+            }
+        }
+
         public async Task Update(Tenant model)
         {
             try
