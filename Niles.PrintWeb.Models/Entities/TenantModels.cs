@@ -16,4 +16,10 @@ namespace Niles.PrintWeb.Models.Entities
         public string NormalizedSearch => !string.IsNullOrEmpty(Search) ? $"%{Search}%" : string.Empty;
         public string Search { get; set; }
     }
+
+    public class TenantValidateOptions
+    {
+        public int? Id { get; set; }
+        public string Name { get; set; }
+    }
 }
