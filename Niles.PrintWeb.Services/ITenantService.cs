@@ -10,5 +10,6 @@ namespace Niles.PrintWeb.Services
         Task<IEnumerable<Tenant>> Get(TenantGetOptions options);
         Task<Tenant> Update(Tenant model);
         Task Delete(IReadOnlyList<int> ids);
+        Task<string> Validate(TenantValidateOptions options);
     }
 }
