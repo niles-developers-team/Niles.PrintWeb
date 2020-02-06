@@ -91,6 +91,14 @@ namespace Niles.PrintWeb.Api
 
                 return new UserService(daoFactory.UserDao, emailService, appSettings, httpAccessor, logger);
             });
+
+            services.AddScoped<ITenantService>(provider => 
+            {
+                var logger = provider.GetService<ILogger<TenantService>>();
+                var daoFactory = provider.GetService<IDaoFactory>();
+                
+                return new TenantService(daoFactory.TenantDao, logger);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
