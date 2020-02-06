@@ -39,7 +39,7 @@ namespace Niles.PrintWeb.DataAccessObjects.SqlServer
                 _logger.LogInformation("Trying to execute sql delete tenants query");
                 await ExecuteAsync(@"
                     delete from [Tenant]
-                    where Id = any(@ids)
+                    where Id in @ids
                 ", new { ids });
                 _logger.LogInformation("Sql delete tenants query successfully executed");
             }

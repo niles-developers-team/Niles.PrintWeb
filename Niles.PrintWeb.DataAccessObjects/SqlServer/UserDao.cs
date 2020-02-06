@@ -211,7 +211,7 @@ namespace Niles.PrintWeb.DataAccessObjects.SqlServer
                 _logger.LogInformation("Trying to execute sql delete users query");
                 await ExecuteAsync(@"
                     delete from [User]
-                    where id = any(@ids)
+                    where id in @ids
                 ", new { ids });
                 _logger.LogInformation("Sql delete users query successfully executed");
             }
