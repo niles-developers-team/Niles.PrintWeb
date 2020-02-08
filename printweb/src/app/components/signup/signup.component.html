@@ -55,7 +55,10 @@
                         Please enter a last name.
                     </mat-error>
                 </mat-form-field>
-                <button mat-raised-button color="accent" [disabled]="!userForm.valid">Sign Up</button>
+                <button mat-raised-button color="accent" [disabled]="!userForm.valid || loading" (click)="submit()">
+                    <span>Sign Up</span>
+                    <mat-spinner *ngIf="loading" class="loader" diameter="25"></mat-spinner>
+                </button>
             </div>
         </form>
         <div fxLayout="row" fxLayoutAlign="center center">

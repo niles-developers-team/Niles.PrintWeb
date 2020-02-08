@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { UserService } from '../../services/user.service';
-import { ErrorStateMatcher } from '@angular/material/core';
 import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup } from '@angular/forms';
 import { IUser } from 'src/app/models/user.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'sign-up',
@@ -13,7 +14,14 @@ export class SignUpComponent {
   userForm: FormGroup;
   user: IUser;
 
+  loading: boolean;
+
+  constructor(private _service: UserService,
+    private _snackbar: MatSnackBar,
+    private _router: Router) { }
+
   ngOnInit(): void {
+    this.loading = false;
     this.user = {
       firstName: '',
       email: '',
@@ -46,7 +54,18 @@ export class SignUpComponent {
   }
 
   submit(): void {
-  }
+    this.loading = true;
+    this.userForm.disable();
+    this._service.create(this.user)
+      .subscribe(() => this._router.navigate(['/']),
+        (error) => this._snackbar.open(error.message, 'Close', { duration: 3000 })
+      )
+      .add(() => {
+        this.userForm.enable();
+        this.loading = false;
+      });
+  };
+
 
   /* Handle form errors in Angular 8 */
   public errorHandling(control: string, error: string) {

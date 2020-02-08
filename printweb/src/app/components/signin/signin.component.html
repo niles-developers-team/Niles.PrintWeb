@@ -27,10 +27,13 @@
                 </mat-form-field>
                 <div fxLayout="row" fxLayoutAlign="space-between center">
                     <mat-checkbox formControlName="rememberMe">Remember Me</mat-checkbox>
-                    <button mat-flat-button class="secondary-link-button underline">Forgot
+                    <button mat-flat-button class="secondary-link-button underline" [disabled]="loading">Forgot
                         password?</button>
                 </div>
-                <button mat-raised-button color="accent" [disabled]="!userForm.valid">Sign In</button>
+                <button mat-raised-button color="accent" [disabled]="!userForm.valid || loading" (click)="submit()">
+                    <span>Sign In</span>
+                    <mat-spinner *ngIf="loading" class="loader" diameter="25"></mat-spinner>
+                </button>
             </div>
         </form>
         <div fxLayout="row" fxLayoutAlign="center center">
