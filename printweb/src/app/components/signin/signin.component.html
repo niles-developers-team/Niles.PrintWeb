@@ -4,29 +4,38 @@
         <div fxLayout="row" fxLayoutAlign="center center">
             <h2 class="margin-top-2">Printweb</h2>
         </div>
-        <form novalidate class="w-100">
+        <form novalidate class="w-100" [formGroup]="userForm">
             <div fxLayout="column" class="margin-x-2">
                 <div fxLayout="row" fxLayoutAlign="center center">
                     <h3 class="margin-y-1">Welcome to Printweb</h3>
                 </div>
                 <mat-form-field>
                     <mat-label>Username</mat-label>
-                    <input autocomplete="username" matInput placeholder="Enter your username">
+                    <input autocomplete="username" formControlName="usernameOrEmail" matInput
+                        placeholder="Enter your username">
+                    <mat-error *ngIf="errorHandling('usernameOrEmail','required')">
+                        Username is <strong>required</strong>.
+                    </mat-error>
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>Password</mat-label>
-                    <input type="password" autocomplete="new-password" matInput placeholder="Enter your password">
+                    <input type="password" formControlName="password" autocomplete="new-password" matInput
+                        placeholder="Enter your password">
+                    <mat-error *ngIf="errorHandling('password','required')">
+                        Password is <strong>required</strong>.
+                    </mat-error>
                 </mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="end end">
-                    <button mat-flat-button class="secondary-link-button underline margin-right-2">Forgot password?</button>
-                </div> 
-            </div>
-            <div fxLayout="row" fxLayoutAlign="center center">
-                <button mat-raised-button color="accent">Sign In</button>
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <mat-checkbox formControlName="rememberMe">Remember Me</mat-checkbox>
+                    <button mat-flat-button class="secondary-link-button underline">Forgot
+                        password?</button>
+                </div>
+                <button mat-raised-button color="accent" [disabled]="!userForm.valid">Sign In</button>
             </div>
         </form>
         <div fxLayout="row" fxLayoutAlign="center center">
-            <button mat-flat-button class="margin-bottom-1 secondary-link-button underline" routerLink="/signup">Create account</button>
+            <button mat-flat-button class="margin-bottom-1 secondary-link-button underline" routerLink="/signup">Create
+                account</button>
         </div>
     </div>
 </div>

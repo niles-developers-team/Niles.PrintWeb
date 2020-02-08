@@ -4,6 +4,7 @@ export interface IUser {
     lastName: string;
     password: string;
     email: string;
+    username: string;
 }
 
 export interface IUserAuthenticated extends IUser {
