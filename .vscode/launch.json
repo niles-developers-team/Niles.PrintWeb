@@ -18,8 +18,12 @@
             "request": "launch",
             "name": "chrome",
             "url": "http://localhost:4200",
+            "webRoot": "${workspaceRoot}/printweb",
             "breakOnLoad": false,
             "sourceMaps": true,
+            "sourceMapPathOverrides": {
+              "webpack:\\*": "${workspaceRoot}/printweb/*"
+            }       
         },
         {
             "name": "api",
