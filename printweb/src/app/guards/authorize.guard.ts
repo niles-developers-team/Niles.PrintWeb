@@ -5,6 +5,9 @@ import { Roles } from '../models/user.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthorizeGuard implements CanActivate {
+    private readonly _adminRelativePath = 'admin';
+    private readonly _tenantRelativePath = 'tenant';
+
     constructor(
         private router: Router,
         private userService: UserService
@@ -13,17 +16,15 @@ export class AuthorizeGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const currentUser = this.userService.currentUserValue;
 
-        const adminPath = route.routeConfig.path.includes('admin');
-        if (adminPath && currentUser.role !== Roles.Admin) {
+        const adminPath = route.routeConfig.path.includes(this._adminRelativePath);
+        const tenantPath = route.routeConfig.path.includes(this._tenantRelativePath);
+
+        if (adminPath && currentUser.role != Roles.Admin) {
             this.router.navigate(['/forbidden']);
             return false;
         }
 
-        const tenantPath = route.routeConfig.path.includes('tenant');
-
-        if (tenantPath
-            && currentUser.role !== Roles.Admin
-            || currentUser.role !== Roles.Tenant) {
+        if (tenantPath && (currentUser.role != Roles.Admin && currentUser.role != Roles.Tenant)) {
             this.router.navigate(['/forbidden']);
             return false;
         }
