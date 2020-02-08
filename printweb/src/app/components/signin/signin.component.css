@@ -1,0 +1,16 @@
+.image {
+    background-image: url(../../../assets/f8KF6E82XuI.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+  .secondary-link-button {
+    color: #979797;
+  }
+  .loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -12px;
+    margin-left: -12px;
+  }

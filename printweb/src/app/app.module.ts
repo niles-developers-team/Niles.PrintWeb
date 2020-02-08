@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, Route } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms'
 import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -10,6 +11,7 @@ import { AppComponent } from './app.component';
 import { MaterialModule } from './material.module';
 import { ApiUrlInterceptor } from './interceptors/url.iterceptor';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { MainComponent } from './components/main/main.component';
 import { SignUpComponent } from './components/signup/signup.component';
 import { SignInComponent } from './components/signin/signin.component';
 import { MenuComponent } from './components/common/menu/menu.component';
@@ -29,6 +31,7 @@ import { ForbiddenComponent } from './components/common/forbidden/forbidden';
     BreadcrumbsComponent,
     UsersComponent,
     MenuComponent,
+    MainComponent,
     SignUpComponent,
     SignInComponent,
     ForbiddenComponent
@@ -41,6 +44,7 @@ import { ForbiddenComponent } from './components/common/forbidden/forbidden';
     BrowserAnimationsModule,
     MaterialModule,
     RouterModule.forRoot(routes)
+    RouterModule.forRoot(appRoutes)
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ApiUrlInterceptor, multi: true },

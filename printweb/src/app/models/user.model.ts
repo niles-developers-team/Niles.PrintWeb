@@ -5,10 +5,12 @@ export interface IUser {
     password: string;
     email: string;
     role: Roles;
+    username: string;
     code?: string;
 }
 
 export interface IUserAuthenticated extends IUser {
+    code?: string;
     token?: string;
 }
 
