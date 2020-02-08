@@ -15,15 +15,17 @@ export class AuthenticateGuard implements CanActivate {
 
         const isAuthorizeRoute = route.routeConfig.path === 'signin' || route.routeConfig.path === 'signup';
 
-        if (!isAuthorizeRoute) {
-            if (currentUser) {
-                // logged in so return true
-                return true;
-            }
-
+        if (currentUser && isAuthorizeRoute) {
             this.router.navigate(['/'], { queryParams: { returnUrl: state.url } });
             return false;
         }
+
+        if (currentUser && !isAuthorizeRoute)
+            // logged in so return true
+            return true;
+
+        if (!currentUser && isAuthorizeRoute)
+            return true;
 
         // not logged in so redirect to login page with the return url
         this.router.navigate(['/signin'], { queryParams: { returnUrl: state.url } });
