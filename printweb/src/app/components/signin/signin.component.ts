@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 @Component({
     selector: 'sign-in',
     templateUrl: './signin.component.html',
-    styleUrls: ['./signin.component.css', '../../app.component.css']
+    styleUrls: ['./signin.component.css', '../../app.component.scss']
 })
 export class SignInComponent {
     userForm: FormGroup;
