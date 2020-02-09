@@ -31,12 +31,13 @@ namespace Niles.PrintWeb.Api.Services
                 emailMessage.Subject = subject;
                 emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html) { Text = message };
                 _logger.LogInformation("Email message succesfully created");
-                
+
                 _logger.LogInformation("Try to send email message");
                 await Task.Run(() =>
                 {
                     using (var client = new SmtpClient())
                     {
+                        client.ServerCertificateValidationCallback = (s, c, h, e) => true;
                         client.Connect(_settings.SMTPHost, _settings.SSLPort, _settings.NeedSSL);
                         client.Authenticate(_settings.Email, _settings.Password);
                         client.Send(emailMessage);
