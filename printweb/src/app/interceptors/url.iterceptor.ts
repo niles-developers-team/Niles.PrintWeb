@@ -12,7 +12,7 @@ export class ApiUrlInterceptor implements HttpInterceptor {
         if (isDevMode)
             apiUrl = 'http://localhost:5000';
         else
-            apiUrl = 'https://printweb-api.azurewebsites.net/';
+            apiUrl = 'https://printweb-api.azurewebsites.net';
         
         let newUrl: string;
         const matches = prefixRegex.exec(url);
