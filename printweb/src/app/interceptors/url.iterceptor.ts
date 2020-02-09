@@ -9,6 +9,8 @@ export class ApiUrlInterceptor implements HttpInterceptor {
         const prefixRegex = /^\/?api\//;
         let apiUrl = '';
         
+        console.log(`is dev mode: ${isDevMode}`);
+
         if (isDevMode)
             apiUrl = 'http://localhost:5000';
         else
