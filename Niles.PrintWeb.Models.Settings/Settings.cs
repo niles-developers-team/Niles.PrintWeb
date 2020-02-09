@@ -16,7 +16,7 @@ namespace Niles.PrintWeb.Models.Settings
         public EmailConnectionSettings EmailConnectionSettings { get; set; }
 
         ///<summary>Application logging settings</summary>
-        public Logging Logging { get; set; }        
+        public Logging Logging { get; set; }
 
         ///<summary>Application allowed hosts</summary>
         public string AllowedHosts { get; set; }
@@ -32,5 +32,7 @@ namespace Niles.PrintWeb.Models.Settings
     public class LogLevel
     {
         public string Default { get; set; }
+        public string System { get; set; }
+        public string Microsoft { get; set; }
     }
 }
