@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { IUser, IUserAuthenticated } from '../models/user.model';
+import { IUser, IUserAuthenticated, IUserGetOptions } from '../models/user.model';
+import { isNull } from 'util';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -25,12 +26,23 @@ export class UserService {
         return this._currentUserSubject.value;
     }
 
-    public get(options: { id?: number, ids?: number[], onlyConfirmed: boolean, search?: string }): Observable<IUser[]> {
-        const params = new HttpParams();
-        params.set('id', options.id.toString());
-        params.set('ids', options.ids.toString());
-        params.set('onlyConfirmed', options.onlyConfirmed.toString());
-        params.set('search', options.search);
+    public get(options: IUserGetOptions): Observable<IUser[]> {
+        let params = new HttpParams();
+        if (options.id)
+            params = params.append('id', options.id.toString());
+        if (options.ids)
+        params = params.set('ids', options.ids.toString());
+        if (!isNaN(options.role) && !isNull(options.role))
+        params = params.set('role', options.role.toString());
+        if (options.onlyConfirmed !== null)
+        params = params.set('onlyConfirmed', options.onlyConfirmed.toString());
+        if (options.search)
+        params = params.set('search', options.search);
+        if (options.userName)
+        params = params.set('username', options.userName);
+        if (options.email)
+        params = params.set('email', options.userName);
+
         return this.httpClient.get<IUser[]>(this._apiUrl, { params });
     }
 
@@ -40,7 +52,7 @@ export class UserService {
                 localStorage.setItem('currentUser', JSON.stringify(data));
                 return data;
             }));
-    }    
+    }
 
     public signout() {
         // remove user from local storage to log user out
@@ -61,9 +73,8 @@ export class UserService {
     }
 
     public delete(id: number): Observable<any> {
-        const params = new HttpParams();
-        params.set('id', id.toString());
-        return this.httpClient.delete(this._apiUrl);
+        const params = new HttpParams().set('ids', JSON.stringify(id));
+        return this.httpClient.delete(this._apiUrl, { params: params });
     }
 
     public validateUser(options: { userName: string, email: string }) {
