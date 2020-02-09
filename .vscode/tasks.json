@@ -2,6 +2,15 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "chrome_build",
+            "command": "npm start",
+            "type": "shell",
+            "problemMatcher": "$tsc",
+            "options": {
+                "cwd": "${workspaceFolder}/printweb",
+            },
+        },
+        {
             "label": "api_build",
             "command": "dotnet",
             "type": "process",
