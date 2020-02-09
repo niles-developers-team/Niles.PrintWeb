@@ -17,6 +17,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "chrome",
+            "preLaunchTask": "chrome_build",
             "url": "http://localhost:4200",
             "webRoot": "${workspaceRoot}/printweb",
             "breakOnLoad": false,
@@ -127,6 +128,64 @@
             "cwd": "${workspaceFolder}/Niles.PrintWeb.Utilities",
             "console": "internalConsole",
             "stopAtEntry": false
-        }
+        },
+        {
+            "name": "utility azure database create",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "utilities_build",
+            "program": "${workspaceFolder}/Niles.PrintWeb.Utilities/bin/Debug/netcoreapp3.0/Niles.PrintWeb.Utilities.exe",
+            "args": [
+                "create"
+            ],
+            "cwd": "${workspaceFolder}/Niles.PrintWeb.Utilities",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "utility azure database drop",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "utilities_build",
+            "program": "${workspaceFolder}/Niles.PrintWeb.Utilities/bin/Debug/netcoreapp3.0/Niles.PrintWeb.Utilities.exe",
+            "args": [
+                "drop"
+            ],
+            "cwd": "${workspaceFolder}/Niles.PrintWeb.Utilities",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "utility azure database migrate-up",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "utilities_build",
+            "program": "${workspaceFolder}/Niles.PrintWeb.Utilities/bin/Debug/netcoreapp3.0/Niles.PrintWeb.Utilities.exe",
+            "args": [
+                "migrate-up"
+            ],
+            "cwd": "${workspaceFolder}/Niles.PrintWeb.Utilities",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "utility azure database reset",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "utilities_build",
+            "program": "${workspaceFolder}/Niles.PrintWeb.Utilities/bin/Debug/netcoreapp3.0/Niles.PrintWeb.Utilities.exe",
+            "args": [
+                "reset",
+                "--database-host", "tcp:niles.database.windows.net",
+                "--database-port", "1433",
+                "--database-name", "printweb",
+                "--database-user-name", "chewee",
+                "--database-password", "WeCreateOurFuture1",
+                "--database-provider", "0"
+            ],
+            "cwd": "${workspaceFolder}/Niles.PrintWeb.Utilities",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
     ]
 }
