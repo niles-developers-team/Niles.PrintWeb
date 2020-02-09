@@ -89,7 +89,8 @@ namespace Niles.PrintWeb.Api.Services
                 return null;
             }
 
-            var authenticatedUser = new AuthenticatedUser {
+            var authenticatedUser = new AuthenticatedUser
+            {
                 ConfirmCode = user.ConfirmCode,
                 DateCreated = user.DateCreated,
                 DateUpdate = user.DateUpdate,
@@ -99,7 +100,7 @@ namespace Niles.PrintWeb.Api.Services
                 LastName = user.LastName,
                 Role = user.Role,
                 Token = null,
-                UserName = user.UserName                
+                UserName = user.UserName
             };
 
             // authentication successful so generate jwt token
@@ -141,9 +142,12 @@ namespace Niles.PrintWeb.Api.Services
                 if (!string.IsNullOrEmpty(result))
                     return result;
 
-                result = ValidatePassword(options.Password);
-                if (!string.IsNullOrEmpty(result))
-                    return result;
+                if (!options.Id.HasValue)
+                {
+                    result = ValidatePassword(options.Password);
+                    if (!string.IsNullOrEmpty(result))
+                        return result;
+                }
 
                 result = ValidateEmail(options.Email);
                 if (!string.IsNullOrEmpty(result))
