@@ -15,7 +15,7 @@
             </div>
         </button>
     </div>
-    <button class="menu-item w-100" mat-button routerLink='/signin'>
+    <button class="menu-item w-100" mat-button (click)="signOut()">
         <div class="menu-item-content w-100" fxLayout="row">
             <mat-icon class="menu-item-icon">exit_to_app</mat-icon>
             <h3 class="menu-item-text" *ngIf="!collapsed">Exit</h3>
