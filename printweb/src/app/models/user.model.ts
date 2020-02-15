@@ -1,3 +1,5 @@
+import { NumberValueAccessor } from '@angular/forms';
+
 export interface IUser {
     id?: number;
     firstName: string;
@@ -12,6 +14,16 @@ export interface IUser {
 export interface IUserAuthenticated extends IUser {
     code?: string;
     token?: string;
+}
+
+export interface IUserGetOptions {
+    id?: number;
+    role?: Roles;
+    ids?: number[];
+    onlyConfirmed?: boolean;
+    search?: string;
+    userName?: string;
+    email?: string;
 }
 
 export enum Roles {
