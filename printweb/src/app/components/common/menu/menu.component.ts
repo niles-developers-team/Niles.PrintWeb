@@ -9,22 +9,14 @@ import { Router } from '@angular/router';
     styleUrls: ['./menu.component.scss', '../../../app.component.scss']
 })
 export class MenuComponent {
-    @Input() public items: MenuItem[] = [];
+    @Input() public readonly items: MenuItem[] = [];
+    @Input() public readonly dashItem: MenuItem;
+    public currentUserShortening: string;
 
-    constructor(private readonly _userServce: UserService,
+    constructor(
+        private readonly _userServce: UserService,
         private readonly _router: Router
-    ) {
-
-    }
-
-    public collapsed: boolean = true;
-
-    public onLogoClick() {
-        this.collapsed = !this.collapsed;
-    }
-
-    public signOut() {
-        this._userServce.signout();
-        this._router.navigateByUrl('/signin');
+    ) { 
+        this.currentUserShortening = this._userServce.currentUserShortening;
     }
 }
