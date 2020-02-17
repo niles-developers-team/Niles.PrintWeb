@@ -26,22 +26,35 @@ export class UserService {
         return this._currentUserSubject.value;
     }
 
+    public get currentUserShortening(): string {
+        let shortening: string = '';
+
+        const currentUser = this._currentUserSubject.value;
+
+        if(currentUser)
+        {
+            shortening = `${currentUser.firstName[0]}.${(currentUser.lastName)[0]}.`;
+        }
+
+        return shortening;
+    }
+
     public get(options: IUserGetOptions): Observable<IUser[]> {
         let params = new HttpParams();
         if (options.id)
             params = params.append('id', options.id.toString());
         if (options.ids)
-        params = params.set('ids', options.ids.toString());
+            params = params.set('ids', options.ids.toString());
         if (!isNaN(options.role) && !isNull(options.role))
-        params = params.set('role', options.role.toString());
+            params = params.set('role', options.role.toString());
         if (options.onlyConfirmed !== null)
-        params = params.set('onlyConfirmed', options.onlyConfirmed.toString());
+            params = params.set('onlyConfirmed', options.onlyConfirmed.toString());
         if (options.search)
-        params = params.set('search', options.search);
+            params = params.set('search', options.search);
         if (options.userName)
-        params = params.set('username', options.userName);
+            params = params.set('username', options.userName);
         if (options.email)
-        params = params.set('email', options.userName);
+            params = params.set('email', options.userName);
 
         return this.httpClient.get<IUser[]>(this._apiUrl, { params });
     }
@@ -50,6 +63,7 @@ export class UserService {
         return this.httpClient.post<IUser>(`${this._apiUrl}/sign-in`, options, this._httpOptions)
             .pipe(map(data => {
                 localStorage.setItem('currentUser', JSON.stringify(data));
+                this._currentUserSubject.next(data);
                 return data;
             }));
     }
