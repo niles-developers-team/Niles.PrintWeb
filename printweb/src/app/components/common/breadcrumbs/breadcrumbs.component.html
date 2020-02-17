@@ -1,6 +1,15 @@
 <div class="container" fxLayout="row" fxLayoutAlign="start center">
-    <div fxLayout="row" class="breadcrumb" fxLayoutAlign="start center" *ngFor="let item of breadcrumbs;let i = index">
-        <button  [disabled]="i === breadcrumbs.length - 1" mat-button routerLink={{item.path}}>{{item.text}}</button>
-        <mat-icon *ngIf="i < breadcrumbs.length - 1">chevron_right</mat-icon>
+    <div fxFlex fxLayout="row">
+        <div fxLayout="row" fxLayoutAlign="start center" *ngFor="let item of breadcrumbs;let i = index">
+            <button mat-button class="breadcrumb" routerLink={{item.path}} [disabled]="i === breadcrumbs.length - 1">
+                {{item.text}}
+            </button>
+            <mat-icon *ngIf="i < breadcrumbs.length - 1">
+                chevron_right
+            </mat-icon>
+        </div>
+    </div>
+    <div>
+        <a mat-icon-button routerLink="/me"></a>
     </div>
 </div>
