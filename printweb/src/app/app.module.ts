@@ -14,18 +14,18 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { SignUpComponent } from './components/signup/signup.component';
 import { SignInComponent } from './components/signin/signin.component';
 import { MenuComponent } from './components/common/menu/menu.component';
-import { AdminComponent } from './components/admin/root.component';
 import { AdminDashComponent } from './components/admin/dash/adminDash.component';
 import { UsersComponent } from './components/admin/users/users.component';
 import { BreadcrumbsComponent } from './components/common/breadcrumbs/breadcrumbs.component';
 import { routes } from './sharedConstants/routes';
 import { ForbiddenComponent } from './components/common/forbidden/forbidden';
+import { MeComponent } from './components/common/me/me.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    AdminComponent,
+    MeComponent,
     AdminDashComponent,
     BreadcrumbsComponent,
     UsersComponent,
