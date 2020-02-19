@@ -14,7 +14,7 @@ export class AppComponent {
 
   constructor(private readonly _routeService: RouteService) {
     const routes = this._routeService.enabledMenuItems;
-    this.routes = routes.slice(1);
+    this.routes = routes?.slice(1);
     this.dashRoutes = routes[0];
   }
 }
