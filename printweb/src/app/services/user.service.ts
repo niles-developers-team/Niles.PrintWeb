@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { IUser, IUserAuthenticated, IUserGetOptions } from '../models/user.model';
+import { IUser, IUserAuthenticated, IUserGetOptions, IUserAuthorizeOptions } from '../models/user.model';
 import { isNull } from 'util';
 
 @Injectable({ providedIn: 'root' })
@@ -59,7 +59,7 @@ export class UserService {
         return this.httpClient.get<IUser[]>(this._apiUrl, { params });
     }
 
-    public signin(options: { userName: string, password: string, remeberMe: boolean }): Observable<IUserAuthenticated> {
+    public signin(options: IUserAuthorizeOptions): Observable<IUserAuthenticated> {
         return this.httpClient.post<IUser>(`${this._apiUrl}/sign-in`, options, this._httpOptions)
             .pipe(map(data => {
                 localStorage.setItem('currentUser', JSON.stringify(data));
