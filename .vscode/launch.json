@@ -17,20 +17,19 @@
             "type": "chrome",
             "request": "launch",
             "name": "chrome",
-            "preLaunchTask": "chrome_build",
             "url": "http://localhost:4200",
             "webRoot": "${workspaceRoot}/printweb",
             "breakOnLoad": false,
             "sourceMaps": true,
             "sourceMapPathOverrides": {
               "webpack:\\*": "${workspaceRoot}/printweb/*"
-            }       
+            }
         },
         {
             "name": "api",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "api_build",
+            "preLaunchTask": "build",
             "program": "${workspaceFolder}/Niles.PrintWeb.Api/bin/Debug/netcoreapp3.0/Niles.PrintWeb.Api.dll",
             "args": [],
             "cwd": "${workspaceFolder}/Niles.PrintWeb.Api",
