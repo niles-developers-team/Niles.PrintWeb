@@ -2,16 +2,20 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "chrome_build",
-            "command": "npm start",
-            "type": "shell",
+            "label": "ng serve",
+            "type": "npm",
+            "script": "start",
             "problemMatcher": "$tsc",
             "options": {
                 "cwd": "${workspaceFolder}/printweb",
             },
+            "group": {
+              "kind": "build",
+              "isDefault": true
+            }
         },
         {
-            "label": "api_build",
+            "label": "build",
             "command": "dotnet",
             "type": "process",
             "args": [

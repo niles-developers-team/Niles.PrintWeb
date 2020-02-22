@@ -3,6 +3,7 @@ import { UserService } from 'src/app/services/user.service';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { IUserAuthorizeOptions } from 'src/app/models/user.model';
 
 
 @Component({
@@ -14,9 +15,6 @@ export class SignInComponent {
     userForm: FormGroup;
 
     loading: boolean;
-    userNameOrEmail: string;
-    password: string;
-    rememberMe: boolean;
 
     constructor(private _service: UserService,
         private _snackbar: MatSnackBar,
@@ -27,29 +25,20 @@ export class SignInComponent {
 
         this.loading = false;
 
-        this.userNameOrEmail = '';
-        this.password = '';
-        this.rememberMe = false;
-
         this.userForm = new FormGroup({
-            usernameOrEmail: new FormControl(this.userNameOrEmail, [
-                Validators.required
-            ]),
-            password: new FormControl(this.password, [
-                Validators.required
-            ]),
-            rememberMe: new FormControl(this.rememberMe)
+            userNameOrEmail: new FormControl('', Validators.required),
+            password: new FormControl('', Validators.required),
+            rememberMe: new FormControl(false)
         });
     }
 
     submit(): void {
         this.loading = true;
         this.userForm.disable();
-        this._service.signin({
-            userName: this.userNameOrEmail,
-            password: this.password,
-            remeberMe: this.rememberMe
-        })
+
+        const options: IUserAuthorizeOptions = this.userForm.value;
+
+        this._service.signin(options)
             .subscribe(() => this._router.navigate(['/']),
                 (error) => this._snackbar.open(error.message, 'Close', { duration: 3000 })
             )

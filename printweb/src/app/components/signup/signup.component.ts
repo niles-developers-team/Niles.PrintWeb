@@ -12,7 +12,6 @@ import { Router } from '@angular/router';
 })
 export class SignUpComponent {
   userForm: FormGroup;
-  user: IUser;
 
   loading: boolean;
 
@@ -22,32 +21,25 @@ export class SignUpComponent {
 
   ngOnInit(): void {
     this.loading = false;
-    this.user = {
-      firstName: '',
-      email: '',
-      lastName: '',
-      password: '',
-      username: ''
-    };
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
     this.userForm = new FormGroup({
-      username: new FormControl(this.user.username, [
+      username: new FormControl('', [
         Validators.required,
         Validators.minLength(5)
       ]),
-      password: new FormControl(this.user.password, [
+      password: new FormControl('', [
         Validators.required,
         Validators.minLength(6)
       ]),
-      email: new FormControl(this.user.email, [
+      email: new FormControl('', [
         Validators.required,
         Validators.email
       ]),
-      firstname: new FormControl(this.user.firstName, [
+      firstname: new FormControl('', [
         Validators.required
       ]),
-      lastname: new FormControl(this.user.lastName, [
+      lastname: new FormControl('', [
         Validators.required
       ])
     });
@@ -56,7 +48,10 @@ export class SignUpComponent {
   submit(): void {
     this.loading = true;
     this.userForm.disable();
-    this._service.create(this.user)
+
+    const user: IUser = this.userForm.value;
+
+    this._service.create(user)
       .subscribe(() => this._router.navigate(['/']),
         (error) => this._snackbar.open(error.message, 'Close', { duration: 3000 })
       )

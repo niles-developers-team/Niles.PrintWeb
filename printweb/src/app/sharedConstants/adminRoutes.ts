@@ -5,6 +5,6 @@ import { UsersComponent } from '../components/admin/users/users.component';
 import { AdminDashComponent } from '../components/admin/dash/adminDash.component';
 
 export const adminRoutes: ApplicationRoute[] = [
-    { path: 'dash', icon: 'dashboard', text: 'Dashboard', component: AdminDashComponent, canActivate: [AuthorizeGuard] },
-    { path: 'users', icon: 'face', text: 'Users', component: UsersComponent, canActivate: [AuthorizeGuard] }
+    { path: 'admin', text: 'Dashboard', component: AdminDashComponent, canActivate: [AuthenticateGuard, AuthorizeGuard] },
+    { path: 'admin/users', icon: 'face', text: 'Users', component: UsersComponent, canActivate: [AuthenticateGuard, AuthorizeGuard] }
 ];

@@ -1,24 +1,22 @@
-<div class="menu-container h-100" [ngClass]="{'collapsed': collapsed}" fxLayout="column"
-    fxLayoutAlign="space-between center">
-    <button class="menu-logo-item w-100" mat-button (click)="onLogoClick()">
-        <div class="menu-item-content w-100" fxLayout="row">
+<div class="menu w-100">
+<div class="menu-container" fxLayoutAlign="space-between center">
+    <button class="menu-logo-item" routerLink="/" mat-button>
+        <div class="menu-item-content w-100" fxLayout="row" fxLayoutAlign="center center">
             <mat-icon class="menu-item-icon">print</mat-icon>
-            <h2 class="menu-item-text" *ngIf="!collapsed">Printweb</h2>
+            <span class="mat-title menu-item-text">Printweb</span>
         </div>
     </button>
-    <div fxLayout="column" class="w-100">
-        <button class="menu-item" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="menu-active-item"
+    <div fxLayout="row">
+        <button class="menu-item margin-x-1" routerLinkActive="menu-active-item"
             mat-button routerLink={{item.path}} *ngFor="let item of items">
-            <div class="menu-item-content w-100" fxLayout="row">
-                <mat-icon class="menu-item-icon">{{item.icon}}</mat-icon>
-                <h3 class="menu-item-text" *ngIf="!collapsed">{{item.text}}</h3>
-            </div>
+            {{item.text}}
+        </button>
+        <button *ngIf="userAuthenticated" class="menu-item margin-x-1" mat-icon-button routerLink="me">
+            {{currentUserShortening}}
+        </button>
+        <button color="secondary" *ngIf="!userAuthenticated" class="menu-item margin-x-1" mat-icon-button routerLink="signin">
+            <mat-icon>face</mat-icon>
         </button>
     </div>
-    <button class="menu-item w-100" mat-button (click)="signOut()">
-        <div class="menu-item-content w-100" fxLayout="row">
-            <mat-icon class="menu-item-icon">exit_to_app</mat-icon>
-            <h3 class="menu-item-text" *ngIf="!collapsed">Exit</h3>
-        </div>
-    </button>
+</div>
 </div>

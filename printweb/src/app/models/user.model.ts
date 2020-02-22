@@ -7,7 +7,7 @@ export interface IUser {
     password: string;
     email: string;
     role?: Roles;
-    username: string;
+    userName: string;
     code?: string;
 }
 
@@ -24,6 +24,12 @@ export interface IUserGetOptions {
     search?: string;
     userName?: string;
     email?: string;
+}
+
+export interface IUserAuthorizeOptions {
+    userNameOrEmail: string;
+    password: string;
+    rememberMe: boolean;
 }
 
 export enum Roles {

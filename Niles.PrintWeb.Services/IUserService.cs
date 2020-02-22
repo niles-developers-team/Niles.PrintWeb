@@ -11,6 +11,7 @@ namespace Niles.PrintWeb.Services
         Task<IEnumerable<User>> Get(UserGetOptions options);
         Task<User> Update(User model);
         Task Delete(IReadOnlyList<int> ids);
+        Task ChangePassword(User model);
         Task Confirm(Guid code);
         Task<AuthenticatedUser> SignIn(UserAuthorizeOptions options);
         Task<string> Validate(UserValidateOptions options);

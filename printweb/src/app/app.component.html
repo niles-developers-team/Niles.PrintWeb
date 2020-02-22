@@ -1,3 +1,7 @@
 <div class="container h-100 w-100 printweb-theme">
-    <router-outlet></router-outlet>
+    <main-menu [items]="routes"></main-menu>
+    <div class="header-background h-30 w-100"></div>
+    <div class="content w-100" fxLayout="column">
+        <router-outlet></router-outlet>
+    </div>
 </div>
