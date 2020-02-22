@@ -19,13 +19,15 @@ import { UsersComponent } from './components/admin/users/users.component';
 import { BreadcrumbsComponent } from './components/common/breadcrumbs/breadcrumbs.component';
 import { routes } from './sharedConstants/routes';
 import { ForbiddenComponent } from './components/common/forbidden/forbidden';
-import { MeComponent } from './components/common/me/me.component';
+import { MeComponent } from './components/me/me.component';
+import { ChangePasswordDialog } from './components/changePassword/changePassword.dialog';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     MeComponent,
+    ChangePasswordDialog,
     AdminDashComponent,
     BreadcrumbsComponent,
     UsersComponent,
@@ -47,6 +49,9 @@ import { MeComponent } from './components/common/me/me.component';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ApiUrlInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+  ],
+  entryComponents: [
+    ChangePasswordDialog
   ],
   bootstrap: [AppComponent]
 })
