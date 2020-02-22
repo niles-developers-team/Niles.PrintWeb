@@ -22,18 +22,20 @@ export class UserService {
         this.currentUser = this._currentUserSubject.asObservable();
     }
 
+    public get currentUserBehavior(): BehaviorSubject<IUserAuthenticated> {
+        return this._currentUserSubject;
+    }
+
     public get currentUserValue(): IUserAuthenticated {
         return this._currentUserSubject.value;
     }
 
-    public get currentUserShortening(): string {
+    public getUserShortening(user: IUser): string {
         let shortening: string = '';
 
-        const currentUser = this._currentUserSubject.value;
-
-        if(currentUser)
+        if(user)
         {
-            shortening = `${currentUser.firstName[0]}.${(currentUser.lastName)[0]}.`;
+            shortening = `${user.firstName[0]}.${(user.lastName)[0]}.`;
         }
 
         return shortening;
@@ -89,6 +91,11 @@ export class UserService {
     public delete(id: number): Observable<any> {
         const params = new HttpParams().set('ids', JSON.stringify(id));
         return this.httpClient.delete(this._apiUrl, { params: params });
+    }
+
+    public changePassword(user: IUser): Observable<any> {
+        const url = `${this._apiUrl}/change-password`;
+        return this.httpClient.patch<IUser>(url, user, this._httpOptions);
     }
 
     public validateUser(options: { userName: string, email: string }) {

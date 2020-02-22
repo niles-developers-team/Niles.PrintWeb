@@ -1,9 +1,9 @@
-<div class="menu w-100"></div>
-<div class="menu-container w-100" fxLayoutAlign="space-between center">
-    <button class="menu-logo-item" routerLink={{dashItem?.path}} mat-button>
+<div class="menu w-100">
+<div class="menu-container" fxLayoutAlign="space-between center">
+    <button class="menu-logo-item" routerLink="/" mat-button>
         <div class="menu-item-content w-100" fxLayout="row" fxLayoutAlign="center center">
             <mat-icon class="menu-item-icon">print</mat-icon>
-            <span class="mat-headline menu-item-text">Printweb</span>
+            <span class="mat-title menu-item-text">Printweb</span>
         </div>
     </button>
     <div fxLayout="row">
@@ -11,8 +11,12 @@
             mat-button routerLink={{item.path}} *ngFor="let item of items">
             {{item.text}}
         </button>
-        <button class="menu-item margin-x-1" mat-icon-button routerLink="me">
+        <button *ngIf="userAuthenticated" class="menu-item margin-x-1" mat-icon-button routerLink="me">
             {{currentUserShortening}}
         </button>
+        <button color="secondary" *ngIf="!userAuthenticated" class="menu-item margin-x-1" mat-icon-button routerLink="signin">
+            <mat-icon>face</mat-icon>
+        </button>
     </div>
+</div>
 </div>

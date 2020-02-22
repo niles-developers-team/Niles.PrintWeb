@@ -1,19 +1,29 @@
 @import "../../../../themes/printweb.theme.scss";
 
 .menu {
-  background-color: #000;
-  opacity: 0.2;
-  transition: 0.1s;
-  filter: blur(1px);
+  background-color: mat-color($printweb-primary, 500, 0.4);
   position: fixed;
-  height: 4em;
+  z-index:2;
 }
 
 .menu-container {
   padding-left: 4em;
   padding-right: 4em;
   height: 4em;
-  position: fixed;
+  background: inherit;
+  overflow: hidden; //adding overflow hidden
+}
+
+.menu-container:before {
+  content: " ";
+  background: inherit;
+  position: absolute;
+  top: -25px; //giving minus -25px top position
+  left: -25px;//giving minus -25px bottom position
+  right: 0;
+  bottom: 0;
+  box-shadow: inset 0 0 0 200px rgba(255, 255, 255, 0.3);
+  filter: blur(10px);
 }
 
 .menu-logo-item .menu-item-text {
@@ -21,11 +31,11 @@
 }
 
 .menu-logo-item .menu-item-content {
-  color: mat-color($printweb-primary);
+  color: mat-color($printweb-primary, 700);
 }
 
 .menu-item .menu-item-content {
-  color: mat-color($printweb-primary-color)
+  color: mat-color($printweb-primary-color);
 }
 
 .menu-item-icon {
