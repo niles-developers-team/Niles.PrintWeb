@@ -12,7 +12,7 @@ describe('User service', () => {
         firstName: 'test',
         lastName: 'test',
         password: 'testuser',
-        username: 'testuser',
+        userName: 'testuser',
         role: Roles.Client
     };
 
@@ -60,7 +60,7 @@ describe('User service', () => {
     });
 
     it('#update successfully update user', (done: DoneFn) => {
-        newUser.username = 'newtestuser';
+        newUser.userName = 'newtestuser';
         service.update(newUser).subscribe(
             (user: IUser) => {
                 expect(user).not.toBeNull('#create not create user');
@@ -72,7 +72,7 @@ describe('User service', () => {
     })
 
     it('#delete successfully delete user', (done: DoneFn) => {
-        newUser.username = 'newtestuser';
+        newUser.userName = 'newtestuser';
         service.delete(newUser.id).subscribe(() => {
             expect().nothing();
             done();

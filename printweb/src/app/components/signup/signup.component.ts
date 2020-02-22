@@ -27,12 +27,12 @@ export class SignUpComponent {
       email: '',
       lastName: '',
       password: '',
-      username: ''
+      userName: ''
     };
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
     this.userForm = new FormGroup({
-      username: new FormControl(this.user.username, [
+      username: new FormControl(this.user.userName, [
         Validators.required,
         Validators.minLength(5)
       ]),

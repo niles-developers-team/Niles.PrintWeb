@@ -7,13 +7,7 @@ export class ApiUrlInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const { url } = request;
         const prefixRegex = /^\/?api\//;
-        let apiUrl = '';
-        
-        if (isDevMode())
-            apiUrl = 'http://localhost:5000';
-        else
-            apiUrl = 'https://printweb-api.azurewebsites.net';
-        
+        const apiUrl = 'https://printweb-api.azurewebsites.net'
         let newUrl: string;
         const matches = prefixRegex.exec(url);
         if (matches && matches.length > 0) {

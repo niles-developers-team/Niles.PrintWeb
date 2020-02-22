@@ -1,0 +1,24 @@
+@import "../../../../themes/printweb.theme.scss";
+
+table {
+    width: 100%;
+}
+ .secondary-button {
+    color: #979797;
+  }
+  .icon-column {
+    width: 48px;
+  }
+
+  .search {
+    border: 0px;
+    background-color: transparent;
+    outline: none;
+  }
+  .loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -12px;
+    margin-left: -12px;
+  }
