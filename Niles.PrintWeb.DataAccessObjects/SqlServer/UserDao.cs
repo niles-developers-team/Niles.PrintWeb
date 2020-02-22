@@ -222,6 +222,25 @@ namespace Niles.PrintWeb.DataAccessObjects.SqlServer
             }
         }
 
+        public async Task ChangePassword(User model)
+        {
+            try
+            {
+                _logger.LogInformation("Trying to execute sql change password user query");
+                await ExecuteAsync(@"
+                    update [User] set
+                        Password = pwdencrypt(@Password)
+                    where Id = @Id
+                ", model);
+                _logger.LogInformation("Sql change password user query successfully executed");
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(exception.Message);
+                throw exception;
+            }
+        }
+
         public async Task Confirm(Guid code)
         {
             try
