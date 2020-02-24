@@ -14,7 +14,7 @@ import { ChangePasswordDialog } from '../changePassword/changePassword.dialog';
 })
 export class MeComponent {
   user: IUser;
-  userForm: FormGroup;
+  form: FormGroup;
   editMode: boolean;
   loading: boolean;
 
@@ -26,7 +26,8 @@ export class MeComponent {
   }
 
   ngOnInit(): void {
-    this.userForm = new FormGroup({
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    this.form = new FormGroup({
       userName: new FormControl(this.user.userName, [
         Validators.required,
         Validators.minLength(5)
@@ -44,18 +45,17 @@ export class MeComponent {
     });
   }
 
-  /* Handle form errors in Angular 8 */
-  public errorHandling(control: string, error: string) {
-    return this.userForm.controls[control].hasError(error, '');
-  }
-
-  public setFormControlValue(control: string, value: any) {
-    this.userForm.controls[control].setValue(value);
-  }
-
   /* Handle toggle user account info edit mode */
   public onEditModeEnable() {
     this.editMode = true;
+  }
+
+  public onError(control: string, error: string ) {
+    return this.form.controls[control].hasError(error, '');
+  }
+
+  public setFormControlValue(control: string, value: any) {
+    this.form.controls[control].setValue(value);
   }
 
   /* Handle cancel user account info editing */
@@ -74,10 +74,10 @@ export class MeComponent {
 
   public onUpdateClick() {
     this.loading = true;
-    this.userForm.disable();
+    this.form.disable();
 
     const currentUser: IUser = this._userService.currentUserValue;
-    const formControls = this.userForm.controls;
+    const formControls = this.form.controls;
     currentUser.email = formControls['email'].value;
     currentUser.firstName = formControls['firstName'].value;
     currentUser.lastName = formControls['lastName'].value;
@@ -88,7 +88,7 @@ export class MeComponent {
         (error) => this._snackbar.open(error.message, 'Close', { duration: 3000 })
       )
       .add(() => {
-        this.userForm.enable();
+        this.form.enable();
         this.editMode = false;
         this.loading = false;
       });
@@ -98,15 +98,15 @@ export class MeComponent {
     const dialogRef = this.dialog.open(ChangePasswordDialog);
 
     dialogRef.afterClosed().subscribe(result => {
-      if(!result)
+      if (!result)
         return;
       const currentUser: IUser = this._userService.currentUserValue;
       currentUser.password = result;
 
       this._userService.changePassword(currentUser)
-      .subscribe(() => this._snackbar.open('You successfully changed your password.', 'Close', { duration: 3000 }),
-        (error) => this._snackbar.open(error.message, 'Close', { duration: 3000 })
-      )
+        .subscribe(() => this._snackbar.open('You successfully changed your password.', 'Close', { duration: 3000 }),
+          (error) => this._snackbar.open(error.message, 'Close', { duration: 3000 })
+        )
     });
   }
 }

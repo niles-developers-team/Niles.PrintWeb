@@ -21,6 +21,7 @@ import { routes } from './sharedConstants/routes';
 import { ForbiddenComponent } from './components/common/forbidden/forbidden';
 import { MeComponent } from './components/me/me.component';
 import { ChangePasswordDialog } from './components/changePassword/changePassword.dialog';
+import { UserFormComponent } from './components/userForm/userForm.component';
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import { ChangePasswordDialog } from './components/changePassword/changePassword
     MenuComponent,
     SignUpComponent,
     SignInComponent,
+    UserFormComponent,
     ForbiddenComponent
   ],
   imports: [

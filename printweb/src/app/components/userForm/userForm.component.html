@@ -1,0 +1,39 @@
+<form novalidate class="w-100" fxLayout="column" [formGroup]="form">
+    <mat-form-field>
+        <mat-label>Username</mat-label>
+        <input [readonly]="readonly" autocomplete="username" formControlName="userName" matInput
+            placeholder="Enter your username">
+        <mat-error *ngIf="errorHandling('userName','required')">
+            Username is <strong>required</strong>.
+        </mat-error>
+        <mat-error *ngIf="errorHandling('userName','minlength')">
+            Username must be at least 5 characters long.
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>E-mail</mat-label>
+        <input [readonly]="readonly" matInput placeholder="Enter your e-mail" formControlName="email">
+        <mat-error *ngIf="errorHandling('email','required')">
+            Email is <strong>required</strong>.
+        </mat-error>
+        <mat-error *ngIf="errorHandling('email','email')">
+            Please enter a valid email address.
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>First name</mat-label>
+        <input [readonly]="readonly" autocomplete="name" formControlName="firstName" matInput
+            placeholder="Enter your first name">
+        <mat-error *ngIf="errorHandling('firstName','required')">
+            Please enter a first name.
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Last name</mat-label>
+        <input [readonly]="readonly" autocomplete="family-name" formControlName="lastName" matInput
+            placeholder="Enter your last name">
+        <mat-error *ngIf="errorHandling('lastName','required')">
+            Please enter a last name.
+        </mat-error>
+    </mat-form-field>
+</form>
