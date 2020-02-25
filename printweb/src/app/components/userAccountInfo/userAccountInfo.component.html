@@ -10,6 +10,17 @@
             Username must be at least 5 characters long.
         </mat-error>
     </mat-form-field>
+    <mat-form-field *ngIf="isNewUser">
+        <mat-label>Password</mat-label>
+        <input type="password" autocomplete="new-password" formControlName="password" matInput
+            placeholder="Enter your password">
+        <mat-error *ngIf="errorHandling('password','required')">
+            Password is <strong>required</strong>.
+        </mat-error>
+        <mat-error *ngIf="errorHandling('password','minlength')">
+            Password must be at least 6 characters long.
+        </mat-error>
+    </mat-form-field>
     <mat-form-field>
         <mat-label>E-mail</mat-label>
         <input [readonly]="readonly" matInput placeholder="Enter your e-mail" formControlName="email">

@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
     styleUrls: ['./signup.component.css', '../../app.component.scss']
 })
 export class SignUpComponent {
-  userForm: FormGroup;
+  form: FormGroup;
 
   loading: boolean;
 
@@ -23,8 +23,8 @@ export class SignUpComponent {
     this.loading = false;
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    this.userForm = new FormGroup({
-      username: new FormControl('', [
+    this.form = new FormGroup({
+      userName: new FormControl('', [
         Validators.required,
         Validators.minLength(5)
       ]),
@@ -36,10 +36,10 @@ export class SignUpComponent {
         Validators.required,
         Validators.email
       ]),
-      firstname: new FormControl('', [
+      firstName: new FormControl('', [
         Validators.required
       ]),
-      lastname: new FormControl('', [
+      lastName: new FormControl('', [
         Validators.required
       ])
     });
@@ -47,16 +47,16 @@ export class SignUpComponent {
 
   submit(): void {
     this.loading = true;
-    this.userForm.disable();
+    this.form.disable();
 
-    const user: IUser = this.userForm.value;
+    const user: IUser = this.form.value;
 
     this._service.create(user)
       .subscribe(() => this._router.navigate(['/']),
         (error) => this._snackbar.open(error.message, 'Close', { duration: 3000 })
       )
       .add(() => {
-        this.userForm.enable();
+        this.form.enable();
         this.loading = false;
       });
   };
@@ -64,6 +64,6 @@ export class SignUpComponent {
 
   /* Handle form errors in Angular 8 */
   public errorHandling(control: string, error: string) {
-    return this.userForm.controls[control].hasError(error, '');
+    return this.form.controls[control].hasError(error, '');
   }
 }
