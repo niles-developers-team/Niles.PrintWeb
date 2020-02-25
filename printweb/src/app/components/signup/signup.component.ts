@@ -21,11 +21,10 @@ export class SignUpComponent {
 
   ngOnInit(): void {
     this.loading = false;
-      userName: ''
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
     this.userForm = new FormGroup({
-      username: new FormControl(this.user.userName, [
+      username: new FormControl('', [
         Validators.required,
         Validators.minLength(5)
       ]),
