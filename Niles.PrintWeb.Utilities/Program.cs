@@ -10,41 +10,41 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Niles.PrintWeb.Utilities
 {
-    public class Program
+    public class Program //creating class "Program"
     {
-        public static int Main(string[] args)
+        public static int Main(string[] args) //creating method "Main"
         {
-            var serviceCollection = new ServiceCollection();
-            ConfigureServices(serviceCollection);
+            var serviceCollection = new ServiceCollection();//создаем экземпляр "serviceCollection" класса "ServiceCollection"
+            ConfigureServices(serviceCollection);//регистртрует сервисы, используемые для настройки оперделенного типа параметров, они выполняются до всех
 
-            DatabaseConnectionSettings settings = JsonConvert.DeserializeObject<DatabaseConnectionSettings>(
-                File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json"))
+            DatabaseConnectionSettings settings = JsonConvert.DeserializeObject<DatabaseConnectionSettings>(//записываем в объект "settings" класса "DatabaseConnectionSettings"
+                File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json"))//вызываем метод "ReadAllText" с параметрами типа класс.метод(класс.метод, строка)
             );
 
-            var services = serviceCollection.BuildServiceProvider();
+            var services = serviceCollection.BuildServiceProvider();//создаем переменную services и записываем в нее результат выполнения метода "BuildServiceProvider" обьекта "serviceCollection" 
 
-            return CommandLine.Parser.Default.ParseArguments<MigrateUpOptions, MigrateDownOptions, DropOptions, CreateOptions, ResetOptions, SetSettingsOptions>(args)
+            return CommandLine.Parser.Default.ParseArguments<MigrateUpOptions, MigrateDownOptions, DropOptions, CreateOptions, ResetOptions, SetSettingsOptions>(args)//вызываем метод ParseArguments с кучей аргументов
             .MapResult(
-                (DropOptions options) => RunDrop(services.GetService<ILogger<Drop>>(), settings),
-                (ResetOptions options) => RunReset(services.GetService<ILogger<Reset>>(), settings, options),
-                (CreateOptions options) => RunCreate(services.GetService<ILogger<Create>>(), settings),
-                (MigrateUpOptions options) => RunMigrateUp(services.GetService<ILogger<MigrateUp>>(), settings),
-                (MigrateDownOptions options) => RunMigrateDown(services.GetService<ILogger<MigrateDown>>(), settings),
-                (SetSettingsOptions options) => RunSettingsUpdate(services.GetService<ILogger<SettingsUpdate>>(), options),
-                errors => 1
+                (DropOptions options) => RunDrop(services.GetService<ILogger<Drop>>(), settings),//каждому аргументу типа "options" ставим в соответствие определенный метод с параметрами
+                (ResetOptions options) => RunReset(services.GetService<ILogger<Reset>>(), settings, options),//
+                (CreateOptions options) => RunCreate(services.GetService<ILogger<Create>>(), settings),//
+                (MigrateUpOptions options) => RunMigrateUp(services.GetService<ILogger<MigrateUp>>(), settings),//
+                (MigrateDownOptions options) => RunMigrateDown(services.GetService<ILogger<MigrateDown>>(), settings),//
+                (SetSettingsOptions options) => RunSettingsUpdate(services.GetService<ILogger<SettingsUpdate>>(), options),//
+                errors => 1//
             );
         }
 
-        private static void ConfigureServices(ServiceCollection services)
+        private static void ConfigureServices(ServiceCollection services)//
         {
-            services.AddLogging(builder => builder.AddConsole());
+            services.AddLogging(builder => builder.AddConsole());//
         }
 
-        static int RunDrop(ILogger logger, DatabaseConnectionSettings settings) => Drop.Run(logger, settings);
-        static int RunReset(ILogger logger, DatabaseConnectionSettings settings, ResetOptions options) => Reset.Run(logger, settings, options);
-        static int RunCreate(ILogger logger, DatabaseConnectionSettings settings) => Create.Run(logger, settings);
-        static int RunMigrateUp(ILogger logger, DatabaseConnectionSettings settings) => MigrateUp.Run(logger, settings);
-        static int RunMigrateDown(ILogger logger, DatabaseConnectionSettings settings) => MigrateDown.Run(logger, settings);
-        static int RunSettingsUpdate(ILogger logger, SetSettingsOptions options) => SettingsUpdate.Run(logger, options);
+        static int RunDrop(ILogger logger, DatabaseConnectionSettings settings) => Drop.Run(logger, settings);//
+        static int RunReset(ILogger logger, DatabaseConnectionSettings settings, ResetOptions options) => Reset.Run(logger, settings, options);//
+        static int RunCreate(ILogger logger, DatabaseConnectionSettings settings) => Create.Run(logger, settings);//
+        static int RunMigrateUp(ILogger logger, DatabaseConnectionSettings settings) => MigrateUp.Run(logger, settings);//
+        static int RunMigrateDown(ILogger logger, DatabaseConnectionSettings settings) => MigrateDown.Run(logger, settings);//
+        static int RunSettingsUpdate(ILogger logger, SetSettingsOptions options) => SettingsUpdate.Run(logger, options);//
     }
 }
