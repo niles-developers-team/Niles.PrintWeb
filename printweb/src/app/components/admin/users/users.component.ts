@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { IUser } from 'src/app/models/user.model';
 import { MatTableDataSource } from '@angular/material/table';
+import { IUser } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialog } from '../confirm/confirm.dialog';
 
 @Component({
     selector: 'users',
@@ -14,7 +16,8 @@ export class UsersComponent {
     allOrOnlyConfirmed: boolean;
     loading: boolean;
 
-    constructor(private readonly _userService: UserService) {
+    constructor(private readonly _userService: UserService,
+        private dialog: MatDialog) {
         this.users = new MatTableDataSource<IUser>();
         this.allOrOnlyConfirmed = true;
         this.users.filterPredicate = (users, filter) => {
@@ -32,6 +35,19 @@ export class UsersComponent {
         const filterValue = (event.target as HTMLInputElement).value;
         this.users.filter = filterValue.trim().toLowerCase();
     }
+
+    public onDeleteClick(id: number): void {
+        const dialogRef = this.dialog.open(ConfirmDialog, {
+            data: "Are you sure you want to delete user?"
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result)
+                this._userService.delete(id);
+        })
+    }
+
+
 
     public onAllUsersClick(): void {
         this.allOrOnlyConfirmed = true;

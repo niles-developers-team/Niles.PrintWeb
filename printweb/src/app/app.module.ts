@@ -21,6 +21,7 @@ import { routes } from './sharedConstants/routes';
 import { ForbiddenComponent } from './components/common/forbidden/forbidden';
 import { MeComponent } from './components/me/me.component';
 import { ChangePasswordDialog } from './components/changePassword/changePassword.dialog';
+import { ConfirmDialog } from './components/admin/confirm/confirm.dialog';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { ChangePasswordDialog } from './components/changePassword/changePassword
     MenuComponent,
     SignUpComponent,
     SignInComponent,
-    ForbiddenComponent
+    ForbiddenComponent,
+    ConfirmDialog
   ],
   imports: [
     FlexLayoutModule,
@@ -51,7 +53,8 @@ import { ChangePasswordDialog } from './components/changePassword/changePassword
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ],
   entryComponents: [
-    ChangePasswordDialog
+    ChangePasswordDialog,
+    ConfirmDialog
   ],
   bootstrap: [AppComponent]
 })
