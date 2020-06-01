@@ -14,6 +14,7 @@ namespace Niles.PrintWeb.DataAccessObjects.Interfaces
         Task Update(User model);
         Task Delete(IReadOnlyList<int> ids);
 
+        Task ChangePassword(User model);
         Task Confirm(Guid code);
     }
 }

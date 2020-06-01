@@ -15,17 +15,18 @@ export class AuthorizeGuard implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const currentUser = this.userService.currentUserValue;
+        const currentUrl = state.url;
 
-        const adminPath = route.routeConfig.path.includes(this._adminRelativePath);
-        const tenantPath = route.routeConfig.path.includes(this._tenantRelativePath);
+        const adminPath = currentUrl.includes(this._adminRelativePath);
+        const tenantPath = currentUrl.includes(this._tenantRelativePath);
 
         if (adminPath && currentUser.role != Roles.Admin) {
-            this.router.navigate(['/forbidden']);
+            this.router.navigateByUrl('/forbidden');
             return false;
         }
 
         if (tenantPath && (currentUser.role != Roles.Admin && currentUser.role != Roles.Tenant)) {
-            this.router.navigate(['/forbidden']);
+            this.router.navigateByUrl('/forbidden');
             return false;
         }
         return true;

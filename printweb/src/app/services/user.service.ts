@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { IUser, IUserAuthenticated, IUserGetOptions } from '../models/user.model';
+import { IUser, IUserAuthenticated, IUserGetOptions, IUserAuthorizeOptions } from '../models/user.model';
 import { isNull } from 'util';
 
 @Injectable({ providedIn: 'root' })
@@ -22,8 +22,23 @@ export class UserService {
         this.currentUser = this._currentUserSubject.asObservable();
     }
 
+    public get currentUserBehavior(): BehaviorSubject<IUserAuthenticated> {
+        return this._currentUserSubject;
+    }
+
     public get currentUserValue(): IUserAuthenticated {
         return this._currentUserSubject.value;
+    }
+
+    public getUserShortening(user: IUser): string {
+        let shortening: string = '';
+
+        if(user)
+        {
+            shortening = `${user.firstName[0]}.${(user.lastName)[0]}.`;
+        }
+
+        return shortening;
     }
 
     public get(options: IUserGetOptions): Observable<IUser[]> {
@@ -31,25 +46,26 @@ export class UserService {
         if (options.id)
             params = params.append('id', options.id.toString());
         if (options.ids)
-        params = params.set('ids', options.ids.toString());
+            params = params.set('ids', options.ids.toString());
         if (!isNaN(options.role) && !isNull(options.role))
-        params = params.set('role', options.role.toString());
+            params = params.set('role', options.role.toString());
         if (options.onlyConfirmed !== null)
-        params = params.set('onlyConfirmed', options.onlyConfirmed.toString());
+            params = params.set('onlyConfirmed', options.onlyConfirmed.toString());
         if (options.search)
-        params = params.set('search', options.search);
+            params = params.set('search', options.search);
         if (options.userName)
-        params = params.set('username', options.userName);
+            params = params.set('username', options.userName);
         if (options.email)
-        params = params.set('email', options.userName);
+            params = params.set('email', options.userName);
 
         return this.httpClient.get<IUser[]>(this._apiUrl, { params });
     }
 
-    public signin(options: { userName: string, password: string, remeberMe: boolean }): Observable<IUserAuthenticated> {
+    public signin(options: IUserAuthorizeOptions): Observable<IUserAuthenticated> {
         return this.httpClient.post<IUser>(`${this._apiUrl}/sign-in`, options, this._httpOptions)
             .pipe(map(data => {
                 localStorage.setItem('currentUser', JSON.stringify(data));
+                this._currentUserSubject.next(data);
                 return data;
             }));
     }
@@ -75,6 +91,11 @@ export class UserService {
     public delete(id: number): Observable<any> {
         const params = new HttpParams().set('ids', JSON.stringify(id));
         return this.httpClient.delete(this._apiUrl, { params: params });
+    }
+
+    public changePassword(user: IUser): Observable<any> {
+        const url = `${this._apiUrl}/change-password`;
+        return this.httpClient.patch<IUser>(url, user, this._httpOptions);
     }
 
     public validateUser(options: { userName: string, email: string }) {

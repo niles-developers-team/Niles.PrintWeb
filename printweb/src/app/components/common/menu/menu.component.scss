@@ -1,58 +1,41 @@
 @import "../../../../themes/printweb.theme.scss";
 
+.menu {
+  background-color: mat-color($printweb-primary, 500, 0.4);
+  position: fixed;
+  z-index:2;
+}
+
 .menu-container {
-  border-top-right-radius: 2em;
-  background-color: mat-color($printweb-primary);
-  padding-top: 2em;
-  padding-bottom: 1em;
-  width: 10em;
-  transition: 0.1s;
+  padding-left: 4em;
+  padding-right: 4em;
+  height: 4em;
+  background: inherit;
+  overflow: hidden; //adding overflow hidden
 }
 
-.menu-logo-item {
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
-  padding-left: 0px;
-  padding-right: 0;
-  border-radius: 0;
+.menu-container:before {
+  content: " ";
+  background: inherit;
+  position: absolute;
+  top: -25px; //giving minus -25px top position
+  left: -25px;//giving minus -25px bottom position
+  right: 0;
+  bottom: 0;
+  box-shadow: inset 0 0 0 200px rgba(255, 255, 255, 0.3);
+  filter: blur(10px);
 }
 
-.menu-item {
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
-  padding-left: 2px;
-  padding-right: 0;
-  border-radius: 0;
-  border-left-color: mat-color($printweb-primary);
-}
-
-.menu-item-text {
+.menu-logo-item .menu-item-text {
   margin: 0;
-  text-decoration: none;
-  transition: 0.1s;
-}
-
-.menu-item-content {
-  margin-left: 1.2em;
 }
 
 .menu-logo-item .menu-item-content {
-  color: mat-color($printweb-accent);
+  color: mat-color($printweb-primary, 700);
 }
 
 .menu-item .menu-item-content {
-  color: mat-color($printweb-primary-color)
-}
-
-.menu-active-item {  
-  padding-left: 0px;
-  border-left-width: 2px;
-  border-left-style: solid;
-  border-left-color: mat-color($printweb-accent);
-}
-
-.menu-active-item .menu-item-content {
-  color: mat-color($printweb-accent);
+  color: mat-color($printweb-primary-color);
 }
 
 .menu-item-icon {
@@ -63,8 +46,4 @@
   box-sizing: content-box;
   border-radius: 50%;
   padding: 4px;
-}
-
-.collapsed {
-  width: 5em;
 }

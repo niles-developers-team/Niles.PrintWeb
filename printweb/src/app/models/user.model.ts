@@ -26,6 +26,12 @@ export interface IUserGetOptions {
     email?: string;
 }
 
+export interface IUserAuthorizeOptions {
+    userNameOrEmail: string;
+    password: string;
+    rememberMe: boolean;
+}
+
 export enum Roles {
     Admin = 0,
     Tenant = 1,

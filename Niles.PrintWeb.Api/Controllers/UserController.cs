@@ -42,7 +42,7 @@ namespace Niles.PrintWeb.Api.Controllers
             return Ok(result);
         }
 
-        [Authorize(Roles = "Admin, Tenant")]
+        [Authorize]
         [HttpPut]
         public async Task<IActionResult> Update([FromBody]User model)
         {
@@ -73,6 +73,15 @@ namespace Niles.PrintWeb.Api.Controllers
         {
             var result = await _userService.Validate(options);
             return Ok(result);
+        }
+
+        [Authorize]
+        [HttpPatch("change-password")]
+        public async Task<IActionResult> ChangePassword([FromBody]User model)
+        {
+            await _userService.ChangePassword(model);
+
+            return Ok();
         }
 
         [AllowAnonymous]

@@ -1,0 +1,95 @@
+<div fxLayout="row">
+    <div fxFlex="50" class="margin-x-1">
+        <div class="margin-y-1" fxLayout="row" fxLayoutAlign="start center">
+            <mat-icon color="primary" class="margin-right-1">account_circle</mat-icon>
+            <span fxFlex>User Avatar</span>
+            <button color="primary" mat-icon-button matTooltip="Upload new avatar">
+                <mat-icon>cloud_upload</mat-icon>
+            </button>
+        </div>
+        <mat-card style="height: 314px;">
+            <mat-card-content>
+
+            </mat-card-content>
+            <mat-card-actions align="end">
+            </mat-card-actions>
+        </mat-card>
+    </div>
+    <div fxFlex="50" class="margin-x-1">
+        <div class="margin-y-1" fxLayout="row" fxLayoutAlign="start center">
+            <mat-icon color="primary" class="margin-right-1">assignment</mat-icon>
+            <span fxFlex>User Account Info</span>
+            <button color="primary" mat-icon-button matTooltip="Edit account info" *ngIf="!editMode"
+                (click)="onEditModeEnable()">
+                <mat-icon color="primary">edit</mat-icon>
+            </button>
+            <button class="secondary-button" mat-icon-button matTooltip="Sign Out" (click)="onSignOutClick()">
+                <mat-icon>exit_to_app</mat-icon>
+            </button>
+        </div>
+        <mat-card>
+            <mat-card-content>
+                <form novalidate class="w-100" fxLayout="column" [formGroup]="userForm">
+                    <mat-form-field>
+                        <mat-label>Username</mat-label>
+                        <input [readonly]="!editMode" autocomplete="username" formControlName="userName" matInput
+                            placeholder="Enter your username">
+                        <mat-error *ngIf="errorHandling('userName','required')">
+                            Username is <strong>required</strong>.
+                        </mat-error>
+                        <mat-error *ngIf="errorHandling('userName','minlength')">
+                            Username must be at least 5 characters long.
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width">
+                        <mat-label>E-mail</mat-label>
+                        <input [readonly]="!editMode" matInput placeholder="Enter your e-mail" formControlName="email">
+                        <mat-error *ngIf="errorHandling('email','required')">
+                            Email is <strong>required</strong>.
+                        </mat-error>
+                        <mat-error *ngIf="errorHandling('email','email')">
+                            Please enter a valid email address.
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>First name</mat-label>
+                        <input [readonly]="!editMode" autocomplete="name" formControlName="firstName" matInput
+                            placeholder="Enter your first name">
+                        <mat-error *ngIf="errorHandling('firstName','required')">
+                            Please enter a first name.
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Last name</mat-label>
+                        <input [readonly]="!editMode" autocomplete="family-name" formControlName="lastName" matInput
+                            placeholder="Enter your last name">
+                        <mat-error *ngIf="errorHandling('lastName','required')">
+                            Please enter a last name.
+                        </mat-error>
+                    </mat-form-field>
+                </form>
+            </mat-card-content>
+            <mat-card-actions>
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <div>
+                        <button class="secondary-button" mat-button (click)="onChangePasswordClick()">Change Password</button>
+                    </div>
+                    <div>
+                        <button mat-button *ngIf="editMode" (click)="onCancel()">Cancel</button>
+                        <button mat-raised-button color="primary" *ngIf="editMode" [disabled]="!userForm.valid" (click)="onUpdateClick()">Update</button>
+                    </div>
+                </div>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</div>
+<div fxLayout="column">
+    <div class="margin-y-1" fxLayout="row" fxLayoutAlign="start center">
+        <mat-icon color="primary" class="margin-right-1">attach_money</mat-icon>
+        <span fxFlex>User Orders</span>
+    </div>
+    <mat-card>
+        <mat-card-content style="height: 200px;">
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { UserService } from '../services/user.service';
+import { Roles } from '../models/user.model';
 
 
 @Injectable({ providedIn: 'root' })
@@ -12,11 +13,25 @@ export class AuthenticateGuard implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const currentUser = this.userService.currentUserValue;
+        const currentUrl = state.url;
 
-        const isAuthorizeRoute = route.routeConfig.path === 'signin' || route.routeConfig.path === 'signup';
+        const isAuthorizeRoute = currentUrl === '/signin' || currentUrl === '/signup';
+
+        if (currentUrl === '/') {
+            switch (currentUser.role) {
+                case Roles.Admin:
+                    this.router.navigateByUrl('/admin');
+                    return true;
+
+                case Roles.Tenant:
+                    this.router.navigateByUrl('/tenant');
+                    return true;
+            }
+        }
 
         if (currentUser && isAuthorizeRoute) {
-            this.router.navigate(['/'], { queryParams: { returnUrl: state.url } });
+            // logged in so redirect to main page
+            this.router.navigateByUrl('/');
             return false;
         }
 
@@ -28,7 +43,7 @@ export class AuthenticateGuard implements CanActivate {
             return true;
 
         // not logged in so redirect to login page with the return url
-        this.router.navigate(['/signin'], { queryParams: { returnUrl: state.url } });
+        this.router.navigateByUrl('/signin');
         return false;
     }
 }

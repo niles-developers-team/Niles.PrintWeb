@@ -13,6 +13,7 @@ using Niles.PrintWeb.Shared;
 using Microsoft.IdentityModel.Tokens;
 using Niles.PrintWeb.Models.Settings;
 using Niles.PrintWeb.Services;
+using Niles.PrintWeb.Models.Enumerations;
 
 namespace Niles.PrintWeb.Api.Services
 {
@@ -71,12 +72,23 @@ namespace Niles.PrintWeb.Api.Services
 
         public async Task<User> Update(User model)
         {
+            int currentUserId = Convert.ToInt32(_httpContextAccessor.HttpContext.User.FindFirst(ClaimsIdentity.DefaultNameClaimType).Value);
+            var users = await _dao.Get(new UserGetOptions { Id = model.Id });
+            var user = users.FirstOrDefault();
+            if (user == null)
+                throw new ApplicationException("User not found.");
+
+            if (model.Role != Roles.Admin && model.Id != currentUserId)
+                throw new ApplicationException("You have no access to do this operation.");
+
             await _dao.Update(model);
 
             return model;
         }
 
         public async Task Delete(IReadOnlyList<int> ids) => await _dao.Delete(ids);
+        
+        public async Task ChangePassword(User model) => await _dao.ChangePassword(model);
 
         public async Task Confirm(Guid code) => await _dao.Confirm(code);
 
@@ -110,7 +122,7 @@ namespace Niles.PrintWeb.Api.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserName),
+                    new Claim(ClaimsIdentity.DefaultNameClaimType, user.Id.ToString()),
                     new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.GetDescription())
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
