@@ -9,7 +9,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "api_build",
-            "program": "${workspaceFolder}/Niles.PrintWeb.Api/bin/Debug/netcoreapp2.2/Niles.PrintWeb.Api.dll",
+            "program": "${workspaceFolder}/Niles.PrintWeb.Api/bin/Debug/netcoreapp3.1/Niles.PrintWeb.Api.dll",
             "args": [],
             "cwd": "${workspaceFolder}/Niles.PrintWeb.Api",
             "stopAtEntry": false,
