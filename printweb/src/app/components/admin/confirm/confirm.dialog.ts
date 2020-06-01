@@ -7,8 +7,6 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dial
     styleUrls: ['../../../app.component.scss']
 })
 export class ConfirmDialog {
-
-
     constructor(public dialogRef: MatDialogRef<ConfirmDialog>,
     @Inject(MAT_DIALOG_DATA) public data: string) { }
 }
