@@ -2,6 +2,10 @@
     <main-menu [items]="routes"></main-menu>
     <div class="header-background h-30 w-100"></div>
     <div class="content w-100 h-100" fxLayout="column">
+        <style>
+            .content{
+            overflow: hidden;}
+        </style>
         <router-outlet></router-outlet>
     </div>
 </div>
